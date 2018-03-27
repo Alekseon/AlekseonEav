@@ -1,0 +1,21 @@
+{
+    "name": "alekseon/alekseon-eav",
+    "description": "N/A",
+    "require": {
+        "magento/framework": "100.* | 101.*"
+    },
+    "type": "magento2-module",
+    "version": "100.0.0",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Alekseon\\AlekseonEav\\": ""
+        }
+    }
+}
