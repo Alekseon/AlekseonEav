@@ -1,0 +1,48 @@
+<?php
+/**
+ * Copyright © Alekseon sp. z o.o.
+ * http://www.alekseon.com/
+ */
+?>
+<?php
+$inputJsConfig = [
+    'text' => [
+        'show_options' => false,
+        'can_be_visibile_in_grid' => true,
+    ],
+    'textarea' => [
+        'show_options' => false,
+        'can_be_visibile_in_grid' => true,
+    ],
+    'boolean' => [
+        'show_options' => false,
+        'can_be_visibile_in_grid' => true,
+    ],
+    'select' => [
+        'show_options' => true,
+        'can_be_visibile_in_grid' => true,
+    ],
+    'multiselect' => [
+        'show_options' => true,
+        'can_be_visibile_in_grid' => false,
+    ],
+    'date' => [
+        'show_options' => false,
+        'can_be_visibile_in_grid' => true,
+    ],
+    'image' => [
+        'show_options' => false,
+        'can_be_visibile_in_grid' => true,
+    ],
+];
+?>
+<script type="text/x-magento-init">
+{
+    "*": {
+        "Alekseon_AlekseonEav/js/attribute": {
+            "frontend_input_default_value": "text",
+            "input_types_config": <?= /* @noEscape */ json_encode($inputJsConfig) ?>
+        }
+    }
+}
+</script>
