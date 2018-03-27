@@ -315,7 +315,7 @@ class EavSchemaSetup implements EavSchemaSetupInterface
                 $eavEntityTable->addForeignKey(
                     $this->setup->getFkName($eavEntityTableName, 'entity_id', $entityTableName, $entityTableIdField),
                     'entity_id',
-                    $this->setup->getTable($eavEntityTableName),
+                    $this->setup->getTable($entityTableName),
                     $entityTableIdField,
                     Table::ACTION_CASCADE
                 );
