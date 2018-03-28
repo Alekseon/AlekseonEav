@@ -89,7 +89,10 @@ class Select extends AbstractInputType
     public function prepareFormFieldConfig(&$fieldConfig)
     {
         if ($this->usesSource()) {
-            $fieldConfig['options'] = $this->getSourceModel()->getOptionArray();
+            $fieldConfig['options'] = array_merge(
+                ['' => __('Not Selected')],
+                $this->getSourceModel()->getOptionArray()
+            );
         }
         return $this;
     }
