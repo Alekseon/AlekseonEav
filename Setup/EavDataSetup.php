@@ -60,6 +60,7 @@ class EavDataSetup implements EavDataSetupInterface
         }
         $attribute->setData($data);
         $attribute->setAttributeCode($attributeCode);
+        $attribute->setIsUserDefined(false);
         $this->getAttributeRepository()->save($attribute);
         return $attribute;
     }

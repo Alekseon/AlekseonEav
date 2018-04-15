@@ -105,6 +105,9 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
             if (!$object->getBackendType()) {
                 $object->setBackendType($object->getInputTypeModel()->getDefaultBackendType());
             }
+            if ($object->getIsUserDefined() === null) {
+                $object->setIsUserDefined(true);
+            }
         }
         parent::_beforeSave($object);
         return $this;
