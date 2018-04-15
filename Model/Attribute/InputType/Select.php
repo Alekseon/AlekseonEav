@@ -89,10 +89,8 @@ class Select extends AbstractInputType
     public function prepareFormFieldConfig(&$fieldConfig)
     {
         if ($this->usesSource()) {
-            $fieldConfig['options'] = array_merge(
-                ['' => __('Not Selected')],
-                $this->getSourceModel()->getOptionArray()
-            );
+            $fieldConfig['options'] = $this->getSourceModel()->getOptionArray();
+            $fieldConfig['options'] = ['' => __('Not Selected')] + $this->getSourceModel()->getOptionArray();
         }
         return $this;
     }
@@ -107,5 +105,20 @@ class Select extends AbstractInputType
             $columnConfig['options'] = $this->getSourceModel()->getOptionArray();
         }
         return $this;
+    }
+
+    /**
+     * @param $value
+     * @param null $storeId
+     * @return bool|mixed
+     */
+    public function getValueAsText($value, $storeId = null)
+    {
+        $sourceModel = $this->getSourceModel();
+        $options = $sourceModel->getOptions($storeId);
+        if (array_key_exists($value, $options)) {
+            return $options[$value];
+        }
+        return false;
     }
 }

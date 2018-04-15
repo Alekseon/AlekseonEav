@@ -147,8 +147,22 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         return $this->backendModel;
     }
 
+    /**
+     * @return mixed
+     */
     public function canDisplayInGrid()
     {
         return $this->getInputTypeModel()->canDisplayInGrid();
+    }
+
+    /**
+     * @param $object
+     * @return string
+     */
+    public function getObjectValueAsText($object)
+    {
+        $inputTypeModel = $this->getInputTypeModel();
+        $value = $object->getData($this->getAttributeCode());
+        return $inputTypeModel->getValueAsText($value, $object->getStoreId());
     }
 }
