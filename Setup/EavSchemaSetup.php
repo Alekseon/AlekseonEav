@@ -190,9 +190,39 @@ class EavSchemaSetup implements EavSchemaSetupInterface
                 Table::TYPE_INTEGER,
                 null,
                 ['unsigned' => true, 'nullable' => false, 'default' => '0'],
-                'Sor Order'
+                'Sort Order'
             )
             ->addColumn(
+                'is_user_defined',
+                Table::TYPE_SMALLINT,
+                null,
+                ['unsigned' => true, 'nullable' => false, 'default' => '0'],
+                'Is User Defined'
+            )->addColumn(
+                'default_value',
+                Table::TYPE_TEXT,
+                '64k',
+                [],
+                'Default Value'
+            )->addColumn(
+                'is_unique',
+                Table::TYPE_SMALLINT,
+                null,
+                ['unsigned' => true, 'nullable' => false, 'default' => '0'],
+                'Is Unique'
+            )->addColumn(
+                'frontend_class',
+                Table::TYPE_TEXT,
+                255,
+                [],
+                'Frontend Class'
+            )->addColumn(
+                'is_wysiwyg_enabled',
+                Table::TYPE_SMALLINT,
+                null,
+                ['unsigned' => true, 'nullable' => false, 'default' => '0'],
+                'Is WYSIWYG Enabled'
+            )->addColumn(
                 'note',
                 Table::TYPE_TEXT,
                 255,
