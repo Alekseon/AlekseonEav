@@ -186,8 +186,21 @@ abstract class AbstractInputType
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function canDisplayInGrid()
     {
         return $this->canDisplayInGrid;
+    }
+
+    /**
+     * @param $value
+     * @param null $storeId
+     * @return mixed
+     */
+    public function getValueAsText($value, $storeId = null)
+    {
+        return $value;
     }
 }

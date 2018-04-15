@@ -79,11 +79,25 @@ abstract class Entity extends \Magento\Framework\Model\AbstractModel implements 
         return true;
     }
 
+    /**
+     * @param $attributeCode
+     * @return bool
+     */
     public function getAttributeDefaultValue($attributeCode)
     {
         if (is_null($this->defaultValues)) {
             return false;
         }
         return array_key_exists($attributeCode, $this->defaultValues) ? $this->defaultValues[$attributeCode] : false;
+    }
+
+    public function getAttributeText($attributeCode)
+    {
+        $value = $this->getData($attributeCode);;
+        $attribute = $this->getAttribute($attributeCode);
+        if (!$attribute) {
+            return $value;
+        }
+        return $attribute->getObjectValueAsText($this);
     }
 }

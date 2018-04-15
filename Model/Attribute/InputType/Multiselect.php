@@ -48,4 +48,14 @@ class Multiselect extends Select
         }
         return $this;
     }
+
+    /**
+     * @param $value
+     * @param null $storeId
+     * @return bool|mixed
+     */
+    public function getValueAsText($value, $storeId = null)
+    {
+        return false;
+    }
 }
