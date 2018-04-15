@@ -14,6 +14,11 @@ use Alekseon\AlekseonEav\Api\Data\AttributeInterface;
 abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
+     * @var array
+     */
+    private $columnAttributes = [];
+
+    /**
      * @return void
      */
     protected function _construct() // @codingStandardsIgnoreLine
@@ -26,13 +31,12 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * @return $this
-     * @throws \Exception
      */
-    protected function _prepareColumns() // @codingStandardsIgnoreLine
+    protected function _prepareCollection()
     {
-        parent::_prepareColumns();
-
-        return $this;
+        $collection = $this->getCollection();
+        $collection->addAttributeToSelect($this->columnAttributes);
+        return parent::_prepareCollection();
     }
 
     /**
@@ -60,6 +64,7 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             if (!$attribute->getVisibleInGrid() || !$attribute->canDisplayInGrid()) {
                 continue;
             }
+            //$this->getCollection()->addAttributeToSelect($attribute->getAttributeCode());
             $this->addAttributeColumn($attribute);
         }
         return $this;
@@ -80,6 +85,7 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
         $inputTypeModel->prepareGridColumnConfig($columnConfig);
 
+        $this->columnAttributes[] = $attribute->getAttributeCode();
         $this->addColumn(
             $attribute->getAttributeCode(),
             $columnConfig
