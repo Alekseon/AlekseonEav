@@ -21,6 +21,10 @@ class Textarea extends AbstractInputType
      */
     protected $inputFieldType = 'textarea';
     /**
+     * @var bool
+     */
+    protected $canUseWysiwyg = true;
+    /**
      * @var \Magento\Cms\Model\Wysiwyg\Config
      */
     private $wysiwygConfig;

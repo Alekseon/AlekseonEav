@@ -48,6 +48,10 @@ abstract class AbstractInputType
      * @var bool
      */
     protected $canDisplayInGrid = true;
+    /**
+     * @var bool
+     */
+    protected $canUseWysiwyg = false;
 
     /**
      * @var
@@ -202,5 +206,13 @@ abstract class AbstractInputType
     public function getValueAsText($value, $storeId = null)
     {
         return $value;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function canUseWysiwyg()
+    {
+        return $this->canUseWysiwyg;
     }
 }
