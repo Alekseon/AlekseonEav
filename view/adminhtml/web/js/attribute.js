@@ -12,9 +12,15 @@ define([
         var attribute = {
             options_element: $('#options_fieldset'),
             visible_in_grid_element: $('#visible_in_grid'),
+            is_wysiwyg_enabled_element: $('#is_wysiwyg_enabled'),
+            default_input_type_config: config.input_types_config['default'],
 
             frontendInputChanged: function (newValue) {
-                var input_type_config = config.input_types_config[newValue];
+                var input_type_config = $.extend(
+                    this.default_input_type_config,
+                    config.input_types_config[newValue]
+                );
+
                 if (this.options_element) {
                     if (input_type_config.show_options) {
                         this.options_element.show();
@@ -28,6 +34,12 @@ define([
                 } else {
                     this.visible_in_grid_element.attr('disabled',true);
                     this.visible_in_grid_element.val(0);
+                }
+
+                if (input_type_config.can_use_wysiwyg) {
+                    this.is_wysiwyg_enabled_element.parent().parent().show();
+                } else {
+                    this.is_wysiwyg_enabled_element.parent().parent().hide();
                 }
             }
         };
