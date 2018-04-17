@@ -181,6 +181,17 @@ abstract class General extends Generic
         );
 
         $baseFieldset->addField(
+            'is_wysiwyg_enabled',
+            'select',
+            [
+                'name' => 'is_wysiwyg_enabled',
+                'label' => __('Enable Wysiwyg'),
+                'title' => __('Enable Wysiwyg'),
+                'values' => $this->yesNoSource->toOptionArray()
+            ]
+        );
+
+        $baseFieldset->addField(
             'sort_order',
             'text',
             [

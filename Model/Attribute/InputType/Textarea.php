@@ -20,4 +20,46 @@ class Textarea extends AbstractInputType
      * @var string
      */
     protected $inputFieldType = 'textarea';
+    /**
+     * @var \Magento\Cms\Model\Wysiwyg\Config
+     */
+    private $wysiwygConfig;
+
+    /**
+     * Textarea constructor.
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     */
+    public function __construct(
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+    ) {
+        $this->wysiwygConfig = $wysiwygConfig;
+        parent::__construct($universalFactory);
+    }
+
+    /**
+     * @return string
+     */
+    public function getInputFieldType()
+    {
+        if ($this->getAttribute()->getIsWysiwygEnabled()) {
+            return 'editor';
+        } else {
+            return $this->inputFieldType;
+        }
+    }
+
+    /**
+     * @param $fieldConfig
+     * @return $this
+     */
+    public function prepareFormFieldConfig(&$fieldConfig)
+    {
+        if ($this->getAttribute()->getIsWysiwygEnabled()) {
+            $wysiwygConfig = $this->wysiwygConfig->getConfig([]);
+            $fieldConfig['config'] = $wysiwygConfig;
+        }
+        return $this;
+    }
 }
