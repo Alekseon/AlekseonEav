@@ -10,5 +10,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fix for Eav grid prepare collection method
 - added form attributes renderers
 - sord order column on attributes list
+- image renderer for grid
 
 ## [100.0.4] - 2017-04-15

@@ -20,4 +20,16 @@ class Image extends AbstractInputType
      * @var bool
      */
     protected $backendModel = 'Alekseon\AlekseonEav\Model\Attribute\Backend\Image';
+
+    /**
+     * @param $columnConfig
+     * @return $this
+     */
+    public function prepareGridColumnConfig(&$columnConfig)
+    {
+        $columnConfig['sortable'] = false;
+        $columnConfig['filter'] = false;
+        $columnConfig['renderer'] = \Alekseon\AlekseonEav\Block\Adminhtml\Entity\Grid\Renderer\Image::class;
+        return $this;
+    }
 }

@@ -11,6 +11,9 @@ namespace Alekseon\AlekseonEav\Model\Attribute\Backend;
  */
 class Image extends AbstractBackend
 {
+    /**
+     * @var array
+     */
     private $imagesToBeDeleted = [];
     /**
      * @var \Magento\Framework\Filesystem
@@ -41,6 +44,9 @@ class Image extends AbstractBackend
         $this->uploaderFactory = $uploaderFactory;
     }
 
+    /**
+     * @return string
+     */
     public function getImagesDirPath()
     {
         $mediaDirectory = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA);
