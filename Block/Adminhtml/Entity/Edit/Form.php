@@ -10,6 +10,7 @@ use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\InputType;
 use Magento\Backend\Block\Widget\Form\Generic;
 use Alekseon\AlekseonEav\Api\Data\AttributeInterface;
 use Alekseon\AlekseonEav\Api\Data\EntityInterface;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
 /**
  * Class General
@@ -74,6 +75,14 @@ abstract class Form extends Generic
             $fieldType,
             $fieldConfig
         );
+
+        $renderers = $this->_getAdditionalFormElementRenderers();
+        if (isset($renderers[$attribute->getAttributeCode()])) {
+            $element->setRenderer($renderers[$attribute->getAttributeCode()]);
+        }
+
+        $this->_addAdditionalFormElementData($element);
+
         $element->setEntityAttribute($attribute);
     }
 
@@ -101,5 +110,22 @@ abstract class Form extends Generic
                 $this->getNameInLayout() . '_fieldset_element'
             )
         );
+    }
+
+    /**
+     * @return array
+     */
+    protected function _getAdditionalFormElementRenderers()
+    {
+        return [];
+    }
+
+    /**
+     * @param AbstractElement $element
+     * @return $this
+     */
+    protected function _addAdditionalFormElementData(AbstractElement $element)
+    {
+        return $this;
     }
 }
