@@ -16,7 +16,11 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * @var array
      */
-    private $columnAttributes = [];
+    private $attributesToAddToCollection = [];
+    /**
+     * @var bool
+     */
+    private $isCollectionPrepared = false;
 
     /**
      * @return void
@@ -34,9 +38,18 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
-        $collection = $this->getCollection();
-        $collection->addAttributeToSelect($this->columnAttributes);
-        return parent::_prepareCollection();
+        if (!$this->isCollectionPrepared) {
+            $this->isCollectionPrepared = true;
+            parent::_prepareCollection();
+        }
+        if (!empty($this->attributesToAddToCollection)) {
+            $collection = $this->getCollection();
+            if (!$collection->isLoaded()) {
+                $collection->addAttributeToSelect($this->attributesToAddToCollection);
+            }
+            $this->attributesToAddToCollection = [];
+        }
+        return $this;
     }
 
     /**
@@ -55,7 +68,8 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function addAttributeColumns()
     {
-        $collection = $this->_collectionFactory->create();
+        $this->_prepareCollection();
+        $collection = $this->getCollection();
         $resource = $collection->getResource();
         $resource->loadAllAttributes();
         $attributes = $resource->getAllLoadedAttributes();
@@ -85,7 +99,7 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
         $inputTypeModel->prepareGridColumnConfig($columnConfig);
 
-        $this->columnAttributes[] = $attribute->getAttributeCode();
+        $this->attributesToAddToCollection[] = $attribute->getAttributeCode();
         $this->addColumn(
             $attribute->getAttributeCode(),
             $columnConfig
