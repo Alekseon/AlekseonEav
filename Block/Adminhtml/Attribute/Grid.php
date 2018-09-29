@@ -112,6 +112,15 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             ]
         );
 
+        $this->addColumn(
+            'sort_order',
+            [
+                'header' => __('Sort Order'),
+                'index' => 'sort_order',
+                'type' => 'number',
+            ]
+        );
+
         return $this;
     }
 
