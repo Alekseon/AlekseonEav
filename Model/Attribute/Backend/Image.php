@@ -62,8 +62,7 @@ class Image extends AbstractBackend
     {
         $imagesDirName = $object->getResource()->getImagesDirName();
         $attrCode = $this->getAttribute()->getAttributeCode();
-        $tmpName = $_FILES[$attrCode]['tmp_name'];
-        if (isset($_FILES[$attrCode]) && $tmpName) {
+        if (isset($_FILES[$attrCode])) {
 
             $uploader = $this->uploaderFactory->create(['fileId' => $attrCode]);
             $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
