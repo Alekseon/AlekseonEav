@@ -277,7 +277,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
             $attributesUseDefault = $object->getUseDefault();
             if (is_array($attributesUseDefault)) {
                 foreach ($attributesUseDefault as $attributeCode) {
-                    $object->unsetData($attributeCode);
+                    $object->setData($attributeCode, null);
                 }
             }
         }
@@ -292,9 +292,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
      */
     protected function _afterSave(\Magento\Framework\Model\AbstractModel $object) // @codingStandardsIgnoreLine
     {
-        if ($object->isObjectNew()) {
-            $this->loadAllAttributes();
-        }
+        $this->loadAllAttributes();
         $attributes = $this->getAllLoadedAttributes();
         $attributesToSave = [];
         foreach ($attributes as $attribute) {
@@ -302,7 +300,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
             $oldValue = $object->getOrigData($attributeCode);
             $newValue = $object->getData($attributeCode);
 
-            if ($newValue !== $oldValue || $newValue === null) {
+            if ($object->hasData($attributeCode) && ($newValue !== $oldValue || $newValue === null)) {
                 $this->prepareAttributeForSave($object, $attribute);
                 $attributesToSave[] = $attribute;
             }
