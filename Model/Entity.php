@@ -58,6 +58,9 @@ abstract class Entity extends \Magento\Framework\Model\AbstractModel implements 
     public function getStoreId()
     {
         if (is_null($this->storeId)) {
+            $this->storeId = $this->getData('store_id');
+        }
+        if (is_null($this->storeId)) {
             $this->storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         }
         return $this->storeId;
@@ -88,9 +91,13 @@ abstract class Entity extends \Magento\Framework\Model\AbstractModel implements 
         if (is_null($this->defaultValues)) {
             return false;
         }
-        return array_key_exists($attributeCode, $this->defaultValues) ? $this->defaultValues[$attributeCode] : false;
+        return array_key_exists($attributeCode, $this->defaultValues) ? $this->defaultValues[$attributeCode] : null;
     }
 
+    /**
+     * @param $attributeCode
+     * @return mixed
+     */
     public function getAttributeText($attributeCode)
     {
         $value = $this->getData($attributeCode);;

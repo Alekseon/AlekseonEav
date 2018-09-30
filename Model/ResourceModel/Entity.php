@@ -338,9 +338,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
             $this->attributeValuesToSave[$table] = [];
         }
 
-        $attributeCode = $attribute->getAttributeCode();
-        $value = $object->getData($attributeCode);
-        $value = $this->prepareValueForSave($value, $attribute);
+        $value = $this->prepareValueForSave($object, $attribute);
 
         $data = [
             'entity_id' => $object->getEntityId(),
@@ -383,11 +381,16 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
      * @return mixed
      * @throws \Exception
      */
-    private function prepareValueForSave($value, $attribute)
+    private function prepareValueForSave($object, $attribute)
     {
+        $attributeCode = $attribute->getAttributeCode();
+        $value = $object->getData($attributeCode);
         if ($attribute->getIsRequired()) {
-            if ($value === null || $value == '' || (is_array($value) && empty($value))) {
-                throw new \Exception(__('Value for attribute "%1" is required.', $attribute->getFrontendLabel()));
+            // check if there is value of required attribute, its checked only on saving default values
+            if ($object->getStoreId() == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
+                if ($value === null || $value == '' || (is_array($value) && empty($value))) {
+                    throw new \Exception(__('Value for attribute "%1" is required.', $attribute->getFrontendLabel()));
+                }
             }
         }
         return $value;
