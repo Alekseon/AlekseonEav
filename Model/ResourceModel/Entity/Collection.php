@@ -208,6 +208,9 @@ abstract class Collection extends \Magento\Framework\Model\ResourceModel\Db\Coll
      */
     protected function _afterLoadData() // @codingStandardsIgnoreLine
     {
+        foreach ($this->_data as $dataKey => $data) {
+            $this->_data[$dataKey]['store_id'] = $this->getStoreId();
+        }
         $this->loadAttributes();
         return $this;
     }
