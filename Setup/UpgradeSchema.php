@@ -16,15 +16,35 @@ use Magento\Framework\DB\Ddl\Table;
 class UpgradeSchema implements UpgradeSchemaInterface
 {
     /**
+     * @var EavSchemaSetupFactory
+     */
+    private $eavSetupFactory;
+
+    /**
+     * InstallSchema constructor.
+     * @param EavSchemaSetupFactory $eavSetupFactory
+     */
+    public function __construct(
+        EavSchemaSetupFactory $eavSetupFactory
+    ) {
+        $this->eavSetupFactory = $eavSetupFactory;
+    }
+
+    /**
      * @param SchemaSetupInterface $setup
      * @param ModuleContextInterface $context
      */
     public function upgrade(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
         $setup->startSetup();
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
 
         if ($context->getVersion() && version_compare($context->getVersion(), '1.0.1', '<')) {
             $this->addColumnsToAttributeTable($setup, 'alekseon_eav_attribute');
+        }
+
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.2', '<')) {
+            $eavSetup->createFrontendLabelsTable('alekseon_eav_attribute', 'alekseon_eav_attribute_frontend_label');
         }
 
         $setup->endSetup();

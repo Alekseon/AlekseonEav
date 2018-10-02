@@ -18,6 +18,10 @@ class FrontendLabels extends Generic
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     private $storeManager;
+    /**
+     * @var
+     */
+    private $attribute;
 
     /**
      * FrontendLabels constructor.
@@ -36,6 +40,17 @@ class FrontendLabels extends Generic
     ) {
         $this->storeManager = $storeManager;
         parent::__construct($context, $registry, $formFactory, $data);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAttributeObject()
+    {
+        if (null === $this->attribute) {
+            return $this->_coreRegistry->registry('current_attribute');
+        }
+        return $this->attribute;
     }
 
     /**
@@ -62,10 +77,10 @@ class FrontendLabels extends Generic
 
                 foreach($group->getStores() as $store) {
                     $groupFieldset->addField(
-                        'frontend_label_' . $store->getId(),
+                        'frontend_labels_' . $store->getId(),
                         'text',
                         [
-                            'name' => 'frontend_label[' . $store->getId() . ']',
+                            'name' => 'frontend_labels[' . $store->getId() . ']',
                             'label' => $store->getName(),
                             'title' => $store->getName(),
                         ]
@@ -73,6 +88,13 @@ class FrontendLabels extends Generic
                 }
             }
         }
+
+        $frontendLabels = [];
+        $attribute = $this->getAttributeObject();
+        foreach ($attribute->getFrontendLabels() as $storeId => $label) {
+            $frontendLabels['frontend_labels_' . $storeId] = $label;
+        }
+        $form->setValues($frontendLabels);
 
         $this->setForm($form);
 

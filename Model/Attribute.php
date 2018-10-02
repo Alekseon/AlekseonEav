@@ -114,6 +114,9 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         return !$this->isScopeGlobal() && !$this->isScopeWebsite();
     }
 
+    /**
+     * @return mixed
+     */
     public function usesSource()
     {
         return $this->getInputTypeModel()->usesSource();
@@ -164,5 +167,44 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         $inputTypeModel = $this->getInputTypeModel();
         $value = $object->getData($this->getAttributeCode());
         return $inputTypeModel->getValueAsText($value, $object->getStoreId());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFrontendLabels()
+    {
+        if ($this->getData('frontend_labels') === null) {
+            $this->setFrontendLabels($this->getResource()->getFrontendLabels($this, false));
+        }
+        return $this->getData('frontend_labels');
+    }
+
+    /**
+     * @param null $storeId
+     * @return mixed
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getFrontendLabel($storeId = null)
+    {
+        if ($storeId === null) {
+            $storeId = $this->getResource()->getCurrentStore()->getId();
+        }
+
+        if ($frontendLabels = $this->getFrontendLabels()) {
+            if (isset($frontendLabels[$storeId])) {
+                return $frontendLabels[$storeId];
+            }
+        }
+
+        return $this->getDefaultFrontendLabel();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultFrontendLabel()
+    {
+        return $this->getData('frontend_label');
     }
 }
