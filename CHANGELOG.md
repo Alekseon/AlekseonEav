@@ -11,5 +11,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - added form attributes renderers
 - sord order column on attributes list
 - renderer fro image attributres for grid
+- attribute frontend labels
 
 ## [100.0.4] - 2017-04-15
