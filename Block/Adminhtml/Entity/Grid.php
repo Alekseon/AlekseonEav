@@ -93,7 +93,7 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $inputTypeModel = $attribute->getInputTypeModel();
         $columnConfig = [
             'type' => $inputTypeModel->getGridColumnType(),
-            'header' => $attribute->getFrontendLabel(),
+            'header' => $attribute->getDefaultFrontendLabel(),
             'index' => $attribute->getAttributeCode(),
         ];
 

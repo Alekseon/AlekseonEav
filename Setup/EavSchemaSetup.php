@@ -98,6 +98,8 @@ class EavSchemaSetup implements EavSchemaSetupInterface
             $entityTableName,
             $entityTableIdField
         );
+        $attributeFrontendLabelsTableName = $attributeTableName . '_frontend_label';
+        $this->createFrontendLabelsTable($attributeTableName, $attributeFrontendLabelsTableName);
     }
 
     /**
@@ -449,5 +451,66 @@ class EavSchemaSetup implements EavSchemaSetupInterface
             'Alekseon Eav Attribute Option Value'
         );
         $this->setup->getConnection()->createTable($optionValuesTable);
+    }
+
+    /**
+     * @param $attributeTableName
+     * @param $attributeFrontendLabelsTableName
+     * @throws \Zend_Db_Exception
+     */
+    public function createFrontendLabelsTable($attributeTableName, $attributeFrontendLabelsTableName)
+    {
+        if ($this->setup->tableExists($this->setup->getTable($attributeFrontendLabelsTableName))) {
+            return;
+        }
+
+        $attributeFrontendLabelsTable = $this->setup->getConnection()->newTable(
+            $this->setup->getTable($attributeFrontendLabelsTableName)
+        )->addColumn(
+            'id',
+            Table::TYPE_INTEGER,
+            null,
+            ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+            'Id'
+        )->addColumn(
+            'attribute_id',
+            Table::TYPE_INTEGER,
+            null,
+            ['unsigned' => true, 'nullable' => false],
+            'Attribute ID'
+        )->addColumn(
+            'store_id',
+            Table::TYPE_SMALLINT,
+            null,
+            ['unsigned' => true, 'nullable' => false, 'default' => '0'],
+            'Store Id'
+        )->addColumn(
+            'label',
+            Table::TYPE_TEXT,
+            255,
+            ['nullable' => true, 'default' => null],
+            'Label'
+        )->addIndex(
+            $this->setup->getIdxName($attributeFrontendLabelsTableName, ['attribute_id']),
+            ['attribute_id']
+        )->addIndex(
+            $this->setup->getIdxName($attributeFrontendLabelsTableName, ['store_id']),
+            ['store_id']
+        )->addForeignKey(
+            $this->setup->getFkName($attributeFrontendLabelsTableName, 'attribute_id', $attributeTableName, 'id'),
+            'attribute_id',
+            $this->setup->getTable($attributeTableName),
+            'id',
+            Table::ACTION_CASCADE
+        )->addForeignKey(
+            $this->setup->getFkName($attributeFrontendLabelsTableName, 'store_id', 'store', 'store_id'),
+            'store_id',
+            $this->setup->getTable('store'),
+            'store_id',
+            Table::ACTION_CASCADE
+        )->setComment(
+            'Alekseon Eav Attribute Frontend Labels'
+        );
+        $this->setup->getConnection()->createTable($attributeFrontendLabelsTable);
     }
 }

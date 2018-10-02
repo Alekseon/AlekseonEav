@@ -47,6 +47,10 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
      */
     protected $attributeOptionValueTable = 'alekseon_eav_attribute_option_value';
     /**
+     * @var string
+     */
+    protected $attributeFrontendLabelsTable = 'alekseon_eav_attribute_frontend_label';
+    /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     private $storeManager;
@@ -158,6 +162,7 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
                 $object->addData($data);
             }
         }
+
         return $this;
     }
 
@@ -189,8 +194,17 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
         if ($object->getInputTypeModel()->canManageOptions()) {
             $this->processAttributeOptions($object);
         }
+        $this->processFrontendLabels($object);
 
         return $this;
+    }
+
+    /**
+     * @return \Magento\Store\Api\Data\StoreInterface
+     */
+    public function getCurrentStore()
+    {
+        return $this->storeManager->getStore();
     }
 
     /**
@@ -345,5 +359,66 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
             ->where($field . '=?', $value)
             ->where('entity_type_code' . '=?', $this->getEntityTypeCode());
         return $select;
+    }
+
+    /**
+     * @param $object
+     */
+    private function processFrontendLabels($object)
+    {
+        $frontendLabels = $object->getFrontendLabels();
+
+        if (!is_array($frontendLabels)) {
+            return $this;
+        }
+
+        $connection = $this->getConnection();
+        $table = $this->getTable($this->attributeFrontendLabelsTable);
+        $currentFrontendLabels = $this->getFrontendLabels($object);
+
+        foreach($frontendLabels as $storeId => $label) {
+            if (isset($currentFrontendLabels[$storeId])) {
+                $currentLabel = $currentFrontendLabels[$storeId];
+                if ($currentLabel['label'] == $label) {
+                    // label has not been changed
+                } else if (!$label) {
+                    // label is empty, so it can be removed
+                    $connection->delete($table, ['id = ?' => $currentLabel['id']]);
+                } else {
+                    $data = ['label' => $currentLabel['label']];
+                    $where = ['id = ?' => $currentLabel['id']];
+                    $connection->update($table, $data, $where);
+                }
+            } else {
+                if ($label) {
+                    $data = ['attribute_id' => (int)$object->getId(), 'store_id' => $storeId, 'label' => $label];
+                    $connection->insert($table, $data);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param $object
+     * @param bool $asObjects
+     * @return array
+     */
+    public function getFrontendLabels($object, $asObjects = true)
+    {
+        $connection = $this->getConnection();
+        $frontendLabelsSelect = $connection
+            ->select()
+            ->from($this->getTable($this->attributeFrontendLabelsTable))
+            ->where('attribute_id = ?', $object->getId());
+        $frontendLabels = $connection->fetchAll($frontendLabelsSelect);
+        $result = [];
+        foreach($frontendLabels as $frontendLabel) {
+            if ($asObjects) {
+                $result[$frontendLabel['store_id']] = $frontendLabel;
+            } else {
+                $result[$frontendLabel['store_id']] = $frontendLabel['label'];
+            }
+        }
+        return $result;
     }
 }

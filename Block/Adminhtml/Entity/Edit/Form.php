@@ -60,8 +60,8 @@ abstract class Form extends Generic
 
         $fieldConfig = [
             'name' => $attribute->getAttributeCode(),
-            'label' => $attribute->getFrontendLabel(),
-            'title' => $attribute->getFrontendLabel(),
+            'label' => $attribute->getDefaultFrontendLabel(),
+            'title' => $attribute->getDefaultFrontendLabel(),
         ];
 
         if ($attribute->getIsRequired()) {

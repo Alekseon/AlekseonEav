@@ -14,7 +14,7 @@ use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\Scopes;
  * Class General
  * @package Alekseon\AlekseonEav\Block\Adminhtml\Attribute\Edit
  */
-abstract class General extends Generic
+class General extends Generic
 {
 
     /**

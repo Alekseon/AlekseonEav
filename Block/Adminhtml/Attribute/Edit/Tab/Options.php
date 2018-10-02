@@ -7,6 +7,10 @@ namespace Alekseon\AlekseonEav\Block\Adminhtml\Attribute\Edit\Tab;
 
 use Magento\Store\Model\Store;
 
+/**
+ * Class Options
+ * @package Alekseon\AlekseonEav\Block\Adminhtml\Attribute\Edit\Tab
+ */
 class Options extends \Magento\Backend\Block\Template
 {
     protected $_template = 'Alekseon_AlekseonEav::attribute/edit/options.phtml'; // @codingStandardsIgnoreLine

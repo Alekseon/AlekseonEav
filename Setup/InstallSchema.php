@@ -46,6 +46,7 @@ class InstallSchema implements InstallSchemaInterface
         //$eavSetup->createEavAttributeTable('alekseon_eav_attribute');
         //$eavSetup->createOptionTables('alekseon_eav_attribute', 'alekseon_eav_attribute_option');
         //$eavSetup->createEavEntitiesTables('alekseon_eav_attribute', 'alekseon_eav_entity');
+        //$eavSetup->createFrontendLabelsTable('alekseon_eav_attribute', 'alekseon_eav_attribute_frontend_label');
 
         $installer->endSetup();
     }
