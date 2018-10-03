@@ -23,6 +23,10 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @var \Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\InputType
      */
     private $inputTypeSource;
+    /**
+     * @var
+     */
+    protected $collectionFactory;
 
     /**
      * Grid constructor.
@@ -39,8 +43,10 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Config\Model\Config\Source\Yesno $yesNoSource,
         \Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\Scopes $scopesSource,
         \Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\InputType $inputTypeSource,
+        $collectionFactory,
         array $data = []
     ) {
+        $this->collectionFactory = $collectionFactory;
         $this->scopesSource = $scopesSource;
         $this->yesNoSource = $yesNoSource;
         $this->inputTypeSource = $inputTypeSource;
@@ -56,6 +62,19 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->setId('attribute_grid');
         $this->setDefaultSort('attribute_code');
         $this->setDefaultDir('ASC');
+    }
+
+    /**
+     * Prepare product attributes grid collection object
+     *
+     * @return $this
+     */
+    protected function _prepareCollection()
+    {
+        $collection = $this->collectionFactory->create();
+        $this->setCollection($collection);
+
+        return parent::_prepareCollection();
     }
 
     /**
