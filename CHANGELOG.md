@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 ### Fixed
 
+## [100.0.6] - 2018-10-03
+### Fixed
+- fix for grid constructor
+
 ## [100.0.5] - 2018-10-02
 ### Added
 - wysiwyg for textarea attributes.

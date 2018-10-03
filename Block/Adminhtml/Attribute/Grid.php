@@ -43,10 +43,8 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Config\Model\Config\Source\Yesno $yesNoSource,
         \Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\Scopes $scopesSource,
         \Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\InputType $inputTypeSource,
-        $collectionFactory,
         array $data = []
     ) {
-        $this->collectionFactory = $collectionFactory;
         $this->scopesSource = $scopesSource;
         $this->yesNoSource = $yesNoSource;
         $this->inputTypeSource = $inputTypeSource;

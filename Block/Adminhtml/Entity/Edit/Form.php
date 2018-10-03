@@ -6,7 +6,6 @@
 
 namespace Alekseon\AlekseonEav\Block\Adminhtml\Entity\Edit;
 
-use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\InputType;
 use Magento\Backend\Block\Widget\Form\Generic;
 use Alekseon\AlekseonEav\Api\Data\AttributeInterface;
 use Alekseon\AlekseonEav\Api\Data\EntityInterface;
