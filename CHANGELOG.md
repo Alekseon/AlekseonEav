@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+### Fixed
+
+## [100.0.5] - 2018-10-02
+### Added
 - wysiwyg for textarea attributes.
 - form attributes renderers
 - sort order column on attributes list
@@ -13,5 +17,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - renderer for image attributres for grid
 ### Fixed
 - eav grid prepare collection method
+- some small issues
 
 ## [100.0.4] - 2018-04-15
