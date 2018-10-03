@@ -14,4 +14,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - eav grid prepare collection method
 
-## [100.0.4] - 2017-04-15
+## [100.0.4] - 2018-04-15
