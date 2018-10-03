@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Wysiwyg for textarea attributes.
 - Fix for Eav grid prepare collection method
 - added form attributes renderers
-- sord order column on attributes list
+- sort order column on attributes list
 - renderer fro image attributres for grid
 - attribute frontend labels
 
