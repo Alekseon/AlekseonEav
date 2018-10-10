@@ -32,6 +32,10 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
      */
     private $attributes = [];
     /**
+     * @var array
+     */
+    private $notAttributeCode = [];
+    /**
      * @var bool
      */
     private $allAttributesLoaded = false;
@@ -81,14 +85,23 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
      */
     public function getAttribute($attributeCode)
     {
+        if (isset($this->notAttributeCode[$attributeCode])) {
+            return false;
+        }
+
         if (!isset($this->attributes[$attributeCode])) {
+            if ($this->allAttributesLoaded) {
+                $this->notAttributeCode[$attributeCode] = false;
+                return false;
+            }
             $attributeCollection = $this->attributeCollectionFactory->create();
             $attributeCollection->addFieldToFilter('attribute_code', $attributeCode);
             $attribute = $attributeCollection->getFirstItem();
             if ($attribute->getId()) {
                 $this->attributes[$attributeCode] = $attribute;
             } else {
-                $this->attributes[$attributeCode] = false;
+                $this->notAttributeCode[$attributeCode] = false;
+                return false;
             }
         }
         return $this->attributes[$attributeCode];
