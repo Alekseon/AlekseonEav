@@ -90,6 +90,10 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
         }
 
         if (!isset($this->attributes[$attributeCode])) {
+            if ($this->allAttributesLoaded) {
+                $this->notAttributeCode[$attributeCode] = false;
+                return false;
+            }
             $attributeCollection = $this->attributeCollectionFactory->create();
             $attributeCollection->addFieldToFilter('attribute_code', $attributeCode);
             $attribute = $attributeCollection->getFirstItem();
