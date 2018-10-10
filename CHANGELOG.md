@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 ### Fixed
+- fix for hidding input elements on attribute edit page when input type value changes [refs #29]
 
 ## [100.0.6] - 2018-10-03
 ### Fixed

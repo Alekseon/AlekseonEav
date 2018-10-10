@@ -16,7 +16,11 @@ define([
             default_input_type_config: config.input_types_config['default'],
 
             frontendInputChanged: function (newValue) {
-                var input_type_config = $.extend(
+
+                var input_type_config = [];
+
+                $.extend(
+                    input_type_config,
                     this.default_input_type_config,
                     config.input_types_config[newValue]
                 );
@@ -32,6 +36,7 @@ define([
                 if (input_type_config.can_be_visibile_in_grid) {
                     this.visible_in_grid_element.attr('disabled',false);
                 } else {
+
                     this.visible_in_grid_element.attr('disabled',true);
                     this.visible_in_grid_element.val(0);
                 }
