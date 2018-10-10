@@ -97,6 +97,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
                 $this->attributes[$attributeCode] = $attribute;
             } else {
                 $this->notAttributeCode[$attributeCode] = false;
+                return false;
             }
         }
         return $this->attributes[$attributeCode];
