@@ -9,6 +9,7 @@ namespace Alekseon\AlekseonEav\Block\Adminhtml\Attribute\Edit\Tab;
 use Magento\Backend\Block\Widget\Form\Generic;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\InputType;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\Scopes;
+use \Alekseon\AlekseonEav\Model\Attribute\InputTypeRepository;
 
 /**
  * Class General
@@ -34,7 +35,7 @@ class General extends Generic
      */
     private $yesNoSource;
     /**
-     * @var \Alekseon\AlekseonEav\Model\Attribute\InputTypeRepository
+     * @var InputTypeRepository
      */
     private $inputTypeRepository;
 
@@ -44,7 +45,7 @@ class General extends Generic
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Config\Model\Config\Source\Yesno $yesNoSource
-     * @param \Alekseon\AlekseonEav\Model\Attribute\InputTypeRepository $inputTypeRepository
+     * @param InputTypeRepository $inputTypeRepository
      * @param InputType $inputTypeSource
      * @param Scopes $scopesSource
      * @param array $data
@@ -54,7 +55,7 @@ class General extends Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Config\Model\Config\Source\Yesno $yesNoSource,
-        \Alekseon\AlekseonEav\Model\Attribute\InputTypeRepository $inputTypeRepository,
+        InputTypeRepository $inputTypeRepository,
         InputType $inputTypeSource,
         Scopes $scopesSource,
         array $data = []
@@ -141,7 +142,7 @@ class General extends Generic
                 'name' => 'frontend_input',
                 'label' => __('Input Type for Store Owner'),
                 'title' => __('Input Type for Store Owner'),
-                'value' => InputType::INPUT_TYPE_TEXT,
+                'value' => InputTypeRepository::DEFAULT_INPUT_TYPE_CODE,
                 'values' => $this->inputTypeSource->toOptionArray()
             ]
         );

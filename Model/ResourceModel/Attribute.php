@@ -103,7 +103,7 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
         if ($object->isObjectNew()) {
             if (!$object->getFrontendInput()) {
                 $object->setFrontendInput(
-                    \Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\InputType::INPUT_TYPE_TEXT
+                    \Alekseon\AlekseonEav\Model\Attribute\InputTypeRepository::DEFAULT_INPUT_TYPE_CODE
                 );
             }
             if (!$object->getBackendType()) {

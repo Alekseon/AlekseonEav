@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Alekseon sp. z o.o.
+ * http://www.alekseon.com/
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Alekseon\AlekseonEav\Model\Attribute\InputTypeRepository">
+        <arguments>
+            <argument name="frontendInputTypes" xsi:type="array">
+                <item name="text" xsi:type="array">
+                    <item name="label" xsi:type="string">Text Field</item>
+                    <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputType\TextFactory</item>
+                </item>
+                <item name="textarea" xsi:type="array">
+                    <item name="label" xsi:type="string">Text Area</item>
+                    <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputType\TextareaFactory</item>
+                </item>
+                <item name="boolean" xsi:type="array">
+                    <item name="label" xsi:type="string">Yes/No</item>
+                    <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputType\BooleanFactory</item>
+                </item>
+                <item name="select" xsi:type="array">
+                    <item name="label" xsi:type="string">Dropdown</item>
+                    <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputType\SelectFactory</item>
+                </item>
+                <item name="multiselect" xsi:type="array">
+                    <item name="label" xsi:type="string">Multiple Select</item>
+                    <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputType\MultiselectFactory</item>
+                </item>
+                <item name="date" xsi:type="array">
+                    <item name="label" xsi:type="string">Date</item>
+                    <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputType\DateFactory</item>
+                </item>
+                <item name="image" xsi:type="array">
+                    <item name="label" xsi:type="string">Image</item>
+                    <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputType\ImageFactory</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>

@@ -5,19 +5,33 @@
  */
 namespace Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source;
 
+use Alekseon\AlekseonEav\Model\Attribute\InputTypeRepository;
+
 /**
  * Class InputType
  * @package Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source
  */
 class InputType implements \Magento\Framework\Option\ArrayInterface
 {
-    const INPUT_TYPE_TEXT = 'text';
-    const INPUT_TYPE_TEXTAREA = 'textarea';
-    const INPUT_TYPE_BOOLEAN = 'boolean';
-    const INPUT_TYPE_SELECT = 'select';
-    const INPUT_TYPE_MULTISELECT = 'multiselect';
-    const INPUT_TYPE_DATE = 'date';
-    const INPUT_TYPE_IMAGE = 'image';
+    /**
+     * @var InputTypeRepository
+     */
+    private $inputTypeRepository;
+    /**
+     * @var
+     */
+    private $options;
+
+    /**
+     * InputType constructor.
+     * @param InputTypeRepository $inputTypeRepository
+     */
+    public function __construct(
+        InputTypeRepository $inputTypeRepository
+    )
+    {
+        $this->inputTypeRepository = $inputTypeRepository;
+    }
 
     /**
      * Return array of options
@@ -42,14 +56,13 @@ class InputType implements \Magento\Framework\Option\ArrayInterface
      */
     public function getOptionArray()
     {
-        return [
-            self::INPUT_TYPE_TEXT => __('Text Field'),
-            self::INPUT_TYPE_TEXTAREA => __('Text Area'),
-            self::INPUT_TYPE_BOOLEAN => __('Yes/No'),
-            self::INPUT_TYPE_SELECT => __('Dropdown'),
-            self::INPUT_TYPE_MULTISELECT => __('Multiple Select'),
-            self::INPUT_TYPE_DATE => __('Date'),
-            self::INPUT_TYPE_IMAGE => __('Image'),
-        ];
+        if ($this->options === null) {
+            $this->options = [];
+            $inputTypes = $this->inputTypeRepository->getFrontendInputTypes();
+            foreach ($inputTypes as $code => $data) {
+                $this->options[$code] = __($data['label']);
+            }
+        }
+        return $this->options;
     }
 }
