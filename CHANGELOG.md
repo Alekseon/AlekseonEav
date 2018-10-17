@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 ### Changed
+### Fixed
+
+## [100.0.9] - 2018-10-17
+### Changed
 - Input Types are more dynamic, and defined in di.xml [refs #30]
 ### Fixed
 - fix for hidding input elements on attribute edit page when input type value changes [refs #29]
