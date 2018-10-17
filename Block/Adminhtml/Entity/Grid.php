@@ -21,6 +21,10 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @var bool
      */
     private $isCollectionPrepared = false;
+    /**
+     * @var bool
+     */
+    private $allowedPrepareCollection = true;
 
     /**
      * @return void
@@ -38,16 +42,16 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
-        if (!$this->isCollectionPrepared) {
-            $this->isCollectionPrepared = true;
-            parent::_prepareCollection();
-        }
         if (!empty($this->attributesToAddToCollection)) {
             $collection = $this->getCollection();
             if (!$collection->isLoaded()) {
                 $collection->addAttributeToSelect($this->attributesToAddToCollection);
             }
             $this->attributesToAddToCollection = [];
+        }
+        if (!$this->isCollectionPrepared && $this->allowedPrepareCollection) {
+            $this->isCollectionPrepared = true;
+            parent::_prepareCollection();
         }
         return $this;
     }
@@ -68,7 +72,9 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function addAttributeColumns()
     {
+        $this->allowedPrepareCollection = false;
         $this->_prepareCollection();
+        $this->allowedPrepareCollection = true;
         $collection = $this->getCollection();
         $resource = $collection->getResource();
         $resource->loadAllAttributes();

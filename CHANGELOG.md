@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - fix for hidding input elements on attribute edit page when input type value changes [refs #29]
 - small improvement for getAttribute() method
+- fixed sorting values on entity grid [refx #33]
 
 ## [100.0.8] - 2018-10-10
 ### Fixed
