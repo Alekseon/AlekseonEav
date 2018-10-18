@@ -26,6 +26,11 @@ $fieldAttributes = $fieldId . ' class="' . $fieldClass . '" '
 <?php
 $elementToggleCode = $element->getToggleCode() ? $element->getToggleCode()
     : 'toggleValueElements(this, this.parentNode.parentNode.parentNode)';
+
+if ($block->canDisplayUseDefault() && $block->usedDefault()) {
+    $element->setDisabled(true);
+}
+
 ?>
 
 <?php if (!$element->getNoDisplay()): ?>
