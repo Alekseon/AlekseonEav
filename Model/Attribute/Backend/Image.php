@@ -132,4 +132,17 @@ class Image extends AbstractBackend
         }
         return parent::afterDelete($object);
     }
+
+    /**
+     * @param $object
+     * @return bool
+     */
+    public function isAttributeValueUpdated($object, $isAttributeVAlueUpdated)
+    {
+        $attrCode = $this->getAttribute()->getAttributeCode();
+        if (isset($_FILES[$attrCode]) && $_FILES[$attrCode]['tmp_name']) {
+            return true;
+        }
+        return false;
+    }
 }

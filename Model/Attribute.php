@@ -207,4 +207,27 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     {
         return $this->getData('frontend_label');
     }
+
+    /**
+     * @param $object
+     * @param $attribute
+     */
+    public function isAttributeValueUpdated($object)
+    {
+        $attributeCode = $this->getAttributeCode();
+        $oldValue = $object->getOrigData($attributeCode);
+        $newValue = $object->getData($attributeCode);
+        $result = false;
+
+        if ($object->hasData($attributeCode) && ($newValue !== $oldValue || $newValue === null)) {
+            $result = true;
+        }
+
+        $backendModel = $this->getBackendModel();
+        if ($backendModel) {
+            $result = $backendModel->isAttributeValueUpdated($object, $result);
+        }
+
+        return $result;
+    }
 }

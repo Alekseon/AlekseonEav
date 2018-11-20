@@ -309,11 +309,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
         $attributes = $this->getAllLoadedAttributes();
         $attributesToSave = [];
         foreach ($attributes as $attribute) {
-            $attributeCode = $attribute->getAttributeCode();
-            $oldValue = $object->getOrigData($attributeCode);
-            $newValue = $object->getData($attributeCode);
-
-            if ($object->hasData($attributeCode) && ($newValue !== $oldValue || $newValue === null)) {
+            if ($attribute->isAttributeValueUpdated($object)) {
                 $this->prepareAttributeForSave($object, $attribute);
                 $attributesToSave[] = $attribute;
             }
