@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 ### Changed
 ### Fixed
+
+## [100.0.10] - 2018-11-20
+### Fixed
 - disable element on entity edit page if its set to use default value [refs #7]
 - fixed issue with saving images [refs #35] 
 
