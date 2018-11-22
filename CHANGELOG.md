@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 ### Fixed
 
+## [100.0.11] - 2018-11-22
+### Fixed
+- fix for method AttributeRepository::getAttributeBuCode
+
 ## [100.0.10] - 2018-11-20
 ### Fixed
 - disable element on entity edit page if its set to use default value [refs #7]
