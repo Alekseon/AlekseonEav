@@ -46,7 +46,7 @@ abstract class AttributeRepository
         $attribute->getResource()->load($attribute, $attributeCode, 'attribute_code');
         if (!$attribute->getId()) {
             if ($graceful) {
-                return false;
+                return $attribute;
             } else {
                 throw new NoSuchEntityException(__('Attribute with code "%1" does not exist.', $attributeCode));
             }
@@ -62,7 +62,7 @@ abstract class AttributeRepository
     public function deleteByCode($attributeCode, $graceful = true)
     {
         $attribute = $this->getByAttributeCode($attributeCode, $graceful);
-        if ($attribute) {
+        if ($attribute->getId()) {
             $attribute->delete();
         }
     }

@@ -52,7 +52,7 @@ class EavDataSetup implements EavDataSetupInterface
     {
         $attribute = $this->getAttributeRepository()
                           ->getByAttributeCode($attributeCode, true);
-        if ($attribute) {
+        if ($attribute->getId()) {
             if ($exceptionIfAttributeAlreadyExists) {
                 throw new \Exception(__('Cannot create attribute %1, this attribute already exists.', $attributeCode));
             }
@@ -79,7 +79,7 @@ class EavDataSetup implements EavDataSetupInterface
         $attribute = $this->getAttributeRepository()
                           ->getByAttributeCode($attributeCode, !$exceptionIfAttributeNotFound);
 
-        if ($attribute) {
+        if ($attribute->getId()) {
             $attribute->addData($data);
             $this->getAttributeRepository()->save($attribute);
         }
