@@ -2,11 +2,11 @@
     "name": "alekseon/alekseon-eav",
     "description": "N/A",
     "require": {
-        "magento/framework": "100.* | 101.*",
-        "php": "~7.0.0|~7.1.0"
+        "magento/framework": "100.* | 101.* | 102.*",
+        "php": "~7.0.0|~7.1.0|~7.2.0"
     },
     "type": "magento2-module",
-    "version": "100.0.13",
+    "version": "100.1.1",
     "license": [
         "OSL-3.0",
         "AFL-3.0"

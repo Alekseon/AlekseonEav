@@ -40,4 +40,11 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Alekseon\AlekseonEav\Model\Attribute\InputType\Textarea">
+        <arguments>
+            <argument name="wysiwygConfig" xsi:type="object">\Magento\Cms\Model\Wysiwyg\Config\Proxy</argument>
+        </arguments>
+    </type>
+
 </config>
