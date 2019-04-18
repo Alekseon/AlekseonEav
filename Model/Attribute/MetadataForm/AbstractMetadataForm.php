@@ -41,7 +41,7 @@ abstract class AbstractMetadataForm
         if ($paramName === null) {
             $paramName = $this->getAttribute()->getAttributeCode();
         }
-        $value = $request->getParam($this->getAttribute()->getAttributeCode());
+        $value = $request->getParam($paramName);
         return $value;
     }
 }

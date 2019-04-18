@@ -265,13 +265,16 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
      * @param \Magento\Framework\App\RequestInterface $request
      * @return mixed
      */
-    public function extractValueFromRequest(\Magento\Framework\App\RequestInterface $request)
+    public function extractValueFromRequest(\Magento\Framework\App\RequestInterface $request, $paramName = null)
     {
         $metadataFormModel = $this->getMetadataFormModel($request);
         if ($metadataFormModel) {
-            return $metadataFormModel->extractValue($request);
+            return $metadataFormModel->extractValue($request, $paramName);
         } else {
-            return $request->getParam($this->getAttributeCode());
+            if ($paramName === null) {
+                $paramName = $this->getAttributeCode();
+            }
+            return $request->getParam($paramName);
         }
     }
 }
