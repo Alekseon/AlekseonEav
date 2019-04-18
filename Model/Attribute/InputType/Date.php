@@ -32,6 +32,10 @@ class Date extends AbstractInputType
      * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     private $localeDate;
+    /**
+     * @var \Alekseon\Eav\Model\Attribute\MetadataForm\DataFactort
+     */
+    private $metadataFormFactory;
 
     /**
      * Date constructor.
@@ -40,9 +44,11 @@ class Date extends AbstractInputType
      */
     public function __construct(
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
-        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Alekseon\AlekseonEav\Model\Attribute\MetadataForm\DateFactory $metadataFormFactory
     ) {
         $this->localeDate = $localeDate;
+        $this->metadataFormFactory = $metadataFormFactory;
         parent::__construct($universalFactory);
     }
 
@@ -64,5 +70,13 @@ class Date extends AbstractInputType
     {
         $columnConfig['timezone'] = false;
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getMetadataFormModel()
+    {
+        return $this->metadataFormFactory->create();
     }
 }

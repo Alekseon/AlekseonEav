@@ -30,6 +30,10 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
      * @var
      */
     private $backendModel;
+    /**
+     * @var
+     */
+    private $metadataFormModel;
 
     /**
      * Attribute constructor.
@@ -229,5 +233,45 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         }
 
         return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMetadataFormModel()
+    {
+        if ($this->metadataFormModel === null) {
+            $metadataFormModel = $this->getInputTypeModel()->getMetadataFormModel();
+            if ($metadataFormModel) {
+                $metadataFormModel->setAttribute($this);
+            }
+            $this->metadataFormModel = $metadataFormModel;
+        }
+        return $this->metadataFormModel;
+    }
+
+    /**
+     * @param $metadataFormModel
+     * @return $this
+     */
+    public function setMetadataFormModel($metadataFormModel)
+    {
+        $this->metadataFormModel = $metadataFormModel;
+        $metadataFormModel->setAttribute($this);
+        return $this;
+    }
+
+    /**
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return mixed
+     */
+    public function extractValueFromRequest(\Magento\Framework\App\RequestInterface $request)
+    {
+        $metadataFormModel = $this->getMetadataFormModel($request);
+        if ($metadataFormModel) {
+            return $metadataFormModel->extractValue($request);
+        } else {
+            return $request->getParam($this->getAttributeCode());
+        }
     }
 }

@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 ### Fixed
 
+## [100.0.13] - 2019-04-18
+### Added
+- Attribute metadata forms
+- metadata form class for date type attribute
+
 ## [100.0.12] - 2018-11-22
 ### Fixed
 - fix for method AttributeRepository::getAttributeBuCode

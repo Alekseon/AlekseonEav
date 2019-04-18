@@ -215,4 +215,12 @@ abstract class AbstractInputType
     {
         return $this->canUseWysiwyg;
     }
+
+    /**
+     * @return bool
+     */
+    public function getMetadataFormModel()
+    {
+       return false;
+    }
 }
