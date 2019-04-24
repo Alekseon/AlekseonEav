@@ -25,11 +25,17 @@ class ArrayBackend extends AbstractBackend
         return parent::beforeSave($object);
     }
 
+    /**
+     * @param $object
+     * @return $this
+     */
     public function afterLoad($object)
     {
         $attrCode = $this->getAttribute()->getAttributeCode();
         $value = $object->getData($attrCode);
-        $object->setData($attrCode, explode(',', $value));
+        if (!is_array($value)) {
+            $object->setData($attrCode, explode(',', $value));
+        }
         return parent::afterLoad($object);
     }
 }

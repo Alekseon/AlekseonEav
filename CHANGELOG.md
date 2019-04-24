@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 ### Changed
 ### Fixed
+- check if value is not an array before "explode" in array backend model
 
 ## [100.1.2] - 2019-04-18
 ### Added
