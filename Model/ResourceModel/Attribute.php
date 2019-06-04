@@ -240,6 +240,15 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
         $table = $this->attributeOptionTable;
 
         $intOptionId = is_numeric($optionId) ? (int)$optionId : 0;
+
+        $select = $connection->select()
+            ->from($table)
+            ->where('option_id =?', $intOptionId)
+            ->where('attribute_id =?', $object->getId());
+        if (!$connection->fetchOne($select)) {
+            $intOptionId = false;
+        }
+
         $sortOrder = empty($optionsData['order'][$optionId]) ? 0 : $optionsData['order'][$optionId];
 
         if (!empty($optionsData['delete'][$optionId])) {
