@@ -194,6 +194,19 @@ class General extends Generic
             );
         }
 
+        if (!$attributeObject->getId() || $attributeObject->getInputTypeModel()->hasOptionCodes()) {
+            $baseFieldset->addField(
+                'has_option_codes',
+                'select',
+                [
+                    'name' => 'has_option_codes',
+                    'label' => __('Option Codes'),
+                    'title' => __('Option Codes'),
+                    'values' => $this->yesNoSource->toOptionArray()
+                ]
+            );
+        }
+
         $baseFieldset->addField(
             'sort_order',
             'text',

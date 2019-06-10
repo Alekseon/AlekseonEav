@@ -188,6 +188,13 @@ class EavSchemaSetup implements EavSchemaSetupInterface
                 'Visible In Grid'
             )
             ->addColumn(
+                'has_option_code',
+                Table::TYPE_SMALLINT,
+                null,
+                ['unsigned' => true, 'nullable' => false, 'default' => '0'],
+                'Has Option Codes'
+            )
+            ->addColumn(
                 'sort_order',
                 Table::TYPE_INTEGER,
                 null,
@@ -374,6 +381,13 @@ class EavSchemaSetup implements EavSchemaSetupInterface
                 'Option Id'
             )
             ->addColumn(
+                'option_code',
+                Table::TYPE_TEXT,
+                255,
+                [],
+                'Option Code'
+            )
+            ->addColumn(
                 'attribute_id',
                 Table::TYPE_INTEGER,
                 null,
@@ -512,5 +526,34 @@ class EavSchemaSetup implements EavSchemaSetupInterface
             'Alekseon Eav Attribute Frontend Labels'
         );
         $this->setup->getConnection()->createTable($attributeFrontendLabelsTable);
+    }
+
+    /**
+     * @param $attributeTableName
+     * @param $optionsTableName
+     */
+    public function installOptionCodes($attributeTableName, $optionsTableName)
+    {
+        $this->setup->getConnection()->addColumn(
+            $this->setup->getTable($attributeTableName),
+            'has_option_codes',
+            [
+                'type' => Table::TYPE_SMALLINT,
+                'unsigned' => true,
+                'nullable' => false,
+                'default' => 0,
+                'comment' => 'Has Option Codes'
+            ]
+        );
+
+        $this->setup->getConnection()->addColumn(
+            $this->setup->getTable($optionsTableName),
+            'option_code',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => 255,
+                'comment' => 'Option Code'
+            ]
+        );
     }
 }

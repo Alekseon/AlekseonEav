@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 ### Fixed
 
+## [100.2.0] - 2019-06-10
+### Added
+- Option Codes
+
 ## [100.1.3] - 2019-06-04
 ### Added
 - check if option with ID already exists in options installator

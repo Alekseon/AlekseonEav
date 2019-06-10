@@ -77,11 +77,13 @@ class Options extends \Magento\Backend\Block\Template
         }
         if (is_array($optionValues)) {
             foreach ($optionValues as $value) {
+                $id = isset($value['id']) ? $value['id'] : $value['value'];
                 $option = [
-                   'id' => isset($value['id']) ? $value['id'] : $value['value'],
+                   'id' => $id,
+                   'option_code' => $sourceModel->getOptionCode($id),
                    'store0' => $value['label'],
                 ];
-                if ($storeLabels = $sourceModel->getStoreLabels($option['id'])) {
+                if ($storeLabels = $sourceModel->getStoreLabels($id)) {
                     foreach ($storeLabels as $storeId => $storeLabel) {
                         $option['store' . $storeId] = $storeLabel;
                     }
@@ -89,6 +91,7 @@ class Options extends \Magento\Backend\Block\Template
                 $result[] = $option;
             }
         }
+
         return $result;
     }
 
@@ -122,5 +125,17 @@ class Options extends \Magento\Backend\Block\Template
             return true;
         }
         return $attribute->getInputTypeModel()->usesSource();
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasOptionCodes()
+    {
+        $attribute = $this->getAttributeObject();
+        if (!$attribute->getId() || !$attribute->getHasOptionCodes()) {
+            return false;
+        }
+        return $attribute->getInputTypeModel()->hasOptionCodes();
     }
 }

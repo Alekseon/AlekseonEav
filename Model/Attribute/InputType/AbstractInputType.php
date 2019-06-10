@@ -52,6 +52,10 @@ abstract class AbstractInputType
      * @var bool
      */
     protected $canUseWysiwyg = false;
+    /**
+     * @var bool
+     */
+    protected $hasOptionCodes = false;
 
     /**
      * @var
@@ -222,5 +226,21 @@ abstract class AbstractInputType
     public function getMetadataFormModel()
     {
        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasOptionCodes()
+    {
+        return $this->hasOptionCodes;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getOptionCode($optionId)
+    {
+        return false;
     }
 }

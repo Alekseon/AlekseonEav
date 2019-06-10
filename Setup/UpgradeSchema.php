@@ -47,6 +47,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $eavSetup->createFrontendLabelsTable('alekseon_eav_attribute', 'alekseon_eav_attribute_frontend_label');
         }
 
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.3', '<')) {
+            $eavSetup->installOptionCodes('alekseon_eav_attribute', 'alekseon_eav_attribute_option');
+        }
+
         $setup->endSetup();
     }
 

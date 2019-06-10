@@ -13,6 +13,7 @@ define([
             options_element: $('#options_fieldset'),
             visible_in_grid_element: $('#visible_in_grid'),
             is_wysiwyg_enabled_element: $('#is_wysiwyg_enabled'),
+            has_option_codes_element: $('#has_option_codes'),
             default_input_type_config: config.input_types_config['default'],
 
             frontendInputChanged: function (newValue) {
@@ -28,15 +29,16 @@ define([
                 if (this.options_element) {
                     if (input_type_config.show_options) {
                         this.options_element.show();
+                        this.has_option_codes_element.parent().parent().show();
                     } else {
                         this.options_element.hide();
+                        this.has_option_codes_element.parent().parent().hide();
                     }
                 }
 
                 if (input_type_config.can_be_visibile_in_grid) {
                     this.visible_in_grid_element.attr('disabled',false);
                 } else {
-
                     this.visible_in_grid_element.attr('disabled',true);
                     this.visible_in_grid_element.val(0);
                 }

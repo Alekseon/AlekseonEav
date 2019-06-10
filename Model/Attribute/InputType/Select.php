@@ -66,6 +66,18 @@ class Select extends AbstractInputType
     }
 
     /**
+     * @return bool|void
+     */
+    public function hasOptionCodes()
+    {
+        /**
+         * get sourcel model, because option codes depends if there is source model
+         */
+        $this->getSourceModel();
+        return parent::hasOptionCodes();
+    }
+
+    /**
      * @return \Magento\Framework\Validator\Builder
      */
     public function getSourceModel()
@@ -74,6 +86,7 @@ class Select extends AbstractInputType
             if ($sourceModel = $this->getAttribute()->getData('source_model')) {
                 $this->sourceModel = $this->createObject($sourceModel);
             } else {
+                $this->hasOptionCodes = true;
                 $this->canManageOptions = true;
                 $this->sourceModel = $this->optionFactory->create();
             }
@@ -120,5 +133,18 @@ class Select extends AbstractInputType
             return $options[$value];
         }
         return false;
+    }
+
+    /**
+     * @param $optionId
+     * @return bool|void
+     */
+    public function getOptionCode($optionId)
+    {
+        if (!$this->hasOptionCodes()) {
+            return false;
+        }
+
+        return $this->getSourceModel()->getOptionCode($optionId);
     }
 }

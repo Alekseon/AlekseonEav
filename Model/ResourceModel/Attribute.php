@@ -250,6 +250,7 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
         }
 
         $sortOrder = empty($optionsData['order'][$optionId]) ? 0 : $optionsData['order'][$optionId];
+        $optionCode = empty($optionsData['option_code'][$optionId]) ? '' : $optionsData['option_code'][$optionId];
 
         if (!empty($optionsData['delete'][$optionId])) {
             if ($intOptionId) {
@@ -259,11 +260,18 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
         }
 
         if (!$intOptionId) {
-            $data = ['attribute_id' => $object->getId(), 'sort_order' => $sortOrder];
+            $data = [
+                'attribute_id' => $object->getId(),
+                'sort_order' => $sortOrder,
+                'option_code' => $optionCode,
+            ];
             $connection->insert($table, $data);
             $intOptionId = $connection->lastInsertId($table);
         } else {
-            $data = ['sort_order' => $sortOrder];
+            $data = [
+                'sort_order' => $sortOrder,
+                'option_code' => $optionCode,
+            ];
             $where = ['option_id = ?' => $intOptionId];
             $connection->update($table, $data, $where);
         }

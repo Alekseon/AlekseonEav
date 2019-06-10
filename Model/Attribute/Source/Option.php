@@ -19,6 +19,10 @@ class Option extends AbstractSource
      * @var array
      */
     private $optionValues = [];
+    /**
+     * @var array
+     */
+    private $optionCodes = [];
 
     /**
      * @param null $storeId
@@ -36,6 +40,7 @@ class Option extends AbstractSource
             $optionId = $optionValue->getOptionId();
             $options[$optionId] = $this->getStoreLabel($optionId, $storeId);
             $this->storeLabels[$optionId] = $optionValue->getStoreLabels();
+            $this->optionCodes[$optionId] = $optionValue->getOptionCode();
             $this->optionValues[$optionId] = $optionValue;
         }
 
@@ -73,5 +78,17 @@ class Option extends AbstractSource
         } else {
             return $optionValue->getLabel();
         }
+    }
+
+    /**
+     * @param $optionId
+     * @return string
+     */
+    public function getOptionCode($optionId)
+    {
+        if (isset($this->optionCodes[$optionId])) {
+            return $this->optionCodes[$optionId];
+        }
+        return '';
     }
 }

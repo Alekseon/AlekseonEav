@@ -277,4 +277,16 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
             return $request->getParam($paramName);
         }
     }
+
+    /**
+     * @param $optionsId
+     */
+    public function getOptionCode($optionId)
+    {
+        if (!$this->getHasOptionCodes()) {
+            return false;
+        }
+
+        return $this->getInputTypeModel()->getOptionCode($optionId);
+    }
 }
