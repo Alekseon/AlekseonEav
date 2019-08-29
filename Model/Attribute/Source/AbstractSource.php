@@ -85,4 +85,13 @@ abstract class AbstractSource
     {
         return false;
     }
+
+    /**
+     * @return bool
+     */
+    public function getOptionCode($optionId)
+    {
+        return false;
+    }
 }
+
