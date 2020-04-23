@@ -26,27 +26,27 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     /**
      * @var StoreManagerInterface
      */
-    private $storeManager;
+    protected $storeManager;
     /**
      * @var
      */
-    private $attributes = [];
+    protected $attributes = [];
     /**
      * @var array
      */
-    private $notAttributeCode = [];
+    protected $notAttributeCode = [];
     /**
      * @var bool
      */
-    private $allAttributesLoaded = false;
+    protected $allAttributesLoaded = false;
     /**
      * @var array
      */
-    private $attributeValuesToSave = [];
+    protected $attributeValuesToSave = [];
     /**
      * @var array
      */
-    private $attributeValuesToDelete = [];
+    protected $attributeValuesToDelete = [];
     /**
      * @var string
      */
@@ -54,7 +54,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     /**
      * @var
      */
-    private $stores = [];
+    protected $stores = [];
 
     /**
      * Entity constructor.

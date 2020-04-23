@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 ### Fixed
 
+## [Unreleased]
+### Changed
+- changed variables in entity resource from private to protected
+
 ## [100.2.1] - 2019-08-29
 ### Fixed
 - Fix for Option Codes in abstract source model
