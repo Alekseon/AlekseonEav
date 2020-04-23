@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - changed variables in entity resource from private to protected
 - return frontendInputTypes as data objects
+- removed storeManager from entity resource constructor
+- changed context model in entity constructor
+- added getStore method to entity and get default store id from store manager
 
 ## [100.2.1] - 2019-08-29
 ### Fixed

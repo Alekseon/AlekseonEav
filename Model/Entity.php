@@ -24,17 +24,18 @@ abstract class Entity extends \Magento\Framework\Model\AbstractModel implements 
 
     /**
      * Entity constructor.
-     * @param \Magento\Framework\Model\Context $context
+     * @param Context $context
      * @param \Magento\Framework\Registry $registry
      * @param ResourceModel\Entity $resource
      * @param ResourceModel\Entity\Collection $resourceCollection
      */
     public function __construct(
-        \Magento\Framework\Model\Context $context,
+        \Alekseon\AlekseonEav\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Alekseon\AlekseonEav\Model\ResourceModel\Entity $resource,
         \Alekseon\AlekseonEav\Model\ResourceModel\Entity\Collection $resourceCollection
     ) {
+        $this->storeManager = $context->getStoreManager();
         parent::__construct(
             $context,
             $registry,
@@ -61,8 +62,9 @@ abstract class Entity extends \Magento\Framework\Model\AbstractModel implements 
             $this->storeId = $this->getData('store_id');
         }
         if (is_null($this->storeId)) {
-            $this->storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
+            $this->storeId = $this->storeManager->getStore()->getId();
         }
+
         return $this->storeId;
     }
 
@@ -76,6 +78,19 @@ abstract class Entity extends \Magento\Framework\Model\AbstractModel implements 
         return $this;
     }
 
+    /**
+     * @return \Magento\Store\Api\Data\StoreInterface
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getStore()
+    {
+        return $this->storeManager->getStore($this->getStoreId());
+    }
+
+    /**
+     * @param $defaultValues
+     * @return bool
+     */
     public function setAttributeDefaultValues($defaultValues)
     {
         $this->defaultValues = $defaultValues;

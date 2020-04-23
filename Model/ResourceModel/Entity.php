@@ -51,25 +51,6 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
      * @var string
      */
     protected $imagesDirName = 'alekseon_images';
-    /**
-     * @var
-     */
-    protected $stores = [];
-
-    /**
-     * Entity constructor.
-     * @param \Magento\Framework\Model\ResourceModel\Db\Context $context
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param null $connectionName
-     */
-    public function __construct(
-        \Magento\Framework\Model\ResourceModel\Db\Context $context,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        $connectionName = null
-    ) {
-        $this->storeManager = $storeManager;
-        parent::__construct($context, $connectionName);
-    }
 
     /**
      * @return mixed
@@ -360,7 +341,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
                 $data['store_id'] = [$object->getStoreId()];
                 break;
             case Scopes::SCOPE_WEBSITE:
-                $store = $this->getStore($object->getStoreId());
+                $store = $object->getStore();
                 $data['store_id'] = $store->getWebsite()->getStoreIds();
                 break;
             case Scopes::SCOPE_GLOBAL:
@@ -476,18 +457,6 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
         }
 
         return $this;
-    }
-
-    /**
-     * @param $storeId
-     * @return mixed
-     */
-    private function getStore($storeId)
-    {
-        if (!isset($this->stores[$storeId])) {
-            $this->stores[$storeId] = $this->storeManager->getStore($storeId);
-        }
-        return $this->stores[$storeId];
     }
 
     /**
