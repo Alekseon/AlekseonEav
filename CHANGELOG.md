@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Changed
 - changed variables in entity resource from private to protected
+- return frontendInputTypes as data objects
 
 ## [100.2.1] - 2019-08-29
 ### Fixed

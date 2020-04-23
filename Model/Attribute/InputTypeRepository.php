@@ -40,7 +40,9 @@ class InputTypeRepository
         if ($this->frontendInputTypesByCodes === null) {
             $this->frontendInputTypesByCodes = [];
             foreach ($this->frontendInputTypes as $code => $data) {
-                $this->frontendInputTypesByCodes[$code] = $data;
+                $inputType = new \Magento\Framework\DataObject($data);
+                $inputType->setCode($code);
+                $this->frontendInputTypesByCodes[$code] = $inputType;
             }
         }
         return $this->frontendInputTypesByCodes;
@@ -66,7 +68,8 @@ class InputTypeRepository
     {
         $inputTypes = $this->getFrontendInputTypes();
         if (isset($inputTypes[$frontendInput])) {
-            $inputTypeModel = $inputTypes[$frontendInput]['factory']->create();
+            $frontendInputType = $inputTypes[$frontendInput];
+            $inputTypeModel = $frontendInputType->getFactory()->create();
         } else {
             if ($frontendInput != self::DEFAULT_INPUT_TYPE_CODE) {
                 $inputTypeModel = $this->getInputTypeModelByFrontendInput(self::DEFAULT_INPUT_TYPE_CODE); // return text as default

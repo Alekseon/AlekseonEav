@@ -59,8 +59,8 @@ class InputType implements \Magento\Framework\Option\ArrayInterface
         if ($this->options === null) {
             $this->options = [];
             $inputTypes = $this->inputTypeRepository->getFrontendInputTypes();
-            foreach ($inputTypes as $code => $data) {
-                $this->options[$code] = __($data['label']);
+            foreach ($inputTypes as $inputType) {
+                $this->options[$inputType->getCode()] = __($inputType->getLabel());
             }
         }
         return $this->options;
