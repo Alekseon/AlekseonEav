@@ -310,6 +310,22 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     }
 
     /**
+     * @return bool
+     */
+    public function isAttributeCodeEditable()
+    {
+       if (!$this->getId()) {
+           return true;
+       }
+
+       if ($this->getIsUserDefined()) {
+           return true;
+       }
+
+       return false;
+    }
+
+    /**
      * @return mixed
      */
     public function getCanUseGroup()

@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - removed storeManager from entity resource constructor
 - changed context model in entity constructor
 - added getStore method to entity and get default store id from store manager
+- made attribute code editable if attribute was created by user
 ### Added
 - attributes group codes
 - added method getFrontendInputTypeConfig on atribute model

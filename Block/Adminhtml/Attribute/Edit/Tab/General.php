@@ -242,8 +242,11 @@ class General extends Generic
             ]
         );
 
-        if ($attributeObject->getId()) {
+        if (!$attributeObject->isAttributeCodeEditable()) {
             $form->getElement('attribute_code')->setDisabled(true);
+        }
+
+        if ($attributeObject->getId()) {
             $form->getElement('frontend_input')->setDisabled(true);
         }
 
