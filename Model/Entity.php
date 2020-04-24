@@ -62,7 +62,11 @@ abstract class Entity extends \Magento\Framework\Model\AbstractModel implements 
             $this->storeId = $this->getData('store_id');
         }
         if (is_null($this->storeId)) {
-            $this->storeId = $this->storeManager->getStore()->getId();
+            if ($this->_appState->getAreaCode() == \Magento\Framework\App\Area::AREA_FRONTEND) {
+                $this->storeId = $this->storeManager->getStore()->getId();
+            } else {
+                $this->storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
+            }
         }
 
         return $this->storeId;
