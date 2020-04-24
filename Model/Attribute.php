@@ -34,6 +34,14 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
      * @var
      */
     private $metadataFormModel;
+    /**
+     * @var bool
+     */
+    protected $canUseGroup = false;
+    /**
+     * @var bool
+     */
+    protected $isGroupEditable = true;
 
     /**
      * Attribute constructor.
@@ -288,5 +296,21 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         }
 
         return $this->getInputTypeModel()->getOptionCode($optionId);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCanUseGroup()
+    {
+        return $this->canUseGroup;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsGroupEditable()
+    {
+        return $this->isGroupEditable;
     }
 }

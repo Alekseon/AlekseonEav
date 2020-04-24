@@ -39,16 +39,16 @@ class UpgradeSchema implements UpgradeSchemaInterface
         $setup->startSetup();
         $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
 
-        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.1', '<')) {
-            $this->addColumnsToAttributeTable($setup, 'alekseon_eav_attribute');
-        }
-
         if ($context->getVersion() && version_compare($context->getVersion(), '1.0.2', '<')) {
             $eavSetup->createFrontendLabelsTable('alekseon_eav_attribute', 'alekseon_eav_attribute_frontend_label');
         }
 
         if ($context->getVersion() && version_compare($context->getVersion(), '1.0.3', '<')) {
             $eavSetup->installOptionCodes('alekseon_eav_attribute', 'alekseon_eav_attribute_option');
+        }
+
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.4', '<')) {
+            $this->addColumnsToAttributeTable($setup, 'alekseon_eav_attribute');
         }
 
         $setup->endSetup();
@@ -109,6 +109,15 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'nullable' => false,
                 'default' => 0,
                 'comment' => 'Is WYSIWYG Enabled'
+            ]
+        );
+        $setup->getConnection()->addColumn(
+            $setup->getTable($attributeTableName),
+            'group_code',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => '255',
+                'comment' => 'Attributes Group Code'
             ]
         );
     }

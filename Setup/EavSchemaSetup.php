@@ -226,6 +226,12 @@ class EavSchemaSetup implements EavSchemaSetupInterface
                 [],
                 'Frontend Class'
             )->addColumn(
+                'group_code',
+                Table::TYPE_TEXT,
+                255,
+                [],
+                'Attributes Group Code'
+            )->addColumn(
                 'is_wysiwyg_enabled',
                 Table::TYPE_SMALLINT,
                 null,

@@ -135,6 +135,20 @@ class General extends Generic
             ]
         );
 
+        if ($attributeObject->getCanUseGroup()) {
+            $baseFieldset->addField(
+                'group_code',
+                'text',
+                [
+                    'name' => 'group_code',
+                    'label' => __('Group Code'),
+                    'title' => __('Group Code'),
+                    'note' => __('It can be used to separate attributes for specfic groups in forms.'),
+                    'disabled' => !$attributeObject->getIsGroupEditable(),
+                ]
+            );
+        }
+
         $baseFieldset->addField(
             'frontend_input',
             'select',

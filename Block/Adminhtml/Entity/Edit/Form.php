@@ -34,15 +34,30 @@ abstract class Form extends Generic
     /**
      * @param $formFieldset
      * @param EntityInterface $entity
+     * @param array $groups
      * @return $this
      */
-    public function addAllAttributeFields($formFieldset, EntityInterface $entity)
+    public function addAllAttributeFields($formFieldset, EntityInterface $entity, $groups = [])
     {
+        $includedGroups = isset($groups['included']) ? $groups['included'] : null;
+        $excludedGroups = isset($groups['excluded']) ? $groups['excluded'] : null;
+
         $resource = $entity->getResource();
         $resource->loadAllAttributes();
         $attributes = $resource->getAllLoadedAttributes();
 
         foreach ($attributes as $attribute) {
+            $useGroups = $attribute->getCanUseGroup();
+            $groupCode = $attribute->getGroupCode();
+
+            if ($useGroups && $includedGroups && !in_array($groupCode, $includedGroups)) {
+                continue;
+            }
+
+            if ($useGroups && $excludedGroups && in_array($groupCode, $excludedGroups)) {
+                continue;
+            }
+
             $this->addAttributeField($formFieldset, $attribute);
         }
         return $this;
