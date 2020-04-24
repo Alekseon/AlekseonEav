@@ -49,6 +49,20 @@ class InputTypeRepository
     }
 
     /**
+     * @return bool|mixed
+     */
+    public function getFrontendInputTypeConfigByAttribute($attribute)
+    {
+        $inputTypes = $this->getFrontendInputTypes();
+        $frontendInput = $attribute->getFrontendInput();
+        if (isset($inputTypes[$frontendInput])) {
+            return $inputTypes[$frontendInput];
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * @param $attribute
      * @return mixed
      */

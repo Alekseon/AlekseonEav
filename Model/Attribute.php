@@ -75,12 +75,23 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         return $this->getId();
     }
 
+    /**
+     * @return mixed
+     */
     public function getInputTypeModel()
     {
         if (is_null($this->inputTypeModel)) {
             $this->inputTypeModel = $this->inputTypeRepository->getInputTypeModelByAttribute($this);
         }
         return $this->inputTypeModel;
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function getFrontendInputTypeConfig()
+    {
+        return $this->inputTypeRepository->getFrontendInputTypeConfigByAttribute($this);
     }
 
     /**

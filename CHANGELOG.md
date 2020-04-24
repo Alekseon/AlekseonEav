@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - added getStore method to entity and get default store id from store manager
 ### Added
 - attributes group codes
+- added method getFrontendInputTypeConfig on atribute model
 
 ## [100.2.1] - 2019-08-29
 ### Fixed
