@@ -188,7 +188,7 @@ class EavSchemaSetup implements EavSchemaSetupInterface
                 'Visible In Grid'
             )
             ->addColumn(
-                'has_option_code',
+                'has_option_codes',
                 Table::TYPE_SMALLINT,
                 null,
                 ['unsigned' => true, 'nullable' => false, 'default' => '0'],
