@@ -39,6 +39,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
         $setup->startSetup();
         $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
 
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.1', '<')) {
+            $this->addColumnsToAttributeTable($setup, 'alekseon_eav_attribute');
+        }
+
         if ($context->getVersion() && version_compare($context->getVersion(), '1.0.2', '<')) {
             $eavSetup->createFrontendLabelsTable('alekseon_eav_attribute', 'alekseon_eav_attribute_frontend_label');
         }
@@ -47,8 +51,9 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $eavSetup->installOptionCodes('alekseon_eav_attribute', 'alekseon_eav_attribute_option');
         }
 
+        // version": "101.0.0",
         if ($context->getVersion() && version_compare($context->getVersion(), '1.0.4', '<')) {
-            $this->addColumnsToAttributeTable($setup, 'alekseon_eav_attribute');
+            $this->updateToVersion_101($setup, 'alekseon_eav_attribute');
         }
 
         $setup->endSetup();
@@ -111,6 +116,14 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'comment' => 'Is WYSIWYG Enabled'
             ]
         );
+    }
+
+    /**
+     * @param $setup
+     * @param $attributeTableName
+     */
+    public function updateToVersion_101($setup, $attributeTableName)
+    {
         $setup->getConnection()->addColumn(
             $setup->getTable($attributeTableName),
             'group_code',
@@ -118,6 +131,38 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'type' => Table::TYPE_TEXT,
                 'length' => '255',
                 'comment' => 'Attributes Group Code'
+            ]
+        );
+        $setup->getConnection()->addColumn(
+            $setup->getTable($attributeTableName),
+            'input_validator',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => '255',
+                'comment' => 'Attributes Input Validator'
+            ]
+        );
+        $setup->getConnection()->addColumn(
+            $setup->getTable($attributeTableName),
+            'attribute_extra_params',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => '64k',
+                'comment' => 'Attribute Extra Params'
+            ]
+        );
+
+        $setup->getConnection()->dropColumn($attributeTableName, 'has_option_code');
+
+        $setup->getConnection()->addColumn(
+            $setup->getTable($attributeTableName),
+            'has_option_codes',
+            [
+                'type' => Table::TYPE_SMALLINT,
+                'unsigned' => true,
+                'nullable' => false,
+                'default' => 0,
+                'comment' => 'Has Option Codes'
             ]
         );
     }

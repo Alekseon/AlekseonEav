@@ -13,4 +13,12 @@ namespace Alekseon\AlekseonEav\Model\Attribute\InputType;
 class Text extends AbstractInputType
 {
     protected $defaultBackendType = 'varchar';
+
+    /**
+     * @return bool
+     */
+    public function canUseInputValidator()
+    {
+        return true;
+    }
 }

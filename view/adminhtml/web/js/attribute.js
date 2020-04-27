@@ -14,6 +14,7 @@ define([
             visible_in_grid_element: $('#visible_in_grid'),
             is_wysiwyg_enabled_element: $('#is_wysiwyg_enabled'),
             has_option_codes_element: $('#has_option_codes'),
+            input_validator_element: $('#input_validator'),
             default_input_type_config: config.input_types_config['default'],
 
             frontendInputChanged: function (newValue) {
@@ -47,6 +48,12 @@ define([
                     this.is_wysiwyg_enabled_element.parent().parent().show();
                 } else {
                     this.is_wysiwyg_enabled_element.parent().parent().hide();
+                }
+
+                if (input_type_config.can_use_input_validator) {
+                    this.input_validator_element.parent().parent().show();
+                } else {
+                    this.input_validator_element.parent().parent().hide();
                 }
             }
         };

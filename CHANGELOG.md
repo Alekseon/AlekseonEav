@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
-## [Unreleased]
+## [101.0.0] - 2020-04-27
 ### Changed
 - changed variables in entity resource from private to protected
 - return frontendInputTypes as data objects
@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - attributes group codes
 - added method getFrontendInputTypeConfig on atribute model
+- validations (email and number)
 ### Fixed
 - fix for "has_option_codes" column name in schama installator
 

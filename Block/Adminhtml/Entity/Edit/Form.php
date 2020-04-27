@@ -90,6 +90,11 @@ abstract class Form extends Generic
             $fieldConfig
         );
 
+        $validator = $attribute->getInputValidator();
+        if ($validator) {
+            $validator->prepareAdminField($attribute, $element);
+        }
+
         $renderers = $this->_getAdditionalFormElementRenderers();
         if (isset($renderers[$attribute->getAttributeCode()])) {
             $element->setRenderer($renderers[$attribute->getAttributeCode()]);

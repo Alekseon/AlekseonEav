@@ -6,6 +6,7 @@
 
 namespace Alekseon\AlekseonEav\Block\Adminhtml\Attribute\Edit\Tab;
 
+use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\InputValidator;
 use Magento\Backend\Block\Widget\Form\Generic;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\InputType;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\Scopes;
@@ -38,6 +39,10 @@ class General extends Generic
      * @var InputTypeRepository
      */
     private $inputTypeRepository;
+    /**
+     * @var InputValidator
+     */
+    protected $inputValidatorSource;
 
     /**
      * General constructor.
@@ -57,12 +62,14 @@ class General extends Generic
         \Magento\Config\Model\Config\Source\Yesno $yesNoSource,
         InputTypeRepository $inputTypeRepository,
         InputType $inputTypeSource,
+        InputValidator $inputValidatorSource,
         Scopes $scopesSource,
         array $data = []
     ) {
         $this->inputTypeSource = $inputTypeSource;
         $this->yesNoSource = $yesNoSource;
         $this->scopesSource = $scopesSource;
+        $this->inputValidatorSource = $inputValidatorSource;
         $this->inputTypeRepository = $inputTypeRepository;
         parent::__construct($context, $registry, $formFactory, $data);
     }
@@ -204,6 +211,19 @@ class General extends Generic
                     'label' => __('Enable Wysiwyg'),
                     'title' => __('Enable Wysiwyg'),
                     'values' => $this->yesNoSource->toOptionArray()
+                ]
+            );
+        }
+
+        if (!$attributeObject->getId() || $attributeObject->getInputTypeModel()->canUseInputValidator()) {
+            $baseFieldset->addField(
+                'input_validator',
+                'select',
+                [
+                    'name' => 'input_validator',
+                    'label' => __('Input Validator'),
+                    'title' => __('Input Validator'),
+                    'values' => $this->inputValidatorSource->toOptionArray()
                 ]
             );
         }

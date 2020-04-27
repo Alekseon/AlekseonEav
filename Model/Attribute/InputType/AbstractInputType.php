@@ -123,6 +123,9 @@ abstract class AbstractInputType
         return $this->gridColumnType;
     }
 
+    /**
+     * @return bool
+     */
     public function getSourceModel()
     {
         return false;
@@ -240,6 +243,14 @@ abstract class AbstractInputType
      * @return bool
      */
     public function getOptionCode($optionId)
+    {
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canUseInputValidator()
     {
         return false;
     }

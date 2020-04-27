@@ -40,6 +40,20 @@
             </argument>
         </arguments>
     </type>
+    <type name="Alekseon\AlekseonEav\Model\Attribute\InputValidatorRepository">
+        <arguments>
+            <argument name="inputValidators" xsi:type="array">
+                <item name="email" xsi:type="array">
+                    <item name="label" xsi:type="string">Email Address</item>
+                    <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputValidator\EmailFactory</item>
+                </item>
+                <item name="number" xsi:type="array">
+                    <item name="label" xsi:type="string">Number</item>
+                    <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputValidator\NumberFactory</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Alekseon\AlekseonEav\Model\Attribute\InputType\Textarea">
         <arguments>
             <argument name="wysiwygConfig" xsi:type="object">\Magento\Cms\Model\Wysiwyg\Config\Proxy</argument>

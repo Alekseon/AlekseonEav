@@ -23,6 +23,10 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
      */
     private $inputTypeRepository;
     /**
+     * @var Attribute\InputValidatorRepository
+     */
+    protected $inputValidatorRepository;
+    /**
      * @var
      */
     private $inputTypeModel;
@@ -55,10 +59,12 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Alekseon\AlekseonEav\Model\Attribute\InputTypeRepository $inputTypeRepository,
+        \Alekseon\AlekseonEav\Model\Attribute\InputValidatorRepository $inputValidatorRepository,
         \Alekseon\AlekseonEav\Model\ResourceModel\Attribute $resource,
         \Alekseon\AlekseonEav\Model\ResourceModel\Attribute\Collection $resourceCollection
     ) {
         $this->inputTypeRepository = $inputTypeRepository;
+        $this->inputValidatorRepository = $inputValidatorRepository;
         parent::__construct(
             $context,
             $registry,
@@ -339,5 +345,14 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     public function getIsGroupEditable()
     {
         return $this->isGroupEditable;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInputValidator()
+    {
+        $validator = $this->inputValidatorRepository->getAttributeValidator($this);
+        return $validator;
     }
 }

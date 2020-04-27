@@ -7,6 +7,7 @@ namespace Alekseon\AlekseonEav\Model\ResourceModel;
 
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\Scopes;
 use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Store\Model\Store;
 
 /**
@@ -383,6 +384,14 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
                 }
             }
         }
+
+        $inputValidator = $attribute->getInputValidator();
+        if ($inputValidator) {
+            if (!$inputValidator->validateValue($value)) {
+                throw new \Exception(__('Incorrect value for attribute "%1".', $attribute->getFrontendLabel()));
+            }
+        }
+
         return $value;
     }
 

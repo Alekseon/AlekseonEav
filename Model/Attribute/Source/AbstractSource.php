@@ -94,4 +94,3 @@ abstract class AbstractSource
         return false;
     }
 }
-
