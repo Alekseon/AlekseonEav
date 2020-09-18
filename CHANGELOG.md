@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.0.2] - 2019-08-29
+### Added
+- Added compatibility with PHP 7.4
+
 ## [101.0.0] - 2020-04-27
 ### Changed
 - changed variables in entity resource from private to protected
