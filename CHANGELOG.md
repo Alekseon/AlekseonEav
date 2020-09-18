@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.0.4] - 2020-09-18
+### Added
+- Defined protected attribute in abstract Entity class
+
 ## [101.0.3] - 2020-09-18
 ### Added
 - Added compatibility with Magento 2.4.0

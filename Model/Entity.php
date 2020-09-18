@@ -17,6 +17,12 @@ abstract class Entity extends \Magento\Framework\Model\AbstractModel implements 
      * @var int
      */
     private $storeId;
+
+    /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
     /**
      * @var
      */
