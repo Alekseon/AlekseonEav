@@ -54,6 +54,10 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     private $storeManager;
+    /**
+     * @var array
+     */
+    protected $_serializableFields = ['attribute_extra_params' => [[], []]];
 
     /**
      * Attribute constructor.

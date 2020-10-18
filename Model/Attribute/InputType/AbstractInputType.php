@@ -254,4 +254,12 @@ abstract class AbstractInputType
     {
         return false;
     }
+
+    /**
+     * @return null
+     */
+    public function getDefaultValue()
+    {
+        return null;
+    }
 }

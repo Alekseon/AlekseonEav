@@ -355,4 +355,46 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         $validator = $this->inputValidatorRepository->getAttributeValidator($this);
         return $validator;
     }
+
+    /**
+     * @param $key
+     * @param $value
+     * @return Attribute
+     */
+    public function setAttributeExtraParam($key, $value)
+    {
+        $params = $this->getData('attribute_extra_params');
+        if (!$params) {
+            $params = [];
+        }
+        $params[$key] = $value;
+        return $this->setData('attribute_extra_params', $params);
+    }
+
+    /**
+     * @param null $key
+     * @return array|mixed|null
+     */
+    public function getAttributeExtraParam($key = null)
+    {
+        $params = $this->getData('attribute_extra_params');
+        if (!$params) {
+            $params = [];
+        }
+        if ($key) {
+            return $params[$key] ?? null;
+        }
+        return $params;
+    }
+
+    /**
+     * for now this function is only used to set NO value for boolean input by default for frontend widgets
+     * it was necessery when boolean input block was checkout, because in case when checkout was not selected value was null
+     * @TODO: probably this function will be use when we implement default values for EAV
+     * @return |null
+     */
+    public function getDefaultValue()
+    {
+        return $this->getInputTypeModel()->getDefaultValue();
+    }
 }

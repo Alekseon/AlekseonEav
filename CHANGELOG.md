@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [Unreleased]
+### Fixed
+- fix for required value condition
+### Added
+- attribute extra params
+- default value for boolean (for widget forms module)
+
 ## [101.0.4] - 2020-09-18
 ### Added
 - Defined protected attribute in abstract Entity class

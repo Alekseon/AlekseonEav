@@ -39,4 +39,12 @@ class Boolean extends Select
     {
         return $this->yesNoSource;
     }
+
+    /**
+     * @return int|null
+     */
+    public function getDefaultValue()
+    {
+        return \Alekseon\AlekseonEav\Model\Attribute\Source\Boolean::VALUE_NO;
+    }
 }
