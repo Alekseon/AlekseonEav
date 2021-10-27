@@ -9,10 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
-## [Unreleased]
+## [101.0.5] - 2021-10-27
 ### Fixed
 - fix for required value condition
 ### Added
+- disable/enable attribute options source
 - attribute extra params
 - default value for boolean (for widget forms module)
 

@@ -237,7 +237,7 @@ class EavSchemaSetup implements EavSchemaSetupInterface
                 255,
                 [],
                 'Attributes Input Validator'
-            )->addColumn( // not used for now, idea is to keep here additional params needed for some inputs as json, example: max number in input, or textarea rows
+            )->addColumn(
                 'attribute_extra_params',
                 Table::TYPE_TEXT,
                 '64k',
