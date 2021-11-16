@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.0.6] - 2021-11-16
+### Added
+- categories options source
+
 ## [101.0.5] - 2021-10-27
 ### Fixed
 - fix for required value condition
