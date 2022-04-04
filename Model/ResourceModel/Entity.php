@@ -107,6 +107,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
         }
         $attributeCollection = $this->attributeCollectionFactory->create();
         $attributeCollection->setOrder('sort_order', AbstractDb::SORT_ORDER_ASC);
+
         foreach ($attributeCollection as $attribute) {
             $this->attributes[$attribute->getAttributeCode()] = $attribute;
         }
@@ -308,6 +309,27 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     }
 
     /**
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @param \Alekseon\AlekseonEav\Model\Attribute $attribute
+     * @return $this
+     * @throws \Exception
+     */
+    public function saveAttributeValue(
+        \Magento\Framework\Model\AbstractModel $object,
+        \Alekseon\AlekseonEav\Model\Attribute $attribute
+    ) {
+        if ($attribute->isAttributeValueUpdated($object)) {
+            $this->prepareAttributeForSave($object, $attribute);
+            $this->saveAttributeValues();
+            $backendModel = $attribute->getBackendModel();
+            if ($backendModel) {
+                $backendModel->afterSave($object);
+            }
+        }
+        return $this;
+    }
+
+    /**
      * @param $object
      * @param $attribute
      * @return $this
@@ -424,6 +446,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
                 }
             }
         }
+
         // reset data arrays
         $this->attributeValuesToSave = [];
         $this->attributeValuesToDelete = [];
