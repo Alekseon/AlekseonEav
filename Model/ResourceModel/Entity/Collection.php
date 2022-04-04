@@ -22,15 +22,15 @@ abstract class Collection extends \Magento\Framework\Model\ResourceModel\Db\Coll
     /**
      * @var array
      */
-    private $selectAttributes = [];
+    protected $selectAttributes = [];
     /**
      * @var array
      */
-    private $joinAttributes = [];
+    protected $joinAttributes = [];
     /**
      * @var
      */
-    private $storeId;
+    protected $storeId;
 
 
     /**
@@ -115,7 +115,7 @@ abstract class Collection extends \Magento\Framework\Model\ResourceModel\Db\Coll
      * @param array $entityIds
      * @return \Magento\Framework\DB\Select
      */
-    private function getLoadAttributesValuesSelect($table, $attributeIds = [], $entityIds = [])
+    protected function getLoadAttributesValuesSelect($table, $attributeIds = [], $entityIds = [])
     {
         $storeIds = [$this->getDefaultStoreId()];
         if ($this->getStoreId()) {
@@ -141,7 +141,7 @@ abstract class Collection extends \Magento\Framework\Model\ResourceModel\Db\Coll
     /**
      *
      */
-    private function loadAttributes()
+    protected function loadAttributes()
     {
         if (empty($this->_data) || empty($this->selectAttributes)) {
             return $this;
@@ -178,7 +178,7 @@ abstract class Collection extends \Magento\Framework\Model\ResourceModel\Db\Coll
         return $this;
     }
 
-    private function setItemAttributeValues($values, $attributeCodes)
+    protected function setItemAttributeValues($values, $attributeCodes)
     {
         $entitiesValues = [];
         foreach ($values as $value) {
@@ -317,7 +317,7 @@ abstract class Collection extends \Magento\Framework\Model\ResourceModel\Db\Coll
      * @param   string $fieldAlias
      * @return $this
      */
-    private function joinAttributeToSelect($method, $attribute, $tableAlias, $condition, $fieldCode, $fieldAlias)
+    protected function joinAttributeToSelect($method, $attribute, $tableAlias, $condition, $fieldCode, $fieldAlias)
     {
         $connection = $this->getConnection();
         $storeId = $this->getStoreId();
@@ -421,17 +421,34 @@ abstract class Collection extends \Magento\Framework\Model\ResourceModel\Db\Coll
     }
 
     /**
+     * @param string $field
+     * @return mixed|string
+     */
+    protected function getMappedNonAttributeField($field)
+    {
+        $mapper = $this->_getMapper();
+        if (isset($mapper['fields'][$field])) {
+            $field = $mapper['fields'][$field];
+        } else {
+            $field = 'main_table.' . $field;
+        }
+        return $field;
+    }
+
+    /**
      * @param $attribute
      * @param $condition
      * @param string $joinType
      * @return string
      * @throws LocalizedException
      */
-    private function getAttributeConditionSql($attribute, $condition, $joinType = 'inner')
+    protected function getAttributeConditionSql($attribute, $condition, $joinType = 'inner')
     {
         if (!$this->hasAttribute($attribute)) {
+            $field = $this->getMappedNonAttributeField($attribute);
+
             $conditionSql = $this->_getConditionSql(
-                $this->getConnection()->quoteIdentifier('main_table.' . $attribute),
+                $this->getConnection()->quoteIdentifier($field),
                 $condition
             );
             return $conditionSql;
@@ -452,7 +469,7 @@ abstract class Collection extends \Magento\Framework\Model\ResourceModel\Db\Coll
      * @param $attributeCode
      * @return bool
      */
-    private function hasAttribute($attributeCode)
+    protected function hasAttribute($attributeCode)
     {
         if ($this->getResource()->getAttribute($attributeCode)) {
             return true;

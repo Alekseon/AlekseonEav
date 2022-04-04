@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.0.7] - 2022-04-04
+### Fixed
+- fix for addFilterToMap on entity collection
+### Added
+- saveAttributeValue method on entity 
+
 ## [101.0.6] - 2021-11-16
 ### Added
 - categories options source

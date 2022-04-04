@@ -132,4 +132,16 @@ abstract class Entity extends \Magento\Framework\Model\AbstractModel implements 
         }
         return $attribute->getObjectValueAsText($this);
     }
+
+    /**
+     * @param $attributeCode
+     */
+    public function saveAttributeValue($attributeCode)
+    {
+        $attribute = $this->getAttribute($attributeCode);
+        if ($attribute) {
+            $this->getResource()->saveAttributeValue($this, $attribute);
+        }
+        return $this;
+    }
 }
