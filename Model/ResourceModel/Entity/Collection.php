@@ -349,6 +349,8 @@ abstract class Collection extends \Magento\Framework\Model\ResourceModel\Db\Coll
             );
             $this->joinAttributes[$fieldCode]['condition_alias'] = $fieldAlias;
             $this->joinAttributes[$fieldCode]['attribute'] = $attribute;
+        } else {
+            $storeId = $this->getDefaultStoreId();
         }
 
         $condition[] = $connection->quoteInto(
