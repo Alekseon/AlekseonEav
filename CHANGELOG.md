@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.0.8] - 2022-07-07
+### Fixed
+- fixed filter on collection for global attributes when store Id is set
+
 ## [101.0.7] - 2022-04-04
 ### Fixed
 - fix for addFilterToMap on entity collection
