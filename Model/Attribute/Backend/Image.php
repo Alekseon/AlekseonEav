@@ -5,6 +5,8 @@
  */
 namespace Alekseon\AlekseonEav\Model\Attribute\Backend;
 
+use Magento\Framework\Exception\LocalizedException;
+
 /**
  * Class Image
  * @package Alekseon\AlekseonEav\Model\Attribute\Backend
@@ -62,7 +64,12 @@ class Image extends AbstractBackend
     {
         $imagesDirName = $object->getResource()->getImagesDirName();
         $attrCode = $this->getAttribute()->getAttributeCode();
-        if (isset($_FILES[$attrCode]) && $_FILES[$attrCode]['tmp_name']) {
+        if (isset($_FILES[$attrCode])) {
+
+            if (!$_FILES[$attrCode]['tmp_name'] || $_FILES[$attrCode]['error']) {
+                throw new LocalizedException(__('The file was not uploaded.'));
+            }
+
             $uploader = $this->uploaderFactory->create(['fileId' => $attrCode]);
             $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
 
@@ -140,7 +147,7 @@ class Image extends AbstractBackend
     public function isAttributeValueUpdated($object, $isAttributeVAlueUpdated)
     {
         $attrCode = $this->getAttribute()->getAttributeCode();
-        if (isset($_FILES[$attrCode]) && $_FILES[$attrCode]['tmp_name']) {
+        if (isset($_FILES[$attrCode])) {
             return true;
         }
         return false;
