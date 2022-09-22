@@ -38,10 +38,10 @@ class Option extends AbstractSource
 
         foreach ($attributeOptionValues as $optionValue) {
             $optionId = $optionValue->getOptionId();
-            $options[$optionId] = $this->getStoreLabel($optionId, $storeId);
             $this->storeLabels[$optionId] = $optionValue->getStoreLabels();
             $this->optionCodes[$optionId] = $optionValue->getOptionCode();
             $this->optionValues[$optionId] = $optionValue;
+            $options[$optionId] = $this->getStoreLabel($optionId, $storeId);
         }
 
         return $options;
