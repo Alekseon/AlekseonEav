@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.0.10] - 2022-09-22
+### Fixed
+- fix for multiselect options in form
+
 ## [101.0.9] - 2022-08-08
 ### Fixed
 - check errors in $_FILES on uploaded files
