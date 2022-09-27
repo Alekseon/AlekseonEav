@@ -31,10 +31,6 @@ class Multiselect extends Select
     /**
      * @var bool
      */
-    protected $canDisplayInGrid = false;
-    /**
-     * @var bool
-     */
     protected $backendModel = 'Alekseon\AlekseonEav\Model\Attribute\Backend\ArrayBackend';
 
     /**
@@ -46,6 +42,18 @@ class Multiselect extends Select
         if ($this->usesSource()) {
             $fieldConfig['values'] = $this->getSourceModel()->getAllOptions();
         }
+        return $this;
+    }
+
+    /**
+     * @param $columnConfig
+     * @return Multiselect|void
+     */
+    public function prepareGridColumnConfig(&$columnConfig)
+    {
+        $columnConfig['sortable'] = false;
+        $columnConfig['filter'] = false;
+        $columnConfig['renderer'] = \Alekseon\AlekseonEav\Block\Adminhtml\Entity\Grid\Renderer\Multiselect::class;
         return $this;
     }
 

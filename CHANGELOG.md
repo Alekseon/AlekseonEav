@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.0.11] - 2022-09-27
+### Added
+- input params (max length for textarea)
+- multseelct can be visible on grid
+- more protection for images upload
+
 ## [101.0.10] - 2022-09-22
 ### Fixed
 - fix for multiselect options in form

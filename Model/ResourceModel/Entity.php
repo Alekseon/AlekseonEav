@@ -5,6 +5,7 @@
  */
 namespace Alekseon\AlekseonEav\Model\ResourceModel;
 
+use Alekseon\AlekseonEav\Api\Data\AttributeInterface;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\Scopes;
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Exception\LocalizedException;
@@ -490,9 +491,23 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
 
         return $this;
     }
+    
+    /**
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @param $attribute
+     * @param $fileName
+     * @return mixed
+     */
+    public function getNameForUploadedFile(
+        \Magento\Framework\Model\AbstractModel $object,
+        AttributeInterface $attribute,
+        string $fileName
+    ) {
+        return $fileName;
+    }
 
     /**
-     * @return string
+     * 
      */
     public function getImagesDirName()
     {
