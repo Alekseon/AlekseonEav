@@ -29,6 +29,14 @@ class Image extends AbstractBackend
      * @var \Magento\Framework\Image\AdapterFactory
      */
     private $imageAdapterFactory;
+    /**
+     * @var \Magento\Framework\UrlInterface
+     */
+    protected $urlInterface;
+    /**
+     * @var \Magento\Framework\Image\AdapterFactory
+     */
+    protected $imageFactory;
 
     /**
      * Image constructor.
@@ -39,11 +47,15 @@ class Image extends AbstractBackend
     public function __construct(
         \Magento\Framework\Image\AdapterFactory $imageAdapterFactory,
         \Magento\Framework\Filesystem $filesystem,
-        \Magento\MediaStorage\Model\File\UploaderFactory $uploaderFactory
+        \Magento\MediaStorage\Model\File\UploaderFactory $uploaderFactory,
+        \Magento\Framework\UrlInterface $urlInterface,
+        \Magento\Framework\Image\AdapterFactory $imageFactory
     ) {
         $this->imageAdapterFactory = $imageAdapterFactory;
         $this->filesystem = $filesystem;
         $this->uploaderFactory = $uploaderFactory;
+        $this->urlInterface = $urlInterface;
+        $this->imageFactory = $imageFactory;
     }
 
     /**
@@ -64,21 +76,25 @@ class Image extends AbstractBackend
     {
         $imagesDirName = $object->getResource()->getImagesDirName();
         $attrCode = $this->getAttribute()->getAttributeCode();
-        if (isset($_FILES[$attrCode])) {
-
+        if (isset($_FILES[$attrCode]) && $_FILES[$attrCode]['name']) {
             if (!$_FILES[$attrCode]['tmp_name'] || $_FILES[$attrCode]['error']) {
                 throw new LocalizedException(__('The file was not uploaded.'));
             }
 
             $uploader = $this->uploaderFactory->create(['fileId' => $attrCode]);
             $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
+            if (!$uploader->checkMimeType(['image/png', 'image/jpeg', 'image/gif'])) {
+                throw new LocalizedException(__('File validation failed.'));
+            }
 
             $imageAdapter = $this->imageAdapterFactory->create();
             $uploader->addValidateCallback('eav_image_attribute', $imageAdapter, 'validateUploadFile');
             $uploader->setAllowRenameFiles(true);
-            $uploader->setFilesDispersion(true);
+            $uploader->setFilesDispersion(true);;
+            $fielName = $object->getResource()->getNameForUploadedFile($object, $this->getAttribute(), $_FILES[$attrCode]['name']);
 
-            $result = $uploader->save($this->getImagesDirPath() . $imagesDirName);
+            $this->resizeImage($_FILES[$attrCode]['tmp_name']);
+            $result = $uploader->save($this->getImagesDirPath() . $imagesDirName, $fielName);
 
             $attrCode = $this->getAttribute()->getAttributeCode();
             $object->setData($attrCode, $imagesDirName . $result['file']);
@@ -93,6 +109,27 @@ class Image extends AbstractBackend
         }
 
         return parent::beforeSave($object);
+    }
+
+    /**
+     * @param $imageName
+     * @param $maxWidth
+     * @param $maxHeight
+     * @throws \Exception
+     */
+    protected function resizeImage($imageName, $maxWidth = null, $maxHeight = null)
+    {
+        $image = $this->imageFactory->create();
+        $image->open($imageName);
+        $image->keepAspectRatio(true);
+        $originalWidth = $image->getOriginalWidth();
+        $orignalHeight = $image->getOriginalHeight();
+
+        $width = $maxWidth ? min($originalWidth, $maxWidth) : $originalWidth;
+        $height = $maxHeight ? min($orignalHeight, $maxHeight) : $orignalHeight;
+
+        $image->resize($width, $height);
+        $image->save($imageName);
     }
 
     /**

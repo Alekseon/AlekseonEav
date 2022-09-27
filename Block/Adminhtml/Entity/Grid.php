@@ -84,7 +84,7 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             if (!$attribute->getVisibleInGrid() || !$attribute->canDisplayInGrid()) {
                 continue;
             }
-            //$this->getCollection()->addAttributeToSelect($attribute->getAttributeCode());
+
             $this->addAttributeColumn($attribute);
         }
         return $this;

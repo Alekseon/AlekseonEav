@@ -364,7 +364,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     public function setAttributeExtraParam($key, $value)
     {
         $params = $this->getData('attribute_extra_params');
-        if (!$params) {
+        if (!$params || !is_array($params)) {
             $params = [];
         }
         $params[$key] = $value;
@@ -396,5 +396,55 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     public function getDefaultValue()
     {
         return $this->getInputTypeModel()->getDefaultValue();
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCanUseInputParams()
+    {
+        return true;
+    }
+
+    /**
+     * @param array $inputParamsToSave
+     * @return $this
+     */
+    protected function setInputParams($inputParamsToSave = [])
+    {
+        if ($this->getCanUseInputParams()) {
+            $currentParams = $this->getAttributeExtraParam('input_params');
+            $inputParams = [];
+            $inputTypeConfig = $this->getFrontendInputTypeConfig();
+            $params = $inputTypeConfig->getInputParams();
+            if ($params) {
+                foreach ($params as $paramCode => $paramConfig) {
+                    if (isset($inputParamsToSave[$paramCode])) {
+                        $currentParams[$paramCode] = $inputParamsToSave[$paramCode];
+                    }
+
+                    if (isset($currentParams[$paramCode]) && $currentParams[$paramCode]) {
+                        $inputParams[$paramCode] = $currentParams[$paramCode];
+                    }
+                }
+            }
+
+            $this->setAttributeExtraParam('input_params', $inputParams);
+        }
+        return $this;
+    }
+
+    /**
+     * @param $paramCode
+     * @return false|mixed
+     */
+    public function getInputParam($paramCode)
+    {
+        $currentParams = $this->getAttributeExtraParam('input_params');
+        if (isset($currentParams[$paramCode])) {
+            return $currentParams[$paramCode];
+        } else {
+            return '';
+        }
     }
 }

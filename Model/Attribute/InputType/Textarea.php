@@ -64,6 +64,12 @@ class Textarea extends AbstractInputType
             $wysiwygConfig = $this->wysiwygConfig->getConfig([]);
             $fieldConfig['config'] = $wysiwygConfig;
         }
+
+        $maxLength = $this->getAttribute()->getInputParam('maxlength');
+        if ($maxLength) {
+            $fieldConfig['maxlength'] = $maxLength;
+        }
+
         return $this;
     }
 }
