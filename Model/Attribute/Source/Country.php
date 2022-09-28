@@ -30,7 +30,7 @@ class Country extends AbstractSource
     /**
      * @return array|mixed
      */
-    public function getOptions()
+    public function getOptions($storeId = null)
     {
         $countryOptions = $this->countryCollection->loadData()
             ->toOptionArray(false);

@@ -17,7 +17,7 @@ class EnableDisable extends AbstractSource
     /**
      * @return array|mixed
      */
-    public function getOptions()
+    public function getOptions($storeId = null)
     {
         return [
             self::VALUE_DISABLE => __('Disabled'),

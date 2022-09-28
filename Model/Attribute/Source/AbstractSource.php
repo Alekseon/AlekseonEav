@@ -23,19 +23,19 @@ abstract class AbstractSource
     /**
      * @return mixed
      */
-    abstract public function getOptions();
+    abstract public function getOptions($storeId = null);
 
     /**
      * @return array
      */
-    public function getAllOptions($withEmpty = false)
+    public function getAllOptions($withEmpty = false, $storeId = null)
     {
         if (is_null($this->options)) {
             $this->options = [];
             if ($withEmpty) {
                 $this->options[] = ['value' => '', 'label' => $this->getEmptyOptionLabel()];
             }
-            $options = $this->getOptions();
+            $options = $this->getOptions($storeId);
             foreach ($options as $value => $label) {
                 $this->options[] = ['value' => $value, 'label' => $label];
             }
@@ -46,9 +46,9 @@ abstract class AbstractSource
     /**
      * @return mixed
      */
-    public function getOptionArray()
+    public function getOptionArray($storeId = null)
     {
-        return $this->getOptions();
+        return $this->getOptions($storeId);
     }
 
     /**
