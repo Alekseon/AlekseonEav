@@ -14,10 +14,6 @@ use Magento\Store\Model\StoreManagerInterface;
 class Option extends AbstractSource
 {
     /**
-     * @var StoreManagerInterface
-     */
-    protected $storeManager;
-    /**
      * @var array
      */
     private $storeLabels = [];
@@ -31,26 +27,12 @@ class Option extends AbstractSource
     private $optionCodes = [];
 
     /**
-     * Option constructor.
-     * @param StoreManagerInterface $storeManager
+     * @return array
      */
-    public function __construct(
-        StoreManagerInterface $storeManager
-    )
+    public function getOptions()
     {
-        $this->storeManager = $storeManager;
-    }
-
-    /**
-     * @param null $storeId
-     * @return array|mixed
-     */
-    public function getOptions($storeId = null)
-    {
-        if ($storeId == null) {
-            $storeId = $this->storeManager->getStore()->getId();
-        }
-
+        $storeId = $this->getStoreId();
+        
         $attributeOptionValues = $this->getAttribute()
             ->getResource()
             ->getAttributeOptionValues($this->getAttribute());
