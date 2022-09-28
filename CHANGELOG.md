@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.0.13] - 2022-09-28
+### Fixed
+- fix backward compatibility option label per store
+
 ## [101.0.12] - 2022-09-28
 ### Fixed
 - fix option label per store (translations)

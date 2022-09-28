@@ -159,6 +159,10 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         if ($this->getInputTypeModel()->usesSource()) {
             $sourceModel = $this->getInputTypeModel()->getSourceModel();
             $sourceModel->setAttribute($this);
+            if ($this->getResource()->getCurrentStore()) {
+                $storeId = $this->getResource()->getCurrentStore()->getId();
+                $sourceModel->setStoreId($storeId);
+            }
             return $sourceModel;
         }
         return false;

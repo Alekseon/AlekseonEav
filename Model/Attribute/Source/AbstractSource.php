@@ -19,23 +19,45 @@ abstract class AbstractSource
      * @var
      */
     protected $attribute;
+    /**
+     * @var 
+     */
+    protected $storeId = null;
 
     /**
      * @return mixed
      */
-    abstract public function getOptions($storeId = null);
+    abstract public function getOptions();
+
+    /**
+     * @param $storeId
+     * @return mixed
+     */
+    public function setStoreId($storeId)
+    {
+        $this->storeId = $storeId;
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getStoreId()
+    {
+        return $this->storeId;
+    }
 
     /**
      * @return array
      */
-    public function getAllOptions($withEmpty = false, $storeId = null)
+    public function getAllOptions($withEmpty = false)
     {
         if (is_null($this->options)) {
             $this->options = [];
             if ($withEmpty) {
                 $this->options[] = ['value' => '', 'label' => $this->getEmptyOptionLabel()];
             }
-            $options = $this->getOptions($storeId);
+            $options = $this->getOptions();
             foreach ($options as $value => $label) {
                 $this->options[] = ['value' => $value, 'label' => $label];
             }
@@ -46,9 +68,9 @@ abstract class AbstractSource
     /**
      * @return mixed
      */
-    public function getOptionArray($storeId = null)
+    public function getOptionArray()
     {
-        return $this->getOptions($storeId);
+        return $this->getOptions();
     }
 
     /**

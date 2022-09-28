@@ -92,7 +92,7 @@ class Category extends AbstractSource
     /**
      * @return array|mixed
      */
-    public function getOptions($storeId = null)
+    public function getOptions()
     {
         $options = [];
         $categoryOptions = $this->getCategoryOptions();
