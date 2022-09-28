@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.0.12] - 2022-09-28
+### Fixed
+- fix option label per store (translations)
+
 ## [101.0.11] - 2022-09-27
 ### Added
 - input params (max length for textarea)

@@ -17,7 +17,7 @@ class Boolean extends AbstractSource
     /**
      * @return array|mixed
      */
-    public function getOptions()
+    public function getOptions($storeId = null)
     {
         return [
             self::VALUE_NO => __('No'),

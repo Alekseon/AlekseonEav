@@ -5,12 +5,18 @@
  */
 namespace Alekseon\AlekseonEav\Model\Attribute\Source;
 
+use Magento\Store\Model\StoreManagerInterface;
+
 /**
  * Class Boolean
  * @package Alekseon\AlekseonEav\Model\Attribute\Source
  */
 class Option extends AbstractSource
 {
+    /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
     /**
      * @var array
      */
@@ -25,11 +31,26 @@ class Option extends AbstractSource
     private $optionCodes = [];
 
     /**
+     * Option constructor.
+     * @param StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        StoreManagerInterface $storeManager
+    )
+    {
+        $this->storeManager = $storeManager;
+    }
+
+    /**
      * @param null $storeId
      * @return array|mixed
      */
     public function getOptions($storeId = null)
     {
+        if ($storeId == null) {
+            $storeId = $this->storeManager->getStore()->getId();
+        }
+
         $attributeOptionValues = $this->getAttribute()
             ->getResource()
             ->getAttributeOptionValues($this->getAttribute());
@@ -69,6 +90,7 @@ class Option extends AbstractSource
     public function getStoreLabel($optionId, $storeId = null)
     {
         $storeLabels = $this->getStoreLabels($optionId);
+
         if (!isset($this->optionValues[$optionId])) {
             return null;
         }
