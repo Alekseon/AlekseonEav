@@ -46,6 +46,10 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
      * @var bool
      */
     protected $isGroupEditable = true;
+    /**
+     * @var
+     */
+    protected $inputValidators;
 
     /**
      * Attribute constructor.
@@ -354,10 +358,26 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     /**
      * @return mixed
      */
-    public function getInputValidator()
+    public function getInputValidators()
     {
-        $validator = $this->inputValidatorRepository->getAttributeValidator($this);
-        return $validator;
+        if ($this->inputValidators == null) {
+            $this->inputValidators = [];
+
+            $inputTypeConfig = $this->getFrontendInputTypeConfig();
+
+            if ($inputTypeConfig->getInputValidator()) {
+                $validator = $inputTypeConfig->getInputValidator();
+                $validator->setAttribute($this);
+                $this->inputValidators[] = $validator;
+            }
+
+            $validator = $this->inputValidatorRepository->getAttributeValidator($this);
+            if ($validator) {
+                $validator->setAttribute($this);
+                $this->inputValidators[] = $validator;
+            }
+        }
+        return $this->inputValidators;
     }
 
     /**

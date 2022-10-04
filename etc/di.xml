@@ -16,6 +16,7 @@
                 <item name="textarea" xsi:type="array">
                     <item name="label" xsi:type="string">Text Area</item>
                     <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputType\TextareaFactory</item>
+                    <item name="input_validator" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputValidator\Textarea</item>
                 </item>
                 <item name="boolean" xsi:type="array">
                     <item name="label" xsi:type="string">Yes/No</item>
