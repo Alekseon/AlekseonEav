@@ -26,16 +26,17 @@ class Email extends AbstractValidator
      * @param $attribute
      * @param $adminField
      */
-    public function prepareAdminField($attribute, $adminField)
+    public function prepareAdminField($adminField)
     {
         $adminField->setType('email');
+        return parent::prepareAdminField($adminField);
     }
 
     /**
      * @param $attribute
      * @return array
      */
-    public function getDataValidateParams($attribute)
+    public function getDataValidateParams()
     {
         return [
             'validate-email' => true,

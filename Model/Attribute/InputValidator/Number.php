@@ -20,21 +20,18 @@ class Number extends AbstractValidator
     }
 
     /**
-     * @param $attribute
-     * @param $adminField
+     * @return string
      */
-    public function prepareAdminField($attribute, $adminField)
+    public function getValidationFieldClass()
     {
-        $class = $adminField->getClass();
-        $class .= ' validate-number';
-        $adminField->setClass($class);
+        return 'validate-number';
     }
 
     /**
      * @param $attribute
      * @return array
      */
-    public function getDataValidateParams($attribute)
+    public function getDataValidateParams()
     {
         return [
             'validate-number' => true,

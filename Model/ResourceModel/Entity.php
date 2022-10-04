@@ -408,8 +408,8 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
             }
         }
 
-        $inputValidator = $attribute->getInputValidator();
-        if ($inputValidator) {
+        $inputValidators = $attribute->getInputValidators();
+        foreach ($inputValidators as $inputValidator) {
             if (!$inputValidator->validateValue($value)) {
                 throw new \Exception(__('Incorrect value for attribute "%1".', $attribute->getFrontendLabel()));
             }
@@ -491,7 +491,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
 
         return $this;
     }
-    
+
     /**
      * @param \Magento\Framework\Model\AbstractModel $object
      * @param $attribute
@@ -507,7 +507,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     }
 
     /**
-     * 
+     *
      */
     public function getImagesDirName()
     {
