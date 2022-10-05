@@ -147,4 +147,17 @@ class Select extends AbstractInputType
 
         return $this->getSourceModel()->getOptionCode($optionId);
     }
+
+    /**
+     * @return void|null
+     */
+    public function getDefaultValue()
+    {
+        $defaultValue = parent::getDefaultValue();
+        if ($defaultValue) {
+            return explode(',', $defaultValue);
+        }
+
+        return false;
+    }
 }

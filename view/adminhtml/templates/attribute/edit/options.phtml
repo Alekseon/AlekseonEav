@@ -16,6 +16,9 @@
                 <thead>
                     <tr id="attribute-options-table">
                         <th class="col-draggable"></th>
+                        <th class="col-default control-table-actions-th">
+                            <span><?= $block->escapeHtml(__('Is Default')) ?></span>
+                        </th>
                         <?php if ($block->hasOptionCodes()): ?>
                             <th class="col-option-code">
                                 <span><?= __('Code') ?></span>
@@ -27,7 +30,7 @@
                             </th>
                         <?php endforeach; ?>
                         <th class="col-delete">&nbsp;</th>
-                        <?php $columnsCounter = count($stores) + 2; ?>
+                        <?php $columnsCounter = count($stores) + 3; ?>
                     </tr>
                 </thead>
                 <tbody data-role="options-container"></tbody>
@@ -55,6 +58,9 @@
                         </div>
                         <input data-role="order" type="hidden" name="option[order][<%- data.id %>]"  value="<%- data.sort_order %>" />
                     <?php endif ?>
+                </td>
+                <td class="col-default control-table-actions-cell">
+                    <input class="input-radio" type="<%- data.intype %>" name="default[]" value="<%- data.id %>" <%- data.checked %>/>
                 </td>
                 <?php if ($block->hasOptionCodes()): ?>
                     <td class="col-option-code">

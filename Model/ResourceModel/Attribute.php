@@ -117,6 +117,15 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
                 $object->setIsUserDefined(true);
             }
         }
+
+        if ($object->getDefault()) {
+            $defaultValue = $object->getDefault();
+            if (is_array($defaultValue)) {
+                $default = implode(',', $defaultValue);
+            }
+            $object->setDefaultValue($default);
+        }
+
         parent::_beforeSave($object);
         return $this;
     }

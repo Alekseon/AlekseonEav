@@ -256,10 +256,10 @@ abstract class AbstractInputType
     }
 
     /**
-     * @return null
+     * @return mixed
      */
     public function getDefaultValue()
     {
-        return null;
+        return $this->getAttribute()->getData('default_value');
     }
 }

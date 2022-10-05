@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.0.14] - 2022-10-05
+### Added
+- default values for select and multiselect attributes
+
 ## [101.0.14] - 2022-10-04
 ### Added
 - input validator option for input types
