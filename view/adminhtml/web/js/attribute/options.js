@@ -22,6 +22,11 @@ define([
                         'sort_order': this.itemCount + 1
                     };
                 }
+
+                if (!data.intype) {
+                    data.intype = this.getOptionInputType();
+                }
+
                 this.itemCount++;
 
                 element = this.template({
@@ -43,6 +48,15 @@ define([
                 for (var i = 0; i < data.length; i++) {
                     this.add(data[i]);
                 }
+            },
+            getOptionInputType: function () {
+                var optionDefaultInputType = 'radio';
+
+                if ($('#frontend_input') && $('#frontend_input').val() === 'multiselect') {
+                    optionDefaultInputType = 'checkbox';
+                }
+
+                return optionDefaultInputType;
             }
         };
 

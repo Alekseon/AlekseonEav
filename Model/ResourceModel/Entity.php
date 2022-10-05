@@ -134,46 +134,66 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
      */
     private function loadItemAttributeValues($object)
     {
-
-        $tableAttributes = [];
-        $attributeCodes = [];
-        $attributes = $this->getAllLoadedAttributes();
-        foreach ($attributes as $attribute) {
-            if (!$attribute->getId()) {
-                continue;
+        if ($object->getId()) {
+            $tableAttributes = [];
+            $attributeCodes = [];
+            $attributes = $this->getAllLoadedAttributes();
+            foreach ($attributes as $attribute) {
+                if (!$attribute->getId()) {
+                    continue;
+                }
+                $tableAttributes[$attribute->getBackendTable()][] = $attribute->getId();
+                $attributeCodes[$attribute->getId()] = $attribute->getAttributeCode();
             }
-            $tableAttributes[$attribute->getBackendTable()][] = $attribute->getId();
-            $attributeCodes[$attribute->getId()] = $attribute->getAttributeCode();
-        }
 
-        $selects = [];
-        foreach ($tableAttributes as $table => $attributeIds) {
-            $select = $this->getLoadAttributesValuesSelect($table, $object, $attributeIds);
-            $selects[$table] = $select;
-        }
-
-        if (!empty($selects)) {
-            $attributeDefaultValues = [];
-            foreach ($selects as $select) {
-                $values = $this->getConnection()->fetchAll($select);
-                $attributeValues = $this->getAttributeValues($values, $attributeCodes);
-                $attributeDefaultValues = array_merge(
-                    $attributeDefaultValues,
-                    $this->getAttributeDefaultValues($values, $attributeCodes)
-                );
-                $object->addData($attributeValues);
+            $selects = [];
+            foreach ($tableAttributes as $table => $attributeIds) {
+                $select = $this->getLoadAttributesValuesSelect($table, $object, $attributeIds);
+                $selects[$table] = $select;
             }
-            $object->setAttributeDefaultValues($attributeDefaultValues);
-        }
 
-        foreach ($attributes as $attribute) {
-            $backendModel = $attribute->getBackendModel();
-            if ($backendModel) {
-                $backendModel->afterLoad($object);
+            if (!empty($selects)) {
+                $attributeDefaultValues = [];
+                foreach ($selects as $select) {
+                    $values = $this->getConnection()->fetchAll($select);
+                    $attributeValues = $this->getAttributeValues($values, $attributeCodes);
+                    $attributeDefaultValues = array_merge(
+                        $attributeDefaultValues,
+                        $this->getAttributeDefaultValues($values, $attributeCodes)
+                    );
+                    $object->addData($attributeValues);
+                }
+                $object->setAttributeDefaultValues($attributeDefaultValues);
             }
+
+            foreach ($attributes as $attribute) {
+                $backendModel = $attribute->getBackendModel();
+                if ($backendModel) {
+                    $backendModel->afterLoad($object);
+                }
+            }
+        } else {
+            $this->loadDefaultValues($object);
         }
 
         return $this;
+    }
+
+    /**
+     * @param $object
+     */
+    public function loadDefaultValues($object)
+    {
+        $attributes = $this->getAllLoadedAttributes();
+        foreach ($attributes as $attribute) {
+            if ($attribute->getDefaultValue()) {
+                $object->setData($attribute->getAttributeCode(), $attribute->getDefaultValue());
+                $backendModel = $attribute->getBackendModel();
+                if ($backendModel) {
+                    $backendModel->afterLoad($object);
+                }
+            }
+        }
     }
 
     /**

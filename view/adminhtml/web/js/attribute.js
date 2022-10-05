@@ -29,6 +29,10 @@ define([
 
                 if (this.options_element) {
                     if (input_type_config.show_options) {
+                        var elems = document.getElementsByName('default[]');
+                        for (var i = 0; i < elems.length; i++) {
+                            elems[i].type = input_type_config.optionInputType;
+                        }
                         this.options_element.show();
                         this.has_option_codes_element.parent().parent().show();
                     } else {

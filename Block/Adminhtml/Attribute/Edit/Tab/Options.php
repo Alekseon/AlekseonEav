@@ -76,6 +76,8 @@ class Options extends \Magento\Backend\Block\Template
             $optionValues = $sourceModel->getAllOptions();
         }
         if (is_array($optionValues)) {
+            $defaultValues = $attribute->getDefaultValue();
+
             foreach ($optionValues as $value) {
                 $id = isset($value['id']) ? $value['id'] : $value['value'];
                 $option = [
@@ -83,6 +85,11 @@ class Options extends \Magento\Backend\Block\Template
                    'option_code' => $sourceModel->getOptionCode($id),
                    'store0' => $value['label'],
                 ];
+
+                if ($defaultValues && in_array($id, $defaultValues)) {
+                    $option['checked'] = 'checked';
+                }
+
                 if ($storeLabels = $sourceModel->getStoreLabels($id)) {
                     foreach ($storeLabels as $storeId => $storeLabel) {
                         $option['store' . $storeId] = $storeLabel;
