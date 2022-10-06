@@ -9,7 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
-## [101.0.14] - 2022-10-05
+## [101.0.16] - 2022-10-06
+### Added
+- fix for saving default values of new options
+
+## [101.0.15] - 2022-10-05
 ### Added
 - default values for select and multiselect attributes
 

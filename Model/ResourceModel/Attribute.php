@@ -118,14 +118,6 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
             }
         }
 
-        if ($object->getDefault()) {
-            $defaultValue = $object->getDefault();
-            if (is_array($defaultValue)) {
-                $default = implode(',', $defaultValue);
-            }
-            $object->setDefaultValue($default);
-        }
-
         parent::_beforeSave($object);
         return $this;
     }
@@ -225,6 +217,7 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
      */
     private function processAttributeOptions($object)
     {
+        $default = $object->getDefault() ?: [];
         $optionsData = $object->getOption();
         if (!is_array($optionsData)) {
             return $this;
@@ -232,12 +225,35 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
         if (!isset($optionsData['value'])) {
             return $this;
         }
+
+        $defaultValue = [];
         foreach ($optionsData['value'] as $optionId => $values) {
             $updatedOptionId = $this->updateAttributeOption($object, $optionId, $optionsData);
             if ($updatedOptionId === false) {
                 continue;
             }
+
             $this->updateAttributeOptionValues($updatedOptionId, $values);
+
+            if (in_array($optionId, $default)) {
+                $defaultValue[] = $updatedOptionId;
+            }
+        }
+
+        $this->_saveDefaultValue($object, $defaultValue);
+    }
+
+    /**
+     * @param $object
+     * @param $defaultValue
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    protected function _saveDefaultValue($object, $defaultValue)
+    {
+        if ($defaultValue !== null) {
+            $bind = ['default_value' => implode(',', $defaultValue)];
+            $where = ['id = ?' => $object->getId()];
+            $this->getConnection()->update($this->getMainTable(), $bind, $where);
         }
     }
 
