@@ -15,7 +15,19 @@ class AbstractValidator
      * @var
      */
     protected $attribute;
+    /**
+     * @var 
+     */
+    protected $code;
 
+    /**
+     * @return mixed
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+    
     /**
      *
      */

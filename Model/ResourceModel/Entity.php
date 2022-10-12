@@ -163,6 +163,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
                     );
                     $object->addData($attributeValues);
                 }
+
                 $object->setAttributeDefaultValues($attributeDefaultValues);
             }
 
@@ -430,7 +431,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
 
         $inputValidators = $attribute->getInputValidators();
         foreach ($inputValidators as $inputValidator) {
-            if (!$inputValidator->validateValue($value)) {
+            if ($value && !$inputValidator->validateValue($value)) {
                 throw new \Exception(__('Incorrect value for attribute "%1".', $attribute->getFrontendLabel()));
             }
         }

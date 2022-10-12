@@ -34,7 +34,7 @@ class Textarea extends AbstractValidator
             return 'validate-length maximum-length-' . $maxLength;
         }
 
-        return [];
+        return '';
     }
 
     /**

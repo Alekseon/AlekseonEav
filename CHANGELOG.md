@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.0.17] - 2022-10-12
+### Changed
+- attribute_code field length in DB to 255 chars
+### Added
+- validator codes
+- new attribute sources: emailIdentity, emailTemplate
+### Fixed
+- validators for empty value
+- textarea valdator returned value
+
 ## [101.0.16] - 2022-10-06
 ### Added
 - fix for saving default values of new options

@@ -374,7 +374,11 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
             $validator = $this->inputValidatorRepository->getAttributeValidator($this);
             if ($validator) {
                 $validator->setAttribute($this);
-                $this->inputValidators[] = $validator;
+                if ($validator->getCode()) {
+                    $this->inputValidators[$validator->getCode()] = $validator;
+                } else {
+                    $this->inputValidators[] = $validator;
+                }
             }
         }
         return $this->inputValidators;
