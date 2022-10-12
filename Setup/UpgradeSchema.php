@@ -56,6 +56,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $this->updateToVersion_101($setup, 'alekseon_eav_attribute');
         }
 
+        if ($context->getVersion() && version_compare($context->getVersion(), '1.0.5', '<')) {
+            $this->updateAttributeCodeColumnSize($setup, 'alekseon_eav_attribute');
+        }
+
         $setup->endSetup();
     }
 
@@ -163,6 +167,24 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'nullable' => false,
                 'default' => 0,
                 'comment' => 'Has Option Codes'
+            ]
+        );
+    }
+
+    /**
+     * @param $setup
+     */
+    public function updateAttributeCodeColumnSize($setup, $attributeTableName)
+    {
+        $setup->getConnection()->modifyColumn(
+            $setup->getTable($attributeTableName),
+            'attribute_code',
+            [
+                'type' => Table::TYPE_TEXT,
+                'nullable' => false,
+                'default' => '',
+                'length' => 255,
+                'comment' => 'Attribute Code'
             ]
         );
     }

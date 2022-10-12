@@ -127,7 +127,7 @@ class EavSchemaSetup implements EavSchemaSetupInterface
             ->addColumn(
                 'attribute_code',
                 Table::TYPE_TEXT,
-                30,
+                255,
                 ['nullable' => false, 'default' => ''],
                 'Attribute Code'
             )
