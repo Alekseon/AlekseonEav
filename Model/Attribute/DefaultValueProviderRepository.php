@@ -25,7 +25,7 @@ class DefaultValueProviderRepository
     /**
      * @var array
      */
-    protected $defaultValueProviderByAttributeId = [];
+    protected $defaultValueProviderByAttribute = [];
 
     /**
      * DefaultValueProviderRepository constructor.
@@ -42,21 +42,22 @@ class DefaultValueProviderRepository
      */
     public function getDefaultValueProviders(Attribute $attribute): array
     {
-        if (!isset($this->defaultValueProvidersByCodes[$attribute->getAttributeId()])) {
-            $this->defaultValueProvidersByCodes[$attribute->getAttributeId()] = [];
+        $attributeKey = $attribute->getResource()->getEntityTypeCode() . '_' . $attribute->getId();
+        if (!isset($this->defaultValueProvidersByCodes[$attributeKey])) {
+            $this->defaultValueProvidersByCodes[$attributeKey] = [];
             foreach ($this->defaultValueProviders as $code => $data) {
                 $valueProviderFactory = $data['factory'];
                 unset($data['factory']);
                 $valueProvider = $valueProviderFactory->create();
-                $valueProvider->setData($data);
+                $valueProvider->addData($data);
                 $valueProvider->setCode($code);
                 if ($valueProvider->canBeUsedForAttribute($attribute)) {
-                    $this->defaultValueProvidersByCodes[$attribute->getAttributeId()][$code] = $valueProvider;
+                    $this->defaultValueProvidersByCodes[$attributeKey][$code] = $valueProvider;
                 }
             }
         }
 
-        return $this->defaultValueProvidersByCodes[$attribute->getAttributeId()];
+        return $this->defaultValueProvidersByCodes[$attributeKey];
     }
 
     /**
@@ -65,19 +66,20 @@ class DefaultValueProviderRepository
      */
     public function getAttributeDefaultValueProvider(Attribute $attribute)
     {
-        if (!isset($this->defaultValueProviderByAttributeId[$attribute->getAttributeId()])) {
-            $this->defaultValueProviderByAttributeId[$attribute->getAttributeId()] = false;
+        $attributeKey = $attribute->getResource()->getEntityTypeCode() . '_' . $attribute->getId();
+        if (!isset($this->defaultValueProviderByAttribute[$attributeKey])) {
+            $this->defaultValueProviderByAttribute[$attributeKey] = false;
             $defaultValueProviders = $this->getDefaultValueProviders($attribute);
             $defaultValue = $attribute->getData('default_value');
             $prefixLength = strlen(DefaultValueProvider::PROVIDER_OPTION_PREFIX);
             if (substr($defaultValue, 0, $prefixLength) == DefaultValueProvider::PROVIDER_OPTION_PREFIX) {
                 $providerCode = substr($defaultValue, $prefixLength);
                 if (isset($defaultValueProviders[$providerCode])) {
-                    $this->defaultValueProviderByAttributeId[$attribute->getAttributeId()] = $defaultValueProviders[$providerCode];
+                    $this->defaultValueProviderByAttribute[$attributeKey] = $defaultValueProviders[$providerCode];
                 }
             }
         }
 
-        return $this->defaultValueProviderByAttributeId[$attribute->getAttributeId()];
+        return $this->defaultValueProviderByAttribute[$attributeKey];
     }
 }

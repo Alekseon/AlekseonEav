@@ -6,6 +6,13 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Alekseon\AlekseonEav\Model\Attribute\DefaultValueProvider\AbstractProvider">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="default_value_backend_model_factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\Backend\DefaultValueFactory</item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Alekseon\AlekseonEav\Api\Data\AttributeInterface">
         <plugin name="Alekseon_AlekseonEav::AttributeDefaultValueProviderPlugin" type="Alekseon\AlekseonEav\Plugin\AttributeDefaultValueProviderPlugin"/>
     </type>

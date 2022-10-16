@@ -51,6 +51,10 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
      * @var
      */
     protected $inputValidators;
+    /**
+     * @var string
+     */
+    protected $_eventObject = 'attribute';
 
     /**
      * Attribute constructor.
@@ -425,6 +429,18 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     public function getDefaultValue()
     {
         return $this->getInputTypeModel()->getDefaultValue();
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDefaultValue()
+    {
+        if ($this->getDefaultValue()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

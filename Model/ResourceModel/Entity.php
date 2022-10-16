@@ -361,6 +361,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     {
         $backendModel = $attribute->getBackendModel();
         if ($backendModel) {
+            $backendModel->setAttribute($attribute);
             $backendModel->beforeSave($object);
         }
 

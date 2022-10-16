@@ -90,12 +90,13 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
         return $this->entityTypeCode;
     }
 
+    /**
+     * @return string
+     */
     public function getBackendTablePrefix()
     {
         return $this->backendTablePrefix;
     }
-
-
 
     /**
      * @param \Magento\Framework\Model\AbstractModel $object

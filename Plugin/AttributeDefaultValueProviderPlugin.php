@@ -39,4 +39,36 @@ class AttributeDefaultValueProviderPlugin
             return $proceed();
         }
     }
+
+    /**
+     * @param AttributeInterface $attribute
+     * @param $backendModel
+     * @return mixed
+     */
+    public function afterGetBackendModel(AttributeInterface $attribute, $backendModel)
+    {
+        if (!$backendModel) {
+            $defaultValueProvider = $this->defaultValueProviderRepository->getAttributeDefaultValueProvider($attribute);
+            if ($defaultValueProvider && $defaultValueProvider->getBackendModel()) {
+                $backendModel = $defaultValueProvider->getBackendModel();
+            }
+        }
+
+        return $backendModel;
+    }
+
+    /**
+     * @param AttributeInterface $attribute
+     * @param $hasDefaultValue
+     * @return mixed
+     */
+    public function afterHasDefaultValue(AttributeInterface $attribute, $hasDefaultValue)
+    {
+        if (!$hasDefaultValue) {
+            $defaultValueProvider = $this->defaultValueProviderRepository->getAttributeDefaultValueProvider($attribute);
+            $hasDefaultValue = $defaultValueProvider->hasValue();
+        }
+
+        return $hasDefaultValue;
+    }
 }
