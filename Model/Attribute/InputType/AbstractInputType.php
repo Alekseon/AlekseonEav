@@ -6,6 +6,9 @@
 
 namespace Alekseon\AlekseonEav\Model\Attribute\InputType;
 
+use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\DefaultValueProvider;
+use Alekseon\AlekseonEav\Model\Attribute\DefaultValueProviderRepository;
+
 /**
  * Class AbstractBackendType
  * @package Alekseon\AlekseonEav\Model\Attribute\BackendType
@@ -56,7 +59,6 @@ abstract class AbstractInputType
      * @var bool
      */
     protected $hasOptionCodes = false;
-
     /**
      * @var
      */

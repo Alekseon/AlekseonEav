@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [Unreleased]
+### Added
+- default value providers
+
 ## [101.0.17] - 2022-10-12
 ### Changed
 - attribute_code field length in DB to 255 chars

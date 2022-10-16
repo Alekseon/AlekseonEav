@@ -6,7 +6,9 @@
 
 namespace Alekseon\AlekseonEav\Block\Adminhtml\Attribute\Edit\Tab;
 
+use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\DefaultValueProvider;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\InputValidator;
+use Alekseon\AlekseonEav\Model\Attribute\DefaultValueProviderRepository;
 use Magento\Backend\Block\Widget\Form\Generic;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\InputType;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\Scopes;
@@ -22,27 +24,31 @@ class General extends Generic
     /**
      * @return mixed
      */
-    private $attribute;
+    protected $attribute;
     /**
      * @var InputType
      */
-    private $inputTypeSource;
+    protected $inputTypeSource;
     /**
      * @var Scopes
      */
-    private $scopesSource;
+    protected $scopesSource;
     /**
      * @var \Magento\Config\Model\Config\Source\Yesno
      */
-    private $yesNoSource;
+    protected $yesNoSource;
     /**
      * @var InputTypeRepository
      */
-    private $inputTypeRepository;
+    protected $inputTypeRepository;
     /**
      * @var InputValidator
      */
     protected $inputValidatorSource;
+    /**
+     * @var DefaultValueProvider
+     */
+    protected $defaultValueProviderSource;
 
     /**
      * General constructor.
@@ -52,6 +58,8 @@ class General extends Generic
      * @param \Magento\Config\Model\Config\Source\Yesno $yesNoSource
      * @param InputTypeRepository $inputTypeRepository
      * @param InputType $inputTypeSource
+     * @param InputValidator $inputValidatorSource
+     * @param DefaultValueProvider $defaultValueProviderSource
      * @param Scopes $scopesSource
      * @param array $data
      */
@@ -63,14 +71,16 @@ class General extends Generic
         InputTypeRepository $inputTypeRepository,
         InputType $inputTypeSource,
         InputValidator $inputValidatorSource,
+        DefaultValueProvider $defaultValueProviderSource,
         Scopes $scopesSource,
         array $data = []
     ) {
         $this->inputTypeSource = $inputTypeSource;
         $this->yesNoSource = $yesNoSource;
         $this->scopesSource = $scopesSource;
-        $this->inputValidatorSource = $inputValidatorSource;
         $this->inputTypeRepository = $inputTypeRepository;
+        $this->inputValidatorSource = $inputValidatorSource;
+        $this->defaultValueProviderSource = $defaultValueProviderSource;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -226,6 +236,23 @@ class General extends Generic
                     'values' => $this->inputValidatorSource->toOptionArray()
                 ]
             );
+        }
+
+        if ($attributeObject->getId()) {
+            $this->defaultValueProviderSource->setAttribute($attributeObject);
+
+            if ($this->defaultValueProviderSource->hasOptions()) {
+                $baseFieldset->addField(
+                    'default_value',
+                    'select',
+                    [
+                        'name' => 'default_value',
+                        'label' => __('Default Value'),
+                        'title' => __('Default Value'),
+                        'values' => $this->defaultValueProviderSource->toOptionArray()
+                    ]
+                );
+            }
         }
 
         if (!$attributeObject->getId() || $attributeObject->getInputTypeModel()->hasOptionCodes()) {

@@ -11,16 +11,12 @@ use Alekseon\AlekseonEav\Model\Attribute\InputTypeRepository;
  * Class InputType
  * @package Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source
  */
-class InputType implements \Magento\Framework\Option\ArrayInterface
+class InputType extends AbstractSource
 {
     /**
      * @var InputTypeRepository
      */
-    private $inputTypeRepository;
-    /**
-     * @var
-     */
-    private $options;
+    protected $inputTypeRepository;
 
     /**
      * InputType constructor.
@@ -34,33 +30,16 @@ class InputType implements \Magento\Framework\Option\ArrayInterface
     }
 
     /**
-     * Return array of options
-     *
      * @return array
      */
-    public function toOptionArray()
-    {
-        $optionArray = [];
-        $options = $this->getOptionArray();
-        foreach ($options as $optionCode => $optionLabel) {
-            $optionArray[] = [
-                'value' => $optionCode,
-                'label' => $optionLabel,
-            ];
-        }
-        return $optionArray;
-    }
-
-    /**
-     * @return array
-     */
-    public function getOptionArray()
+    public function getOptionArray(): array
     {
         if ($this->options === null) {
             $this->options = [];
             $inputTypes = $this->inputTypeRepository->getFrontendInputTypes();
             foreach ($inputTypes as $inputType) {
                 $this->options[$inputType->getCode()] = __($inputType->getLabel());
+                $this->hasOptions = true;
             }
         }
         return $this->options;

@@ -9,16 +9,12 @@ namespace Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source;
  * Class Validator
  * @package Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source
  */
-class InputValidator implements \Magento\Framework\Option\ArrayInterface
+class InputValidator extends AbstractSource
 {
     /**
      * @var \Alekseon\AlekseonEav\Model\InputValidatorRepository
      */
     protected $inputValidatorRepository;
-    /**
-     * @var
-     */
-    private $options;
 
     /**
      * InputValidator constructor.
@@ -32,33 +28,16 @@ class InputValidator implements \Magento\Framework\Option\ArrayInterface
     }
 
     /**
-     * Return array of options
-     *
      * @return array
      */
-    public function toOptionArray()
-    {
-        $optionArray = [];
-        $options = $this->getOptionArray();
-        foreach ($options as $optionCode => $optionLabel) {
-            $optionArray[] = [
-                'value' => $optionCode,
-                'label' => $optionLabel,
-            ];
-        }
-        return $optionArray;
-    }
-
-    /**
-     * @return array
-     */
-    public function getOptionArray()
+    public function getOptionArray(): array
     {
         if ($this->options === null) {
             $this->options = [0 => __('None')];
             $inputValidators = $this->inputValidatorRepository->getInputValidators();
             foreach ($inputValidators as $inputValidator) {
                 $this->options[$inputValidator->getCode()] = __($inputValidator->getLabel());
+                $this->hasOptions = true;
             }
         }
         return $this->options;

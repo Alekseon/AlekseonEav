@@ -6,6 +6,9 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Alekseon\AlekseonEav\Api\Data\AttributeInterface">
+        <plugin name="Alekseon_AlekseonEav::AttributeDefaultValueProviderPlugin" type="Alekseon\AlekseonEav\Plugin\AttributeDefaultValueProviderPlugin"/>
+    </type>
     <type name="Alekseon\AlekseonEav\Model\Attribute\InputTypeRepository">
         <arguments>
             <argument name="frontendInputTypes" xsi:type="array">
@@ -52,6 +55,12 @@
                     <item name="label" xsi:type="string">Number</item>
                     <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputValidator\NumberFactory</item>
                 </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Alekseon\AlekseonEav\Model\Attribute\DefaultValueProviderRepository">
+        <arguments>
+            <argument name="defaultValueProviders" xsi:type="array">
             </argument>
         </arguments>
     </type>

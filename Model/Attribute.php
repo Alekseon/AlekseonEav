@@ -7,6 +7,7 @@ namespace Alekseon\AlekseonEav\Model;
 
 use \Alekseon\AlekseonEav\Api\Data\AttributeInterface;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\Scopes;
+use Alekseon\AlekseonEav\Model\Attribute\InputType\AbstractInputType;
 
 /**
  * Class Attribute
@@ -86,7 +87,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     }
 
     /**
-     * @return mixed
+     * @return AbstractInputType
      */
     public function getInputTypeModel()
     {
