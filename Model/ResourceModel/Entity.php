@@ -26,10 +26,6 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
      */
     protected $attributeCollectionFactory;
     /**
-     * @var StoreManagerInterface
-     */
-    protected $storeManager;
-    /**
      * @var
      */
     protected $attributes = [];
