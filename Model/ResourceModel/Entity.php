@@ -164,8 +164,8 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
             }
 
             foreach ($attributes as $attribute) {
-                $backendModel = $attribute->getBackendModel();
-                if ($backendModel) {
+                $backendModels = $attribute->getBackendModels();
+                foreach ($backendModels as $backendModel) {
                     $backendModel->afterLoad($object);
                 }
             }
@@ -185,8 +185,8 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
         foreach ($attributes as $attribute) {
             if ($attribute->getDefaultValue()) {
                 $object->setData($attribute->getAttributeCode(), $attribute->getDefaultValue());
-                $backendModel = $attribute->getBackendModel();
-                if ($backendModel) {
+                $backendModels = $attribute->getBackendModels();
+                foreach ($backendModels as $backendModel) {
                     $backendModel->afterLoad($object);
                 }
             }
@@ -318,8 +318,8 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
 
         $this->saveAttributeValues();
         foreach ($attributesToSave as $attribute) {
-            $backendModel = $attribute->getBackendModel();
-            if ($backendModel) {
+            $backendModels = $attribute->getBackendModels();
+            foreach ($backendModels as $backendModel) {
                 $backendModel->afterSave($object);
             }
         }
@@ -339,8 +339,8 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
         if ($attribute->isAttributeValueUpdated($object)) {
             $this->prepareAttributeForSave($object, $attribute);
             $this->saveAttributeValues();
-            $backendModel = $attribute->getBackendModel();
-            if ($backendModel) {
+            $backendModels = $attribute->getBackendModels();
+            foreach ($backendModels as $backendModel) {
                 $backendModel->afterSave($object);
             }
         }
@@ -355,9 +355,9 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
      */
     protected function prepareAttributeForSave($object, $attribute)
     {
-        $backendModel = $attribute->getBackendModel();
-        if ($backendModel) {
-            $backendModel->setAttribute($attribute);
+        $backendModels = $attribute->getBackendModels();
+
+        foreach ($backendModels as $backendModel) {
             $backendModel->beforeSave($object);
         }
 
@@ -490,8 +490,8 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
         $tableAttributes = [];
         foreach ($attributes as $attribute) {
             $tableAttributes[$attribute->getBackendTable()][] = $attribute->getId();
-            $backendModel = $attribute->getBackendModel();
-            if ($backendModel) {
+            $backendModels = $attribute->getBackendModels();
+            foreach ($backendModels as $backendModel) {
                 $backendModel->beforeDelete($object);
             }
         }
@@ -501,8 +501,8 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
         }
 
         foreach ($attributes as $attribute) {
-            $backendModel = $attribute->getBackendModel();
-            if ($backendModel) {
+            $backendModels = $attribute->getBackendModels();
+            foreach ($backendModels as $backendModel) {
                 $backendModel->afterDelete($object);
             }
         }

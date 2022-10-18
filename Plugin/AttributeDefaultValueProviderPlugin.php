@@ -42,19 +42,13 @@ class AttributeDefaultValueProviderPlugin
 
     /**
      * @param AttributeInterface $attribute
-     * @param $backendModel
-     * @return mixed
      */
-    public function afterGetBackendModel(AttributeInterface $attribute, $backendModel)
+    public function beforeGetBackendModels(AttributeInterface $attribute)
     {
-        if (!$backendModel) {
-            $defaultValueProvider = $this->defaultValueProviderRepository->getAttributeDefaultValueProvider($attribute);
-            if ($defaultValueProvider && $defaultValueProvider->getBackendModel()) {
-                $backendModel = $defaultValueProvider->getBackendModel();
-            }
+        $defaultValueProvider = $this->defaultValueProviderRepository->getAttributeDefaultValueProvider($attribute);
+        if ($defaultValueProvider) {
+            $attribute->addBackendModel('default_value_provider', $defaultValueProvider->getBackendModel());
         }
-
-        return $backendModel;
     }
 
     /**

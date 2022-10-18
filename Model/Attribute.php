@@ -7,6 +7,7 @@ namespace Alekseon\AlekseonEav\Model;
 
 use \Alekseon\AlekseonEav\Api\Data\AttributeInterface;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\Scopes;
+use Alekseon\AlekseonEav\Model\Attribute\Backend\AbstractBackend;
 use Alekseon\AlekseonEav\Model\Attribute\InputType\AbstractInputType;
 
 /**
@@ -34,7 +35,11 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     /**
      * @var
      */
-    private $backendModel;
+    private $backendModels = [];
+    /**
+     * @var array
+     */
+    private $assignedBackendModelCodes = [];
     /**
      * @var
      */
@@ -55,6 +60,10 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
      * @var string
      */
     protected $_eventObject = 'attribute';
+    /**
+     * @var
+     */
+    protected $hasInputTypeBackendModel;
 
     /**
      * Attribute constructor.
@@ -180,16 +189,38 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     /**
      * @return bool
      */
-    public function getBackendModel()
+    public function getBackendModels()
     {
-        if ($this->backendModel === null) {
-            $backendModel = $this->getInputTypeModel()->getBackendModel();
-            if ($backendModel) {
+        $this->addInputTypeBackendModel();
+        return $this->backendModels;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function addInputTypeBackendModel()
+    {
+        $inputTypeBackendModel = $this->getInputTypeModel()->getBackendModel();
+        $this->addBackendModel('input_type_backedn_model', $inputTypeBackendModel);
+        return $this;
+    }
+
+    /**
+     * @param string $backendModelCode
+     * @param $backendModel
+     * @return bool
+     */
+    public function addBackendModel(string $backendModelCode, $backendModel)
+    {
+        if (!isset($this->assignedBackendModelCodes[$backendModelCode])) {
+            $this->assignedBackendModelCodes[] = $backendModelCode;
+            if ($backendModel instanceof AbstractBackend) {
                 $backendModel->setAttribute($this);
+                $this->backendModels[] = $backendModel;
             }
-            $this->backendModel = $backendModel;
         }
-        return $this->backendModel;
+
+        return $this;
     }
 
     /**
