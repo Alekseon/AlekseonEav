@@ -5,10 +5,11 @@
  */
 ?>
 <?php
-$inputJsConfig = [
+
+$defaultJsConfig = [
     'default' => [
         'show_options' => false,
-        'can_be_visibile_in_grid' => true,
+        'can_be_visible_in_grid' => true,
         'can_use_wysiwyg' => false,
     ],
     'text' => [
@@ -32,12 +33,20 @@ $inputJsConfig = [
     'image' => [
     ],
 ];
+
+if ($jsConfig = $block->getJsConfig()) {
+    $inputJsConfig = $jsConfig;
+} else {
+    $inputJsConfig = $defaultJsConfig; // we keep it for backward compatibility
+}
+
 ?>
 <script type="text/x-magento-init">
 {
     "*": {
         "Alekseon_AlekseonEav/js/attribute": {
             "frontend_input_default_value": "text",
+            "refresh_validators_list": "<?= $block->getRefreshValidatorsList() ?>",
             "input_types_config": <?= /* @noEscape */ json_encode($inputJsConfig) ?>
         }
     }

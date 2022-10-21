@@ -3,12 +3,10 @@
  * Copyright © Alekseon sp. z o.o.
  * http://www.alekseon.com/
  */
-
 namespace Alekseon\AlekseonEav\Block\Adminhtml\Attribute\Edit\Tab;
 
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\DefaultValueProvider;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\InputValidator;
-use Alekseon\AlekseonEav\Model\Attribute\DefaultValueProviderRepository;
 use Magento\Backend\Block\Widget\Form\Generic;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\InputType;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\Scopes;
@@ -225,7 +223,14 @@ class General extends Generic
             );
         }
 
-        if (!$attributeObject->getId() || $attributeObject->getInputTypeModel()->canUseInputValidator()) {
+        $this->inputValidatorSource->setAttribute($attributeObject);
+        if ($attributeObject->getId()) {
+            $showInputValidatorSelect = $this->inputValidatorSource->hasOptions();
+        } else {
+            $showInputValidatorSelect = true;
+        }
+
+        if ($showInputValidatorSelect) {
             $baseFieldset->addField(
                 'input_validator',
                 'select',

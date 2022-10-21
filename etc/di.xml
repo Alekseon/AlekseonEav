@@ -26,7 +26,6 @@
                 <item name="textarea" xsi:type="array">
                     <item name="label" xsi:type="string">Text Area</item>
                     <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputType\TextareaFactory</item>
-                    <item name="input_validator" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputValidator\Textarea</item>
                 </item>
                 <item name="boolean" xsi:type="array">
                     <item name="label" xsi:type="string">Yes/No</item>
@@ -57,10 +56,16 @@
                 <item name="email" xsi:type="array">
                     <item name="label" xsi:type="string">Email Address</item>
                     <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputValidator\EmailFactory</item>
+                    <item name="applicable_frontend_inputs" xsi:type="array">
+                        <item name="text" xsi:type="string">text</item>
+                    </item>
                 </item>
                 <item name="number" xsi:type="array">
                     <item name="label" xsi:type="string">Number</item>
                     <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputValidator\NumberFactory</item>
+                    <item name="applicable_frontend_inputs" xsi:type="array">
+                        <item name="text" xsi:type="string">text</item>
+                    </item>
                 </item>
             </argument>
         </arguments>

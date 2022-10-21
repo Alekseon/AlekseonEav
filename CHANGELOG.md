@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - attribute event code
 - multiple attibute backend models
 - default value providers
-
+- max length validator modifications
 
 ## [101.0.17] - 2022-10-12
 ### Changed

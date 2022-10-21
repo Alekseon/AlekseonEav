@@ -3,11 +3,10 @@
  * Copyright © Alekseon sp. z o.o.
  * http://www.alekseon.com/
  */
-
 namespace Alekseon\AlekseonEav\Model\Attribute\InputType;
 
-use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\DefaultValueProvider;
-use Alekseon\AlekseonEav\Model\Attribute\DefaultValueProviderRepository;
+use Magento\Framework\App\ObjectManager;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class AbstractBackendType
@@ -62,20 +61,27 @@ abstract class AbstractInputType
     /**
      * @var
      */
-    private $attribute;
+    protected $attribute;
     /**
      * @var \Magento\Framework\Validator\UniversalFactory
      */
-    private $universalFactory;
+    protected $universalFactory;
+    /**
+     * @var mixed|LoggerInterface
+     */
+    protected $logger;
 
     /**
      * AbstractInputType constructor.
      * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param LoggerInterface|null $logger
      */
     public function __construct(
-        \Magento\Framework\Validator\UniversalFactory $universalFactory
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        LoggerInterface $logger = null
     ) {
         $this->universalFactory = $universalFactory;
+        $this->logger = $logger ?: ObjectManager::getInstance()->get(LoggerInterface::class);
     }
 
     /**
@@ -245,14 +251,6 @@ abstract class AbstractInputType
      * @return bool
      */
     public function getOptionCode($optionId)
-    {
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function canUseInputValidator()
     {
         return false;
     }
