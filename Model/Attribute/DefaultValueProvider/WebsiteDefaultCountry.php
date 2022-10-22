@@ -49,6 +49,7 @@ class WebsiteDefaultCountry extends AbstractProvider
             return $value;
         }
 
-        return false;
+        $defaulSourceValues = $this->attribute->getData('default_value') ?? '';
+        return explode(',', $defaulSourceValues);
     }
 }

@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.1.1] - 2022-10-22
+### Fixed
+- fix default value for select input types
+
 ## [101.1.0] - 2022-10-22
 ### Added
 - attribute event code

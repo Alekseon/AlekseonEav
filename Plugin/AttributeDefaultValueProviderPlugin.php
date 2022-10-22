@@ -34,12 +34,8 @@ class AttributeDefaultValueProviderPlugin
     {
         $defaultValueProvider = $this->defaultValueProviderRepository->getAttributeDefaultValueProvider($attribute);
         if ($defaultValueProvider) {
-            $defaultValue = $defaultValueProvider->getValue();
-            if ($defaultValue) {
-                return $defaultValue;
-            }
+            return $defaultValueProvider->getValue();
         }
-
         return $proceed();
     }
 
