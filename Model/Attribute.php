@@ -441,10 +441,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     }
 
     /**
-     * for now this function is only used to set NO value for boolean input by default for frontend widgets
-     * it was necessery when boolean input block was checkout, because in case when checkout was not selected value was null
-     * @TODO: probably this function will be use when we implement default values for EAV
-     * @return |null
+     * @return mixed
      */
     public function getDefaultValue()
     {
