@@ -9,11 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
-## [Unreleased]
+## [102.2.0] - 2022-10-22
 ### Added
 - attribute event code
 - multiple attibute backend models
 - default value providers
+### Changed
 - max length validator modifications
 
 ## [101.0.17] - 2022-10-12
