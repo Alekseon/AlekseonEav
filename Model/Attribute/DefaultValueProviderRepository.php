@@ -70,7 +70,7 @@ class DefaultValueProviderRepository
         if (!isset($this->defaultValueProviderByAttribute[$attributeKey])) {
             $this->defaultValueProviderByAttribute[$attributeKey] = false;
             $defaultValueProviders = $this->getDefaultValueProviders($attribute);
-            $defaultValue = $attribute->getData('default_value');
+            $defaultValue = $attribute->getData('default_value') ?? '';
             $prefixLength = strlen(DefaultValueProvider::PROVIDER_OPTION_PREFIX);
             if (substr($defaultValue, 0, $prefixLength) == DefaultValueProvider::PROVIDER_OPTION_PREFIX) {
                 $providerCode = substr($defaultValue, $prefixLength);
