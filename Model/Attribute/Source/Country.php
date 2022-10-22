@@ -16,7 +16,7 @@ class Country extends AbstractSource
      *
      * @var \Magento\Directory\Model\ResourceModel\Country\Collection
      */
-    private $countryCollection;
+    protected $countryCollection;
 
     /**
      * @param \Magento\Directory\Model\ResourceModel\Country\Collection $countryCollection
@@ -28,12 +28,21 @@ class Country extends AbstractSource
     }
 
     /**
+     * @return array
+     */
+    protected function getCountryOptions()
+    {
+        $countryOptions = $this->countryCollection->loadData()
+            ->toOptionArray(false);
+        return $countryOptions;
+    }
+
+    /**
      * @return array|mixed
      */
     public function getOptions()
     {
-        $countryOptions = $this->countryCollection->loadData()
-            ->toOptionArray(false);
+        $countryOptions = $this->getCountryOptions();
         $options = [];
         foreach($countryOptions as $option) {
             $options[$option['value']] = $option['label'];

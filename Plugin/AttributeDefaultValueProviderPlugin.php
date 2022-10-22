@@ -34,10 +34,13 @@ class AttributeDefaultValueProviderPlugin
     {
         $defaultValueProvider = $this->defaultValueProviderRepository->getAttributeDefaultValueProvider($attribute);
         if ($defaultValueProvider) {
-            return $defaultValueProvider->getValue();
-        } else {
-            return $proceed();
+            $defaultValue = $defaultValueProvider->getValue();
+            if ($defaultValue) {
+                return $defaultValue;
+            }
         }
+
+        return $proceed();
     }
 
     /**
@@ -64,5 +67,20 @@ class AttributeDefaultValueProviderPlugin
         }
 
         return $hasDefaultValue;
+    }
+
+    /**
+     * @param AttributeInterface $attribute
+     * @param $inputParamsConfig
+     * @return array|mixed
+     */
+    public function afterGetInputParamsConfig(AttributeInterface $attribute, $inputParamsConfig)
+    {
+        $defaultValueProvider = $this->defaultValueProviderRepository->getAttributeDefaultValueProvider($attribute);
+        if ($defaultValueProvider) {
+            $defaultValueInputParams = $defaultValueProvider->getInputParams() ?? [];
+            $inputParamsConfig = array_merge($inputParamsConfig, $defaultValueInputParams);
+        }
+        return $inputParamsConfig;
     }
 }

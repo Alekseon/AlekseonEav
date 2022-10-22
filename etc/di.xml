@@ -73,6 +73,14 @@
     <type name="Alekseon\AlekseonEav\Model\Attribute\DefaultValueProviderRepository">
         <arguments>
             <argument name="defaultValueProviders" xsi:type="array">
+                <item name="website_default_country" xsi:type="array">
+                    <item name="label" xsi:type="string">Website Default Country</item>
+                    <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\DefaultValueProvider\WebsiteDefaultCountryFactory</item>
+                    <item name="applicable_frontend_inputs" xsi:type="array">
+                        <item name="select" xsi:type="string">select</item>
+                        <item name="multiselect" xsi:type="string">multiselect</item>
+                    </item>
+                </item>
             </argument>
         </arguments>
     </type>
