@@ -41,7 +41,7 @@ define([
                     }
                 }
 
-                if (input_type_config.can_be_visibile_in_grid) {
+                if (input_type_config.can_be_visible_in_grid) {
                     this.visible_in_grid_element.attr('disabled',false);
                 } else {
                     this.visible_in_grid_element.attr('disabled',true);
@@ -55,6 +55,21 @@ define([
                 }
 
                 if (input_type_config.can_use_input_validator) {
+                    if (config.refresh_validators_list) {
+                        var validatorInputelement = this.input_validator_element;
+                        validatorInputelement.children().each(
+                            function (i, el) {
+                                el.remove();
+                            }
+                        );
+
+                        Object.keys(input_type_config.validator_options).forEach(
+                            function (optionKey) {
+                                var optionlabel = input_type_config.validator_options[optionKey];
+                                validatorInputelement.append($('<option>').val(optionKey).text(optionlabel));
+                            }
+                        );
+                    }
                     this.input_validator_element.parent().parent().show();
                 } else {
                     this.input_validator_element.parent().parent().hide();

@@ -178,6 +178,11 @@ abstract class Collection extends \Magento\Framework\Model\ResourceModel\Db\Coll
         return $this;
     }
 
+    /**
+     * @param $values
+     * @param $attributeCodes
+     * @return $this
+     */
     protected function setItemAttributeValues($values, $attributeCodes)
     {
         $entitiesValues = [];

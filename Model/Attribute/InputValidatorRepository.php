@@ -52,18 +52,19 @@ class InputValidatorRepository
      */
     public function getAttributeValidator($attribute)
     {
-        if ($attribute->getInputTypeModel()->canUseInputValidator()) {
-            $validators = $this->getInputValidators();
-            $inputValidator = $attribute->getData('input_validator');
-            if (isset($validators[$inputValidator])) {
-                $validator = $validators[$inputValidator];
-                if (!$validator->getModel()) {
-                    $model = $validator->getFactory()->create();
-                    $validator->setModel($model);
-                }
-                return $validator->getModel();
+        $validators = $this->getInputValidators();
+        $inputValidator = $attribute->getData('input_validator');
+        if (isset($validators[$inputValidator])) {
+            $validator = $validators[$inputValidator];
+            if (!$validator->getModel()) {
+                $model = $validator->getFactory()->create();
+                $model->setData($validator->getData());
+                $model->setAttribute($attribute);
+                return $model;
             }
+
         }
+
         return false;
     }
 }

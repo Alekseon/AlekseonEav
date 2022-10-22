@@ -9,25 +9,13 @@ namespace Alekseon\AlekseonEav\Model\Attribute\InputValidator;
  * Class AbstractValidator
  * @package Alekseon\AlekseonEav\Model\Attribute\InputValidator
  */
-class AbstractValidator
+class AbstractValidator extends \Magento\Framework\DataObject
 {
     /**
      * @var
      */
     protected $attribute;
-    /**
-     * @var 
-     */
-    protected $code;
 
-    /**
-     * @return mixed
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
-    
     /**
      *
      */

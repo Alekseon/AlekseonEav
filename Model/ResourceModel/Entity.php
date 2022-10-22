@@ -421,7 +421,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
             // check if there is value of required attribute, its checked only on saving default values
             if ($object->getStoreId() == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
                 if ($value === null || $value === '' || (is_array($value) && empty($value))) {
-                    throw new \Exception(__('Value for attribute "%1" is required.', $attribute->getFrontendLabel()));
+                    throw new LocalizedException(__('"%1" cannot be empty.', $attribute->getFrontendLabel()));
                 }
             }
         }
@@ -429,7 +429,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
         $inputValidators = $attribute->getInputValidators();
         foreach ($inputValidators as $inputValidator) {
             if ($value && !$inputValidator->validateValue($value)) {
-                throw new \Exception(__('Incorrect value for attribute "%1".', $attribute->getFrontendLabel()));
+                throw new LocalizedException(__('Incorrect value for "%1".', $attribute->getFrontendLabel()));
             }
         }
 

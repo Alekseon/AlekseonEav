@@ -11,8 +11,6 @@ namespace Alekseon\AlekseonEav\Model\Attribute\InputValidator;
  */
 class Number extends AbstractValidator
 {
-    protected $code = 'number';
-    
     /**
      * @return bool
      */

@@ -57,13 +57,13 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
      */
     protected $inputValidators;
     /**
+     * @var
+     */
+    protected $inputParamsConfig;
+    /**
      * @var string
      */
     protected $_eventObject = 'attribute';
-    /**
-     * @var
-     */
-    protected $hasInputTypeBackendModel;
 
     /**
      * Attribute constructor.
@@ -399,24 +399,13 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         if ($this->inputValidators == null) {
             $this->inputValidators = [];
 
-            $inputTypeConfig = $this->getFrontendInputTypeConfig();
-
-            if ($inputTypeConfig->getInputValidator()) {
-                $validator = $inputTypeConfig->getInputValidator();
-                $validator->setAttribute($this);
-                $this->inputValidators[] = $validator;
-            }
-
             $validator = $this->inputValidatorRepository->getAttributeValidator($this);
             if ($validator) {
                 $validator->setAttribute($this);
-                if ($validator->getCode()) {
-                    $this->inputValidators[$validator->getCode()] = $validator;
-                } else {
-                    $this->inputValidators[] = $validator;
-                }
+                $this->inputValidators[$validator->getCode()] = $validator;
             }
         }
+
         return $this->inputValidators;
     }
 
@@ -452,10 +441,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     }
 
     /**
-     * for now this function is only used to set NO value for boolean input by default for frontend widgets
-     * it was necessery when boolean input block was checkout, because in case when checkout was not selected value was null
-     * @TODO: probably this function will be use when we implement default values for EAV
-     * @return |null
+     * @return mixed
      */
     public function getDefaultValue()
     {
@@ -475,39 +461,48 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     }
 
     /**
-     * @return bool
-     */
-    public function getCanUseInputParams()
-    {
-        return true;
-    }
-
-    /**
      * @param array $inputParamsToSave
      * @return $this
      */
     protected function setInputParams($inputParamsToSave = [])
     {
-        if ($this->getCanUseInputParams()) {
-            $currentParams = $this->getAttributeExtraParam('input_params');
-            $inputParams = [];
-            $inputTypeConfig = $this->getFrontendInputTypeConfig();
-            $params = $inputTypeConfig->getInputParams();
-            if ($params) {
-                foreach ($params as $paramCode => $paramConfig) {
-                    if (isset($inputParamsToSave[$paramCode])) {
-                        $currentParams[$paramCode] = $inputParamsToSave[$paramCode];
-                    }
+        $currentParams = $this->getAttributeExtraParam('input_params');
+        $inputParams = [];
+        $params = $this->getInputParamsConfig();
+        if ($params) {
+            foreach ($params as $paramCode => $paramConfig) {
+                if (isset($inputParamsToSave[$paramCode])) {
+                    $currentParams[$paramCode] = $inputParamsToSave[$paramCode];
+                }
 
-                    if (isset($currentParams[$paramCode]) && $currentParams[$paramCode]) {
-                        $inputParams[$paramCode] = $currentParams[$paramCode];
-                    }
+                if (isset($currentParams[$paramCode]) && $currentParams[$paramCode]) {
+                    $inputParams[$paramCode] = $currentParams[$paramCode];
                 }
             }
-
-            $this->setAttributeExtraParam('input_params', $inputParams);
         }
+
+        $this->setAttributeExtraParam('input_params', $inputParams);
+
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInputParamsConfig()
+    {
+        if (is_null($this->inputParamsConfig)) {
+            $inputTypeConfig = $this->getFrontendInputTypeConfig();
+            $this->inputParamsConfig = $inputTypeConfig->getInputParams() ?? [];
+            $inputValidators = $this->getInputValidators();
+
+            foreach ($inputValidators as $validator) {
+                $validatorParams = $validator->getInputParams() ?? [];
+                $this->inputParamsConfig = array_merge($this->inputParamsConfig, $validatorParams);
+            }
+        }
+
+        return $this->inputParamsConfig;
     }
 
     /**
@@ -518,9 +513,12 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     {
         $currentParams = $this->getAttributeExtraParam('input_params');
         if (isset($currentParams[$paramCode])) {
-            return $currentParams[$paramCode];
-        } else {
-            return '';
+            $inputParamsConfig = $this->getInputParamsConfig();
+            if (isset($inputParamsConfig[$paramCode])) {
+                return $currentParams[$paramCode];
+            }
         }
+
+        return '';
     }
 }

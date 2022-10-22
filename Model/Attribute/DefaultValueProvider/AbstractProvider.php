@@ -5,6 +5,7 @@
  */
 namespace Alekseon\AlekseonEav\Model\Attribute\DefaultValueProvider;
 
+use Alekseon\AlekseonEav\Api\Data\AttributeInterface;
 use Alekseon\AlekseonEav\Model\Attribute;
 
 /**
@@ -21,15 +22,29 @@ abstract class AbstractProvider extends \Magento\Framework\DataObject
      * @var
      */
     protected $backendModelMode = '';
+    /**
+     * @var
+     */
+    protected $attribute;
+
+    /**
+     * @param AttributeInterface $attribute
+     * @return $this
+     */
+    public function setAttribute(AttributeInterface $attribute)
+    {
+        $this->attribute = $attribute;
+        return $this;
+    }
 
     /**
      * @param Attribute $attribute
      * @return bool
      */
-    public function canBeUsedForAttribute(Attribute $attribute)
+    public function canBeUsedForAttribute()
     {
         $applicatbleInputTypes =  $this->getApplicableFrontendInputs() ?? [];
-        if (!in_array($attribute->getFrontendInput(), $applicatbleInputTypes)) {
+        if (!in_array($this->attribute->getFrontendInput(), $applicatbleInputTypes)) {
            return false;
         }
 

@@ -196,8 +196,7 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
                 $this->getConnection()->insert($this->getAdditionalTable(), $data);
             }
         }
-
-        if ($object->getInputTypeModel()->canManageOptions()) {
+        if ($object->getInputTypeModel()->getSourceModel()) {
             $this->processAttributeOptions($object);
         }
         $this->processFrontendLabels($object);
@@ -220,24 +219,31 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
     {
         $default = $object->getDefault() ?: [];
         $optionsData = $object->getOption();
-        if (!is_array($optionsData)) {
-            return $this;
-        }
-        if (!isset($optionsData['value'])) {
-            return $this;
-        }
 
         $defaultValue = [];
-        foreach ($optionsData['value'] as $optionId => $values) {
-            $updatedOptionId = $this->updateAttributeOption($object, $optionId, $optionsData);
-            if ($updatedOptionId === false) {
-                continue;
+        if ($object->getData('default_value')) {   // it means there is default value provider and we set it as first default value
+            $defaultValue[] = $object->getData('default_value');
+        }
+
+        if (is_array($optionsData) && isset($optionsData['value'])) {
+            foreach ($optionsData['value'] as $optionId => $values) {
+                $updatedOptionId = $this->updateAttributeOption($object, $optionId, $optionsData);
+                if ($updatedOptionId === false) {
+                    continue;
+                }
+
+                $this->updateAttributeOptionValues($updatedOptionId, $values);
+
+                if (in_array($optionId, $default)) {
+                    $defaultValue[] = $updatedOptionId;
+                }
             }
-
-            $this->updateAttributeOptionValues($updatedOptionId, $values);
-
-            if (in_array($optionId, $default)) {
-                $defaultValue[] = $updatedOptionId;
+        } else {
+            $options = $object->getSourceModel()->getOptions();
+            foreach ($options as $optionId => $optionLabel) {
+                if (in_array($optionId, $default)) {
+                    $defaultValue[] = $optionId;
+                }
             }
         }
 
