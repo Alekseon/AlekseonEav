@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
-## [102.2.0] - 2022-10-22
+## [101.1.0] - 2022-10-22
 ### Added
 - attribute event code
 - multiple attibute backend models
