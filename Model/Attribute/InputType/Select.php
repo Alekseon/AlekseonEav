@@ -55,17 +55,6 @@ class Select extends AbstractInputType
     }
 
     /**
-     * @return bool
-     */
-    public function usesSource()
-    {
-        if (!$this->getSourceModel()) {
-            return false;
-        }
-        return parent::usesSource();
-    }
-
-    /**
      * @return bool|void
      */
     public function hasOptionCodes()
@@ -84,8 +73,17 @@ class Select extends AbstractInputType
     {
         if ($this->sourceModel === null) {
             if ($sourceModel = $this->getAttribute()->getData('source_model')) {
-                $this->sourceModel = $this->createObject($sourceModel);
-            } else {
+                try {
+                    $this->sourceModel = $this->createObject($sourceModel);
+                } catch (\Exception $e) {
+                    $this->logger->error(
+                        "AlekseonEav: unable to load for attribute '{$this->getAttribute()->getAttributeCode()}': "
+                        . $e->getMessage()
+                    );
+                }
+            }
+
+            if ($this->sourceModel === null) {
                 $this->hasOptionCodes = true;
                 $this->canManageOptions = true;
                 $this->sourceModel = $this->optionFactory->create();

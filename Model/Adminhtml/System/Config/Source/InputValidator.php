@@ -15,6 +15,10 @@ class InputValidator extends AbstractSource
      * @var \Alekseon\AlekseonEav\Model\InputValidatorRepository
      */
     protected $inputValidatorRepository;
+    /**
+     * @var
+     */
+    protected $inputTypeValidators;
 
     /**
      * InputValidator constructor.
@@ -33,13 +37,35 @@ class InputValidator extends AbstractSource
     public function getOptionArray(): array
     {
         if ($this->options === null) {
-            $this->options = [0 => __('None')];
-            $inputValidators = $this->inputValidatorRepository->getInputValidators();
-            foreach ($inputValidators as $inputValidator) {
-                $this->options[$inputValidator->getCode()] = __($inputValidator->getLabel());
+            $validators = $this->getValidatorsByInputType($this->attribute->getFrontendInput());
+            if (!empty($validators)) {
                 $this->hasOptions = true;
             }
+            $this->options = $validators;
         }
         return $this->options;
+    }
+
+    /**
+     * @param $inputType
+     */
+    public function getValidatorsByInputType($inputType)
+    {
+        $inputValidators = $this->inputValidatorRepository->getInputValidators();
+        if ($this->inputTypeValidators === null) {
+            foreach ($inputValidators as $validator) {
+                $applicapleFrontendInputs = $validator->getApplicableFrontendInputs();
+                foreach ($applicapleFrontendInputs as $frontendInput) {
+                    $this->inputTypeValidators[$frontendInput][$validator->getCode()] = __($validator->getLabel());
+                }
+            }
+        }
+
+        if (isset($this->inputTypeValidators[$inputType])) {
+            $validators = $this->inputTypeValidators[$inputType];
+            return array_merge([0 => __('None')], $validators);
+        }
+
+        return [];
     }
 }

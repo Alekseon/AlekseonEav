@@ -11,8 +11,6 @@ namespace Alekseon\AlekseonEav\Model\Attribute\InputValidator;
  */
 class Email extends AbstractValidator
 {
-    protected $code = 'email';
-
     /**
      * @return bool
      */

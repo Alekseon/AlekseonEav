@@ -51,7 +51,8 @@ class DefaultValueProviderRepository
                 $valueProvider = $valueProviderFactory->create();
                 $valueProvider->addData($data);
                 $valueProvider->setCode($code);
-                if ($valueProvider->canBeUsedForAttribute($attribute)) {
+                $valueProvider->setAttribute($attribute);
+                if ($valueProvider->canBeUsedForAttribute()) {
                     $this->defaultValueProvidersByCodes[$attributeKey][$code] = $valueProvider;
                 }
             }
@@ -70,7 +71,12 @@ class DefaultValueProviderRepository
         if (!isset($this->defaultValueProviderByAttribute[$attributeKey])) {
             $this->defaultValueProviderByAttribute[$attributeKey] = false;
             $defaultValueProviders = $this->getDefaultValueProviders($attribute);
-            $defaultValue = $attribute->getData('default_value');
+            $defaultValue = $attribute->getData('default_value') ?? '';
+
+            // if there is more default values, provider is always as first one
+            $defaultValue = explode(',', $defaultValue);
+            $defaultValue = $defaultValue[0] ?? '';
+
             $prefixLength = strlen(DefaultValueProvider::PROVIDER_OPTION_PREFIX);
             if (substr($defaultValue, 0, $prefixLength) == DefaultValueProvider::PROVIDER_OPTION_PREFIX) {
                 $providerCode = substr($defaultValue, $prefixLength);

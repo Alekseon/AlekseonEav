@@ -6,10 +6,10 @@
 namespace Alekseon\AlekseonEav\Model\Attribute\InputValidator;
 
 /**
- * Class Textarea
+ * Class MaxLength
  * @package Alekseon\AlekseonEav\Model\Attribute\InputValidator
  */
-class Textarea extends AbstractValidator
+class MaxLength extends AbstractValidator
 {
     /**
      * @param $value
@@ -17,7 +17,7 @@ class Textarea extends AbstractValidator
      */
     public function validateValue($value)
     {
-        $maxLength = $this->attribute->getInputParam('maxlength');
+        $maxLength = $this->attribute->getInputParam('maxLength');
         if ($maxLength && strlen($value) > $maxLength) {
             return false;
         }
@@ -29,7 +29,7 @@ class Textarea extends AbstractValidator
      */
     public function getValidationFieldClass()
     {
-        $maxLength = $this->attribute->getInputParam('maxlength');
+        $maxLength = $this->attribute->getInputParam('maxLength');
         if ($maxLength) {
             return 'validate-length maximum-length-' . $maxLength;
         }
@@ -42,7 +42,7 @@ class Textarea extends AbstractValidator
      */
     public function getDataValidateParams()
     {
-        $maxLength = $this->attribute->getInputParam('maxlength');
+        $maxLength = $this->attribute->getInputParam('maxLength');
         if ($maxLength) {
             return [
                 'validate-length' => true,

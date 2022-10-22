@@ -76,7 +76,7 @@ class Options extends \Magento\Backend\Block\Template
             $optionValues = $sourceModel->getAllOptions();
         }
         if (is_array($optionValues)) {
-            $defaultValues = $attribute->getDefaultValue();
+            $defaultValues = explode(',', $attribute->getData('default_value'));
 
             foreach ($optionValues as $value) {
                 $id = isset($value['id']) ? $value['id'] : $value['value'];
@@ -86,7 +86,7 @@ class Options extends \Magento\Backend\Block\Template
                    'store0' => $value['label'],
                 ];
 
-                if ($defaultValues && in_array($id, $defaultValues)) {
+                if (is_array($defaultValues) && in_array($id, $defaultValues)) {
                     $option['checked'] = 'checked';
                 }
 
