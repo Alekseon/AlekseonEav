@@ -316,7 +316,7 @@ class General extends Generic
     {
         $values = $this->getAttributeObject()->getData();
 
-        $defaultValues = explode(',', $this->getAttributeObject()->getData('default_value'));
+        $defaultValues = explode(',', $this->getAttributeObject()->getData('default_value') ?? '');
         // if default value provider is set then its always as first element for atribute select types
         if (isset($defaultValues[0])) {
             $values['default_value'] = $defaultValues[0];
