@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [Unreleased]
+### Fixed
+- fix image uploders in admin panel
+### Added
+- caching resized images
+
 ## [101.1.3] - 2022-11-03
 ### Fixed
 - getInputValidator method for backward compatibility

@@ -9,7 +9,6 @@ use \Alekseon\AlekseonEav\Api\Data\AttributeInterface;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\Scopes;
 use Alekseon\AlekseonEav\Model\Attribute\Backend\AbstractBackend;
 use Alekseon\AlekseonEav\Model\Attribute\InputType\AbstractInputType;
-use Alekseon\AlekseonEav\Model\Attribute\InputValidator\AbstractValidator;
 
 /**
  * Class Attribute
@@ -214,7 +213,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     public function addBackendModel(string $backendModelCode, $backendModel)
     {
         if (!isset($this->assignedBackendModelCodes[$backendModelCode])) {
-            $this->assignedBackendModelCodes[] = $backendModelCode;
+            $this->assignedBackendModelCodes[$backendModelCode] = $backendModelCode;
             if ($backendModel instanceof AbstractBackend) {
                 $backendModel->setAttribute($this);
                 $this->backendModels[] = $backendModel;
@@ -291,18 +290,19 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         $attributeCode = $this->getAttributeCode();
         $oldValue = $object->getOrigData($attributeCode);
         $newValue = $object->getData($attributeCode);
-        $result = false;
 
         if ($object->hasData($attributeCode) && ($newValue !== $oldValue || $newValue === null)) {
-            $result = true;
+            return true;
         }
 
-        $backendModel = $this->getBackendModel();
-        if ($backendModel) {
-            $result = $backendModel->isAttributeValueUpdated($object, $result);
+        $backendModels = $this->getBackendModels();
+        foreach ($backendModels as $backendModel) {
+            if ($backendModel->isAttributeValueUpdated($object)) {
+                return true;
+            }
         }
 
-        return $result;
+        return false;
     }
 
     /**
@@ -393,25 +393,6 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     }
 
     /**
-     * @param $validator
-     */
-    public function addInputValidator(AbstractValidator $validator)
-    {
-        $this->getInputValidators();
-        $this->inputValidators[$validator->getCode()] =  $validator;
-        return $this;
-    }
-
-    /**
-     * @return false|mixed
-     */
-    public function getInputValidator()
-    {
-        $validator = $this->inputValidatorRepository->getAttributeValidator($this);
-        return $validator;
-    }
-
-    /**
      * @return mixed
      */
     public function getInputValidators()
@@ -419,8 +400,9 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         if ($this->inputValidators == null) {
             $this->inputValidators = [];
 
-            $validator = $this->getInputValidator();
+            $validator = $this->inputValidatorRepository->getAttributeValidator($this);
             if ($validator) {
+                $validator->setAttribute($this);
                 $this->inputValidators[$validator->getCode()] = $validator;
             }
         }

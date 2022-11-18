@@ -16,19 +16,26 @@ class Image extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     private $storeManager;
+    /**
+     * @var \Alekseon\AlekseonEav\Helper\Image
+     */
+    protected $imageHelper;
 
     /**
      * Image constructor.
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Alekseon\AlekseonEav\Helper\Image $imageHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Alekseon\AlekseonEav\Helper\Image $imageHelper,
         array $data = []
     ) {
         $this->storeManager = $storeManager;
+        $this->imageHelper = $imageHelper;
         parent::__construct($context, $data);
     }
 
@@ -42,13 +49,10 @@ class Image extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
             return null;
         }
 
-        $mediaUrl = $this->storeManager->getStore($row->getStoreId())
-            ->getBaseUrl(
-                \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
-            );
-
-        $imagePath = $mediaUrl .  $row->getData($this->getColumn()->getIndex());
-
-        return '<img width="100" height="100" src="' . $imagePath . '"/>';
+        $this->imageHelper->init($row, $this->getColumn()->getIndex());
+        $this->imageHelper->setWidth(100);
+        $this->imageHelper->setHeight(100);
+        $url =  $this->imageHelper->getUrl();
+        return '<img src="' . $url . '"/>';
     }
 }
