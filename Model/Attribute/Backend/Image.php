@@ -181,7 +181,7 @@ class Image extends AbstractBackend
      * @param $object
      * @return bool
      */
-    public function isAttributeValueUpdated($object, $isAttributeVAlueUpdated)
+    public function isAttributeValueUpdated($object)
     {
         $attrCode = $this->getAttribute()->getAttributeCode();
         if (isset($_FILES[$attrCode])) {

@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.1.4] - 2022-11-19
+### Fixed
+- fix image uploders in admin panel
+- fix for removing images when record entity is removing
+### Added
+- caching resized images
+
 ## [101.1.3] - 2022-11-03
 ### Fixed
 - getInputValidator method for backward compatibility

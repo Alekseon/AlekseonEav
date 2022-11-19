@@ -82,8 +82,8 @@ abstract class AbstractBackend
     /**
      * @param $object
      */
-    public function isAttributeValueUpdated($object, $isAttributeVAlueUpdated)
+    public function isAttributeValueUpdated($object)
     {
-        return $isAttributeVAlueUpdated;
+        return false;
     }
 }

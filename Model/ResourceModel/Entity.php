@@ -475,6 +475,23 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
 
     /**
      * @param \Magento\Framework\Model\AbstractModel $object
+     * @return Entity
+     */
+    protected function _beforeDelete(\Magento\Framework\Model\AbstractModel $object)
+    {
+        $this->loadAllAttributes();
+        $attributes = $this->getAllLoadedAttributes();
+        foreach ($attributes as $attribute) {
+            $backendModels = $attribute->getBackendModels();
+            foreach ($backendModels as $backendModel) {
+                $backendModel->beforeDelete($object);
+            }
+        }
+        return parent::_beforeDelete($object);
+    }
+
+    /**
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
     protected function _afterDelete(\Magento\Framework\Model\AbstractModel $object) // @codingStandardsIgnoreLine
@@ -484,16 +501,11 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
         }
 
         $connection = $this->getConnection();
-        $this->loadAllAttributes();
         $attributes = $this->getAllLoadedAttributes();
 
         $tableAttributes = [];
         foreach ($attributes as $attribute) {
             $tableAttributes[$attribute->getBackendTable()][] = $attribute->getId();
-            $backendModels = $attribute->getBackendModels();
-            foreach ($backendModels as $backendModel) {
-                $backendModel->beforeDelete($object);
-            }
         }
 
         foreach ($tableAttributes as $table => $attributeIds) {

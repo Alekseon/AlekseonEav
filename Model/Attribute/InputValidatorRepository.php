@@ -56,10 +56,13 @@ class InputValidatorRepository
         $inputValidator = $attribute->getData('input_validator');
         if (isset($validators[$inputValidator])) {
             $validator = $validators[$inputValidator];
-            $validatorModel = $validator->getFactory()->create();
-            $validatorModel->setData($validator->getData());
-            $validatorModel->setAttribute($attribute);
-            return $validatorModel;
+            if (!$validator->getModel()) {
+                $model = $validator->getFactory()->create();
+                $model->setData($validator->getData());
+                $model->setAttribute($attribute);
+                return $model;
+            }
+
         }
 
         return false;
