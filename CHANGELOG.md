@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Fixed
 - fix image uploders in admin panel
+- fix for removing images when record entity is removing
 ### Added
 - caching resized images
 
