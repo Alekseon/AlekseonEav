@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [Unreleased]
+### Changed
+- use image helper in uploader to resize image
+
 ## [101.1.4] - 2022-11-19
 ### Fixed
 - fix image uploders in admin panel
