@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Changed
 - use image helper in uploader to resize image
+- fix for saving default value from admin and for backend is required validation
 
 ## [101.1.4] - 2022-11-19
 ### Fixed

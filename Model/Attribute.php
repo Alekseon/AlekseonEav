@@ -291,6 +291,10 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         $oldValue = $object->getOrigData($attributeCode);
         $newValue = $object->getData($attributeCode);
 
+        if ($object->isObjectNew()) {
+            return true;
+        }
+
         if ($object->hasData($attributeCode) && ($newValue !== $oldValue || $newValue === null)) {
             return true;
         }
