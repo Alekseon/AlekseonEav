@@ -78,6 +78,7 @@ class Js extends \Magento\Backend\Block\Template
             ];
         }
 
+        $jsConfig['boolean']['optionInputType'] = 'radio';
         $jsConfig['select']['optionInputType'] = 'radio';
         $jsConfig['multiselect']['optionInputType'] = 'checkbox';
 
