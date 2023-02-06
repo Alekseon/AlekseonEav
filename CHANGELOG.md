@@ -10,11 +10,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 ## [Unreleased]
-### Changed
+### Added
 - use image helper in uploader to resize image
-- fix for saving default value from admin and for backend is required validation
 ### Fixed
-- fix radio buttons on Manage Options on boolean attribute
+- saving default value from admin and for backend is required validation
+- radio buttons on Manage Options on boolean attribute
 
 ## [101.1.4] - 2022-11-19
 ### Fixed
