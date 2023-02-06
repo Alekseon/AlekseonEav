@@ -12,9 +12,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - use image helper in uploader to resize image
+### Changed
+- boolean field is always required
 ### Fixed
 - saving default value from admin and for backend is required validation
 - radio buttons on Manage Options on boolean attribute
+- default value for boolean field
 
 ## [101.1.4] - 2022-11-19
 ### Fixed

@@ -262,4 +262,12 @@ abstract class AbstractInputType
     {
         return $this->getAttribute()->getData('default_value');
     }
+
+    /**
+     * @return false
+     */
+    public function isRequred()
+    {
+        return false;
+    }
 }

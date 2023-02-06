@@ -526,4 +526,15 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
 
         return '';
     }
+
+    /**
+     * @return array|mixed|null
+     */
+    public function getIsRequired()
+    {
+        if ($this->getInputTypeModel()->isRequred()) {
+            return true;
+        }
+        return $this->getData('is_required');
+    }
 }

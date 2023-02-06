@@ -41,10 +41,21 @@ class Boolean extends Select
     }
 
     /**
-     * @return int|null
+     * @return false
      */
-    public function getDefaultValue()
+    public function hasEmptyOption()
     {
-        return \Alekseon\AlekseonEav\Model\Attribute\Source\Boolean::VALUE_NO;
+        if ($this->getDefaultValue() !== false) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @return true
+     */
+    public function isRequred()
+    {
+        return true;
     }
 }
