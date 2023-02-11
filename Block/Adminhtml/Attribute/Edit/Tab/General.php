@@ -188,16 +188,18 @@ class General extends Generic
             ]
         );
 
-        $baseFieldset->addField(
-            'is_required',
-            'select',
-            [
-                'name' => 'is_required',
-                'label' => __('Is Required'),
-                'title' => __('Is Required'),
-                'values' => $this->yesNoSource->toOptionArray()
-            ]
-        );
+        if ($attributeObject->getInputTypeModel()->canBeRequired()) {
+            $baseFieldset->addField(
+                'is_required',
+                'select',
+                [
+                    'name' => 'is_required',
+                    'label' => __('Is Required'),
+                    'title' => __('Is Required'),
+                    'values' => $this->yesNoSource->toOptionArray()
+                ]
+            );
+        }
 
         $baseFieldset->addField(
             'visible_in_grid',

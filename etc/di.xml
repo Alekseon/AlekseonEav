@@ -47,6 +47,10 @@
                     <item name="label" xsi:type="string">Image</item>
                     <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputType\ImageFactory</item>
                 </item>
+                <item name="rating" xsi:type="array">
+                    <item name="label" xsi:type="string">Rating</item>
+                    <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\InputType\RatingFactory</item>
+                </item>
             </argument>
         </arguments>
     </type>

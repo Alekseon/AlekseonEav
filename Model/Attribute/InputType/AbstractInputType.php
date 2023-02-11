@@ -5,14 +5,16 @@
  */
 namespace Alekseon\AlekseonEav\Model\Attribute\InputType;
 
+use Alekseon\AlekseonEav\Model\Attribute;
 use Magento\Framework\App\ObjectManager;
+use Magento\Framework\DataObject;
 use Psr\Log\LoggerInterface;
 
 /**
  * Class AbstractBackendType
  * @package Alekseon\AlekseonEav\Model\Attribute\BackendType
  */
-abstract class AbstractInputType
+abstract class AbstractInputType extends DataObject
 {
     /**
      * @var string
@@ -94,6 +96,9 @@ abstract class AbstractInputType
         return $this;
     }
 
+    /**
+     * @return Attribute
+     */
     public function getAttribute()
     {
         return $this->attribute;
@@ -269,5 +274,13 @@ abstract class AbstractInputType
     public function isRequred()
     {
         return false;
+    }
+
+    /**
+     * @return true
+     */
+    public function canBeRequired()
+    {
+        return true;
     }
 }

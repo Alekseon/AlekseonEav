@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - use image helper in uploader to resize image
+- rating input type (stars)
 ### Changed
 - boolean field is always required
 ### Fixed
