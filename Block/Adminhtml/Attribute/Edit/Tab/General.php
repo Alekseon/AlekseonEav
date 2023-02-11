@@ -188,7 +188,7 @@ class General extends Generic
             ]
         );
 
-        if ($attributeObject->getInputTypeModel()->canBeRequired()) {
+        if ($attributeObject->getIsRequiredEditable()) {
             $baseFieldset->addField(
                 'is_required',
                 'select',

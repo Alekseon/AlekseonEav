@@ -537,4 +537,13 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         }
         return $this->getData('is_required');
     }
+
+    /**
+     * @return void
+     * it says if "is require" option is editable
+     */
+    public function getIsRequiredEditable()
+    {
+        return $this->getInputTypeModel()->isRequiredEditable();
+    }
 }

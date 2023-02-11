@@ -279,7 +279,7 @@ abstract class AbstractInputType extends DataObject
     /**
      * @return true
      */
-    public function canBeRequired()
+    public function isRequiredEditable()
     {
         return true;
     }

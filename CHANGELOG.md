@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - saving default value from admin and for backend is required validation
 - radio buttons on Manage Options on boolean attribute
 - default value for boolean field
+- added empty option on "select" grid filter 
 
 ## [101.1.4] - 2022-11-19
 ### Fixed

@@ -13,11 +13,8 @@ namespace Alekseon\AlekseonEav\Model\Attribute\InputType;
 class Rating extends AbstractInputType
 {
     protected $defaultBackendType = 'int';
-
     protected $inputFieldType = 'note';
-
-    protected $canDisplayInGrid = false;
-
+    protected $gridColumnType = 'options';
     protected $backendModel = 'Alekseon\AlekseonEav\Model\Attribute\Backend\Rating';
 
     /**
@@ -37,9 +34,26 @@ class Rating extends AbstractInputType
     }
 
     /**
+     * @param $columnConfig
+     * @return $this|Rating
+     */
+    public function prepareGridColumnConfig(&$columnConfig)
+    {
+        $options = [];
+        $label = '&#9733;';
+        for ($i = 1; $i <= 5; $i ++) {
+            $options[$i] = $label;
+            $label .= '&#9733;';
+        }
+        $columnConfig['renderer'] = \Alekseon\AlekseonEav\Block\Adminhtml\Entity\Grid\Renderer\Rating::class;
+        $columnConfig['options'] = $options;
+        return $this;
+    }
+
+    /**
      * @return false
      */
-    public function canBeRequired()
+    public function isRequiredEditable()
     {
         return false;
     }
