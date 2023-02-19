@@ -45,10 +45,7 @@ class Boolean extends Select
      */
     public function hasEmptyOption()
     {
-        if ($this->getDefaultValue() !== false) {
-            return false;
-        }
-        return true;
+        return false;
     }
 
     /**
