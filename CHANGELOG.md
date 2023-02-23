@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.1.5] - 2023-02-23
+### Fixed
+- fix for error during setup:upgrade on magento 2.4.1
+
 ## [101.1.4] - 2022-11-19
 ### Fixed
 - fix image uploders in admin panel
