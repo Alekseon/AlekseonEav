@@ -238,7 +238,7 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
                     $defaultValue[] = $updatedOptionId;
                 }
             }
-        } else {
+        } elseif ($default) {
             $options = $object->getSourceModel()->getOptions();
             foreach ($options as $optionId => $optionLabel) {
                 if (in_array($optionId, $default)) {
