@@ -498,7 +498,11 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     {
         if (is_null($this->inputParamsConfig)) {
             $inputTypeConfig = $this->getFrontendInputTypeConfig();
-            $this->inputParamsConfig = $inputTypeConfig->getInputParams() ?? [];
+            if ($inputTypeConfig) {
+                $this->inputParamsConfig = $inputTypeConfig->getInputParams() ?? [];
+            } else {
+                $this->inputParamsConfig = [];
+            }
             $inputValidators = $this->getInputValidators();
 
             foreach ($inputValidators as $validator) {
