@@ -10,12 +10,40 @@ namespace Alekseon\AlekseonEav\Model\Attribute\InputType;
  * Class AbstractBackendType
  * @package Alekseon\AlekseonEav\Model\Attribute\BackendType
  */
-class Rating extends AbstractInputType
+class Rating extends Select
 {
     protected $defaultBackendType = 'int';
     protected $inputFieldType = 'note';
     protected $gridColumnType = 'options';
     protected $backendModel = 'Alekseon\AlekseonEav\Model\Attribute\Backend\Rating';
+
+    /**
+     * @var \Alekseon\AlekseonEav\Model\Attribute\Source\Rating
+     */
+    protected $ratingSource;
+
+    /**
+     * Boolean constructor.
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Alekseon\AlekseonEav\Model\Attribute\Source\OptionFactory $optionFactory
+     * @param \Alekseon\AlekseonEav\Model\Attribute\Source\Rating $ratingSource
+     */
+    public function __construct(
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        \Alekseon\AlekseonEav\Model\Attribute\Source\OptionFactory $optionFactory,
+        \Alekseon\AlekseonEav\Model\Attribute\Source\Rating $ratingSource
+    ) {
+        $this->ratingSource = $ratingSource;
+        parent::__construct($universalFactory, $optionFactory);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getSourceModel()
+    {
+        return $this->ratingSource;
+    }
 
     /**
      * @param $fieldConfig
@@ -39,14 +67,8 @@ class Rating extends AbstractInputType
      */
     public function prepareGridColumnConfig(&$columnConfig)
     {
-        $options = [];
-        $label = '&#9733;';
-        for ($i = 1; $i <= 5; $i ++) {
-            $options[$i] = $label;
-            $label .= '&#9733;';
-        }
         $columnConfig['renderer'] = \Alekseon\AlekseonEav\Block\Adminhtml\Entity\Grid\Renderer\Rating::class;
-        $columnConfig['options'] = $options;
+        $columnConfig['options'] = $this->getSourceModel()->getOptionArray();
         return $this;
     }
 

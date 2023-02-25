@@ -15,7 +15,7 @@ class Boolean extends Select
     /**
      * @var \Alekseon\AlekseonEav\Model\Attribute\Source\Boolean
      */
-    private $yesNoSource;
+    protected $yesNoSource;
 
     /**
      * Boolean constructor.
