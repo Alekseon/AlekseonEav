@@ -18,7 +18,7 @@ class Multiselect extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abs
      */
     public function render(\Magento\Framework\DataObject $row)
     {
-        $data = $row->getData($this->getColumn()->getIndex());
+        $data = (string) $row->getData($this->getColumn()->getIndex());
         $attribute = $row->getAttribute($this->getColumn()->getIndex());
         $oprtonsSource = $attribute->getSourceModel();
         $options = $oprtonsSource->getOptions();
