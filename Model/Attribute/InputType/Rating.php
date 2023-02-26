@@ -13,8 +13,17 @@ namespace Alekseon\AlekseonEav\Model\Attribute\InputType;
 class Rating extends Select
 {
     protected $defaultBackendType = 'int';
+    /**
+     * @var string
+     */
     protected $inputFieldType = 'note';
+    /**
+     * @var string
+     */
     protected $gridColumnType = 'options';
+    /**
+     * @var string
+     */
     protected $backendModel = 'Alekseon\AlekseonEav\Model\Attribute\Backend\Rating';
 
     /**
@@ -58,6 +67,7 @@ class Rating extends Select
             ->createBlock(\Alekseon\AlekseonEav\Block\Adminhtml\Entity\Edit\Form\Renderer\Rating::class)
             ->setInputName($attributeCode)
             ->setInputValue($value)
+            ->setIsRequired($fieldConfig['required'] ?? false)
             ->toHtml();
     }
 
@@ -70,13 +80,5 @@ class Rating extends Select
         $columnConfig['renderer'] = \Alekseon\AlekseonEav\Block\Adminhtml\Entity\Grid\Renderer\Rating::class;
         $columnConfig['options'] = $this->getSourceModel()->getOptionArray();
         return $this;
-    }
-
-    /**
-     * @return false
-     */
-    public function isRequiredEditable()
-    {
-        return false;
     }
 }

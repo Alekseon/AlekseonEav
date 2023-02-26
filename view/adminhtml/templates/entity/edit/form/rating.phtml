@@ -9,6 +9,7 @@
         <div class="admin__field-control" data-widget="ratingControl">
             <?php for ($i = 5; $i > 0; $i--): ?>
                 <input type="radio"
+                       class="<?php if ($block->getIsRequired()): ?>required-entry<?php endif ?>"
                        name="<?= $block->getInputName() ?>"
                        id="rating_<?= $i ?>"
                        value="<?= $i ?>"
