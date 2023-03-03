@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 ## [Unreleased]
+
+## [101.1.7] - 2023-03-03
 ### Added
 - use image helper in uploader to resize image
 - rating input type (stars)

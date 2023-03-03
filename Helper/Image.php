@@ -62,7 +62,7 @@ class Image
     /**
      *
      */
-    public function init(Entity $entity, $attributrCode)
+    public function init(Entity $entity, $attributeCode)
     {
         $mediaDir = $this->directoryList->getPath('media');
         $imagePath = $mediaDir . DIRECTORY_SEPARATOR . $entity->getData($attributeCode);
