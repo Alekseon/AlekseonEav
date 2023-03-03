@@ -15,7 +15,7 @@ class Boolean extends Select
     /**
      * @var \Alekseon\AlekseonEav\Model\Attribute\Source\Boolean
      */
-    private $yesNoSource;
+    protected $yesNoSource;
 
     /**
      * Boolean constructor.
@@ -41,10 +41,18 @@ class Boolean extends Select
     }
 
     /**
-     * @return int|null
+     * @return false
      */
-    public function getDefaultValue()
+    public function hasEmptyOption()
     {
-        return \Alekseon\AlekseonEav\Model\Attribute\Source\Boolean::VALUE_NO;
+        return false;
+    }
+
+    /**
+     * @return true
+     */
+    public function isRequred()
+    {
+        return true;
     }
 }

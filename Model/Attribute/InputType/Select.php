@@ -100,8 +100,11 @@ class Select extends AbstractInputType
     public function prepareFormFieldConfig(&$fieldConfig)
     {
         if ($this->usesSource()) {
-            $fieldConfig['options'] = $this->getSourceModel()->getOptionArray();
-            $fieldConfig['options'] = ['' => __('Not Selected')] + $this->getSourceModel()->getOptionArray();
+            $fieldConfig['options'] = [];
+            if ($this->hasEmptyOption()) {
+                $fieldConfig['options'] = ['' => __('Not Selected')];
+            }
+            $fieldConfig['options'] += $this->getSourceModel()->getOptionArray();
         }
         return $this;
     }
@@ -151,11 +154,19 @@ class Select extends AbstractInputType
      */
     public function getDefaultValue()
     {
-        $defaultValue = parent::getDefaultValue();
-        if ($defaultValue) {
+        $defaultValue = (string) parent::getDefaultValue();
+        if ($defaultValue !== '') {
             return explode(',', $defaultValue);
         }
 
         return false;
+    }
+
+    /**
+     * @return true
+     */
+    public function hasEmptyOption()
+    {
+        return true;
     }
 }

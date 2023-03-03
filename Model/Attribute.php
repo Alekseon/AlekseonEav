@@ -291,6 +291,10 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         $oldValue = $object->getOrigData($attributeCode);
         $newValue = $object->getData($attributeCode);
 
+        if ($object->isObjectNew()) {
+            return true;
+        }
+
         if ($object->hasData($attributeCode) && ($newValue !== $oldValue || $newValue === null)) {
             return true;
         }
@@ -525,5 +529,25 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         }
 
         return '';
+    }
+
+    /**
+     * @return array|mixed|null
+     */
+    public function getIsRequired()
+    {
+        if ($this->getInputTypeModel()->isRequred()) {
+            return true;
+        }
+        return $this->getData('is_required');
+    }
+
+    /**
+     * @return void
+     * it says if "is require" option is editable
+     */
+    public function getIsRequiredEditable()
+    {
+        return $this->getInputTypeModel()->isRequiredEditable();
     }
 }

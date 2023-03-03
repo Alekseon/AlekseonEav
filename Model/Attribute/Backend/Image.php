@@ -34,28 +34,30 @@ class Image extends AbstractBackend
      */
     protected $urlInterface;
     /**
-     * @var \Magento\Framework\Image\AdapterFactory
+     * @var \Alekseon\AlekseonEav\Helper\Image
      */
-    protected $imageFactory;
+    protected $imageHelper;
 
     /**
      * Image constructor.
      * @param \Magento\Framework\Image\AdapterFactory $imageAdapterFactory
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\MediaStorage\Model\File\UploaderFactory $uploaderFactory
+     * @param \Magento\Framework\UrlInterface $urlInterface
+     * @param \Alekseon\AlekseonEav\Helper\Image $imageHelper
      */
     public function __construct(
         \Magento\Framework\Image\AdapterFactory $imageAdapterFactory,
         \Magento\Framework\Filesystem $filesystem,
         \Magento\MediaStorage\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Framework\UrlInterface $urlInterface,
-        \Magento\Framework\Image\AdapterFactory $imageFactory
+        \Alekseon\AlekseonEav\Helper\Image $imageHelper
     ) {
         $this->imageAdapterFactory = $imageAdapterFactory;
         $this->filesystem = $filesystem;
         $this->uploaderFactory = $uploaderFactory;
         $this->urlInterface = $urlInterface;
-        $this->imageFactory = $imageFactory;
+        $this->imageHelper = $imageHelper;
     }
 
     /**
@@ -93,7 +95,9 @@ class Image extends AbstractBackend
             $uploader->setFilesDispersion(true);;
             $fielName = $object->getResource()->getNameForUploadedFile($object, $this->getAttribute(), $_FILES[$attrCode]['name']);
 
-            $this->resizeImage($_FILES[$attrCode]['tmp_name']);
+            $this->imageHelper->setImagePath($_FILES[$attrCode]['tmp_name']);
+            $this->imageHelper->resize(false, true);
+            $this->imageHelper->getImage()->save();
             $result = $uploader->save($this->getImagesDirPath() . $imagesDirName, $fielName);
 
             $attrCode = $this->getAttribute()->getAttributeCode();
@@ -109,27 +113,6 @@ class Image extends AbstractBackend
         }
 
         return parent::beforeSave($object);
-    }
-
-    /**
-     * @param $imageName
-     * @param $maxWidth
-     * @param $maxHeight
-     * @throws \Exception
-     */
-    protected function resizeImage($imageName, $maxWidth = null, $maxHeight = null)
-    {
-        $image = $this->imageFactory->create();
-        $image->open($imageName);
-        $image->keepAspectRatio(true);
-        $originalWidth = $image->getOriginalWidth();
-        $orignalHeight = $image->getOriginalHeight();
-
-        $width = $maxWidth ? min($originalWidth, $maxWidth) : $originalWidth;
-        $height = $maxHeight ? min($orignalHeight, $maxHeight) : $orignalHeight;
-
-        $image->resize($width, $height);
-        $image->save($imageName);
     }
 
     /**

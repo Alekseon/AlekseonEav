@@ -70,6 +70,7 @@ abstract class Form extends Generic
     public function addAttributeField($formFieldset, AttributeInterface $attribute)
     {
         $inputTypeModel = $attribute->getInputTypeModel();
+        $inputTypeModel->setForm($this);
         $fieldType = $inputTypeModel->getInputFieldType();
 
         $fieldConfig = [

@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [Unreleased]
+
+## [101.1.7] - 2023-03-03
+### Added
+- use image helper in uploader to resize image
+- rating input type (stars)
+### Changed
+- boolean field is always required
+### Fixed
+- fix saving default value
+- radio buttons on Manage Options on boolean attribute
+- default value for boolean field
+- added empty option on "select" grid filter 
+
 ## [101.1.6] - 2023-02-27
 ### Fixed
 - fix for backward compatibility

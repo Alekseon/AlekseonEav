@@ -20,7 +20,7 @@ class ArrayBackend extends AbstractBackend
         $attrCode = $this->getAttribute()->getAttributeCode();
         $value = $object->getData($attrCode);
         if (is_array($value)) {
-            $object->setData($attrCode, implode(',', $value));
+            $object->setData($attrCode, implode(',', (string) $value));
         }
         return parent::beforeSave($object);
     }
@@ -34,7 +34,7 @@ class ArrayBackend extends AbstractBackend
         $attrCode = $this->getAttribute()->getAttributeCode();
         $value = $object->getData($attrCode);
         if (!is_array($value)) {
-            $object->setData($attrCode, explode(',', $value));
+            $object->setData($attrCode, explode(',', (string) $value));
         }
         return parent::afterLoad($object);
     }

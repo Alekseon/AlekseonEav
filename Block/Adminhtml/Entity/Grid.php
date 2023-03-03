@@ -104,6 +104,10 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         ];
 
         $inputTypeModel->prepareGridColumnConfig($columnConfig);
+        if (isset($columnConfig['options'])) {
+            $optionNone = ['' => ' '];
+            $columnConfig['options'] = $optionNone + $columnConfig['options'];
+        }
 
         $this->attributesToAddToCollection[] = $attribute->getAttributeCode();
         $this->addColumn(

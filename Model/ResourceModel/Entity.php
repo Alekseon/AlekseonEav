@@ -183,7 +183,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     {
         $attributes = $this->getAllLoadedAttributes();
         foreach ($attributes as $attribute) {
-            if ($attribute->getDefaultValue()) {
+            if ($attribute->getDefaultValue() !== null) {
                 $object->setData($attribute->getAttributeCode(), $attribute->getDefaultValue());
                 $backendModels = $attribute->getBackendModels();
                 foreach ($backendModels as $backendModel) {

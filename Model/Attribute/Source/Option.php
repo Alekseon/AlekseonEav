@@ -32,7 +32,7 @@ class Option extends AbstractSource
     public function getOptions()
     {
         $storeId = $this->getStoreId();
-        
+
         $attributeOptionValues = $this->getAttribute()
             ->getResource()
             ->getAttributeOptionValues($this->getAttribute());

@@ -1,0 +1,36 @@
+<?php
+/**
+ * Copyright © Alekseon sp. z o.o.
+ * http://www.alekseon.com/
+ */
+?>
+<div class="admin__field admin__field-rating field-detailed-rating">
+    <div class="admin__field-rating">
+        <div class="admin__field-control" data-widget="ratingControl">
+            <?php for ($i = 5; $i > 0; $i--): ?>
+                <input type="radio"
+                       class="<?php if ($block->getIsRequired()): ?>required-entry<?php endif ?>"
+                       name="<?= $block->getInputName() ?>"
+                       id="rating_<?= $i ?>"
+                       value="<?= $i ?>"
+                       <?php if ($block->getInputValue() == $i): ?>checked="checked"<?php endif; ?> />
+                <label for="rating_<?= $i ?>">&#9733;</label>
+            <?php endfor; ?>
+        </div>
+    </div>
+</div>
+<?php $scriptString = <<<script
+
+require([
+    "jquery",
+    "mage/mage",
+    "Magento_Review/js/rating"
+], function($){
+    "use strict";
+
+    $('[data-widget=ratingControl]').ratingControl();
+});
+
+script;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
