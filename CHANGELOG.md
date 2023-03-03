@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - boolean field is always required
 ### Fixed
-- saving default value from admin and for backend is required validation
+- fix saving default value
 - radio buttons on Manage Options on boolean attribute
 - default value for boolean field
 - added empty option on "select" grid filter 
