@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [101.1.9] - 2023-03-04
+### Added
+- hasCustomOptionSource method used in custom forms builder
+
 ## [101.1.8] - 2023-03-04
 ### Fixed
 - fixed array to string conversion error

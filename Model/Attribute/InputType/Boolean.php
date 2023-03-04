@@ -55,4 +55,12 @@ class Boolean extends Select
     {
         return true;
     }
+
+    /**
+     * @return false
+     */
+    public function hasCustomOptionSource()
+    {
+        return false;
+    }
 }

@@ -81,4 +81,12 @@ class Rating extends Select
         $columnConfig['options'] = $this->getSourceModel()->getOptionArray();
         return $this;
     }
+
+    /**
+     * @return false
+     */
+    public function hasCustomOptionSource()
+    {
+        return false;
+    }
 }

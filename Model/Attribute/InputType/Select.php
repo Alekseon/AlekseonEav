@@ -169,4 +169,12 @@ class Select extends AbstractInputType
     {
         return true;
     }
+
+    /**
+     * @return true
+     */
+    public function hasCustomOptionSource()
+    {
+        return true;
+    }
 }
