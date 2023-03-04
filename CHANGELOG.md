@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [101.1.8] - 2023-03-04
+### Fixed
+- fixed array to string conversion error
+
 ## [101.1.7] - 2023-03-03
 ### Added
 - use image helper in uploader to resize image
