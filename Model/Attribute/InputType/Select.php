@@ -40,6 +40,10 @@ class Select extends AbstractInputType
      * @var bool
      */
     protected $usesSource = true;
+    /**
+     * @var string
+     */
+    protected $validator = 'Alekseon\AlekseonEav\Model\Attribute\InputValidator\Select';
 
     /**
      * Select constructor.

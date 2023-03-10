@@ -63,7 +63,7 @@ class DefaultValueProviderRepository
 
     /**
      * @param Attribute $attribute
-     * @return Attribute\DefaultValueProvider\AbstractProvider
+     * @return Attribute\DefaultValueProvider\AbstractProvider | false
      */
     public function getAttributeDefaultValueProvider(Attribute $attribute)
     {
@@ -71,11 +71,12 @@ class DefaultValueProviderRepository
         if (!isset($this->defaultValueProviderByAttribute[$attributeKey])) {
             $this->defaultValueProviderByAttribute[$attributeKey] = false;
             $defaultValueProviders = $this->getDefaultValueProviders($attribute);
-            $defaultValue = $attribute->getData('default_value') ?? '';
+            $defaultValue = $attribute->getDefaultValue() ?? '';
 
             // if there is more default values, provider is always as first one
-            $defaultValue = explode(',', $defaultValue);
-            $defaultValue = $defaultValue[0] ?? '';
+            if (is_array($defaultValue)) {
+                $defaultValue = $defaultValue[0] ?? '';
+            }
 
             $prefixLength = strlen(DefaultValueProvider::PROVIDER_OPTION_PREFIX);
             if (substr($defaultValue, 0, $prefixLength) == DefaultValueProvider::PROVIDER_OPTION_PREFIX) {

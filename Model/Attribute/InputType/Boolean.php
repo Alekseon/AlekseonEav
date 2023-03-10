@@ -16,6 +16,10 @@ class Boolean extends Select
      * @var \Alekseon\AlekseonEav\Model\Attribute\Source\Boolean
      */
     protected $yesNoSource;
+    /**
+     * @var string
+     */
+    protected $backendModel = 'Alekseon\AlekseonEav\Model\Attribute\Backend\Boolean';
 
     /**
      * Boolean constructor.
@@ -49,10 +53,14 @@ class Boolean extends Select
     }
 
     /**
-     * @return true
+     * @return array|false|mixed|void|null
      */
-    public function isRequred()
+    public function getDefaultValue()
     {
-        return true;
+        $defaultValue = $this->getAttribute()->getData('default_value');
+        if ($defaultValue !== \Alekseon\AlekseonEav\Model\Attribute\Source\Boolean::VALUE_YES) {
+            $defaultValue = \Alekseon\AlekseonEav\Model\Attribute\Source\Boolean::VALUE_NO;
+        }
+        return $defaultValue;
     }
 }

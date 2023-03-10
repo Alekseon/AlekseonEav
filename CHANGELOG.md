@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 ## [Unreleased]
+### Fixed
+- fixed issue with boolean require validation
+### Added
+- select options validation: checking if option id exists before its saved
 
 ## [101.1.7] - 2023-03-03
 ### Added

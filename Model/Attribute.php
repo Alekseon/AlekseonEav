@@ -404,9 +404,14 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         if ($this->inputValidators == null) {
             $this->inputValidators = [];
 
+            $inputTypeValdator = $this->getInputTypeModel()->getValidator();
+            if ($inputTypeValdator) {
+                $inputTypeValdator->setAttribute($this);
+                $this->inputValidators['input_type_validator'] = $inputTypeValdator;
+            }
+
             $validator = $this->inputValidatorRepository->getAttributeValidator($this);
             if ($validator) {
-                $validator->setAttribute($this);
                 $this->inputValidators[$validator->getCode()] = $validator;
             }
         }
@@ -536,18 +541,6 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
      */
     public function getIsRequired()
     {
-        if ($this->getInputTypeModel()->isRequred()) {
-            return true;
-        }
         return $this->getData('is_required');
-    }
-
-    /**
-     * @return void
-     * it says if "is require" option is editable
-     */
-    public function getIsRequiredEditable()
-    {
-        return $this->getInputTypeModel()->isRequiredEditable();
     }
 }
