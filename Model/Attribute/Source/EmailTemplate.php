@@ -11,7 +11,14 @@ namespace Alekseon\AlekseonEav\Model\Attribute\Source;
  */
 class EmailTemplate extends AbstractSource
 {
+    /**
+     * @var
+     */
     protected $path;
+    /**
+     * @var bool
+     */
+    protected $validateOptionKeyOnEntitySave = false;
 
     /**
      * EmailTemplate constructor.

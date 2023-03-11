@@ -5,6 +5,8 @@
  */
 namespace Alekseon\AlekseonEav\Model\Attribute\InputValidator;
 
+use Alekseon\AlekseonEav\Model\Attribute\Source\AbstractSource;
+
 /**
  *
  */
@@ -16,9 +18,15 @@ class Select extends AbstractValidator
      */
     public function validateValue($value)
     {
+        /** @var AbstractSource $sourceModel */
         $sourceModel = $this->attribute->getSourceModel();
+
         if (!$sourceModel) {
             return false;
+        }
+
+        if (!$sourceModel->validateOptionKeyOnObjectSave()) {
+            return true;
         }
 
         $options = $sourceModel->getOptions();
