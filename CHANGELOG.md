@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
-## [Unreleased]
+## [101.1.8] - 2023-03-12
 ### Fixed
 - fixed issue with boolean require validation
 - get correct option labels on store view 
