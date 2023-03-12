@@ -72,6 +72,10 @@ abstract class AbstractInputType extends DataObject
      * @var mixed|LoggerInterface
      */
     protected $logger;
+    /**
+     * @var
+     */
+    protected $validator;
 
     /**
      * AbstractInputType constructor.
@@ -269,18 +273,21 @@ abstract class AbstractInputType extends DataObject
     }
 
     /**
-     * @return false
-     */
-    public function isRequred()
-    {
-        return false;
-    }
-
-    /**
      * @return true
      */
     public function isRequiredEditable()
     {
         return true;
+    }
+
+    /**
+     * @return false|\Magento\Framework\Validator\Builder
+     */
+    public function getValidator()
+    {
+        if ($this->validator) {
+            return $this->createObject($this->validator);
+        }
+        return false;
     }
 }

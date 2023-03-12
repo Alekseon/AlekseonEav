@@ -76,7 +76,7 @@ class Options extends \Magento\Backend\Block\Template
             $optionValues = $sourceModel->getAllOptions();
         }
         if (is_array($optionValues)) {
-            $defaultValues = explode(',', (string) $attribute->getData('default_value'));
+            $defaultValues = $attribute->getDefaultValue();
 
             foreach ($optionValues as $value) {
                 $id = isset($value['id']) ? $value['id'] : $value['value'];

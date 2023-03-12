@@ -20,9 +20,13 @@ abstract class AbstractSource
      */
     protected $attribute;
     /**
-     * @var 
+     * @var
      */
     protected $storeId = null;
+    /**
+     * @var bool
+     */
+    protected $validateOptionKeyOnEntitySave = true;
 
     /**
      * @return mixed
@@ -114,5 +118,13 @@ abstract class AbstractSource
     public function getOptionCode($optionId)
     {
         return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function validateOptionKeyOnObjectSave()
+    {
+        return $this->validateOptionKeyOnEntitySave;
     }
 }

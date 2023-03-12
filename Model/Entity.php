@@ -51,8 +51,8 @@ abstract class Entity extends \Magento\Framework\Model\AbstractModel implements 
     }
 
     /**
-     * @param $attributeCode
-     * @return mixed
+     * @param string $attributeCode
+     * @return Attribute
      */
     public function getAttribute($attributeCode)
     {

@@ -6,6 +6,8 @@
 
 namespace Alekseon\AlekseonEav\Model\Attribute\InputType;
 
+use Alekseon\AlekseonEav\Model\Attribute\Source\AbstractSource;
+
 /**
  * Class Select
  * @package Alekseon\AlekseonEav\Model\Attribute\InputType
@@ -40,6 +42,10 @@ class Select extends AbstractInputType
      * @var bool
      */
     protected $usesSource = true;
+    /**
+     * @var string
+     */
+    protected $validator = 'Alekseon\AlekseonEav\Model\Attribute\InputValidator\Select';
 
     /**
      * Select constructor.
@@ -67,7 +73,7 @@ class Select extends AbstractInputType
     }
 
     /**
-     * @return \Magento\Framework\Validator\Builder
+     * @return AbstractSource
      */
     public function getSourceModel()
     {
@@ -129,7 +135,8 @@ class Select extends AbstractInputType
     public function getValueAsText($value, $storeId = null)
     {
         $sourceModel = $this->getSourceModel();
-        $options = $sourceModel->getOptions($storeId);
+        $sourceModel->setStoreId($storeId);
+        $options = $sourceModel->getOptions();
         if (array_key_exists($value, $options)) {
             return $options[$value];
         }
