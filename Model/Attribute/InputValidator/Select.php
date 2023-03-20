@@ -16,7 +16,7 @@ class Select extends AbstractValidator
      * @param $value
      * @return bool
      */
-    public function validateValue($value)
+    public function validateValue($values)
     {
         /** @var AbstractSource $sourceModel */
         $sourceModel = $this->attribute->getSourceModel();
@@ -30,10 +30,17 @@ class Select extends AbstractValidator
         }
 
         $options = $sourceModel->getOptions();
-        if (isset($options[$value])) {
-            return true;
+
+        if (!is_array($values)) {
+            $values = [$values];
         }
 
-        return false;
+        foreach ($values as $value) {
+            if (!isset($options[$value])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

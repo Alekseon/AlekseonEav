@@ -32,6 +32,10 @@ class Multiselect extends Select
      * @var bool
      */
     protected $backendModel = 'Alekseon\AlekseonEav\Model\Attribute\Backend\ArrayBackend';
+    /**
+     * @var string
+     */
+    protected $validator = 'Alekseon\AlekseonEav\Model\Attribute\InputValidator\Multiselect';
 
     /**
      * @param $fieldConfig

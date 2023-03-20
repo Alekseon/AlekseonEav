@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.1.11] - 2023-03-20
+### Fixed
+- mutiselect values validator
+
 ## [101.1.10] - 2023-03-12
 ### Fixed
 - fixed issue with boolean require validation
