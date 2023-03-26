@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [Unreleased]
+### Fixed
+- fix image helper for not existing files
+
 ## [101.1.11] - 2023-03-20
 ### Fixed
 - mutiselect values validator

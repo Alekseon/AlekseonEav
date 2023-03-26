@@ -7,6 +7,7 @@ namespace Alekseon\AlekseonEav\Helper;
 
 use Alekseon\AlekseonEav\Model\Entity;
 use Magento\Framework\Encryption\Encryptor;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Image
@@ -18,6 +19,10 @@ class Image
      * @var
      */
     protected $imagePath;
+    /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $storeManager;
     /**
      * @var
      */
@@ -40,7 +45,6 @@ class Image
     protected $miscParams = [];
 
     /**
-     * Image constructor.
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Image\Factory $imageFactory
      * @param \Magento\Framework\App\Filesystem\DirectoryList $directoryList
@@ -66,7 +70,11 @@ class Image
     {
         $mediaDir = $this->directoryList->getPath('media');
         $imagePath = $mediaDir . DIRECTORY_SEPARATOR . $entity->getData($attributeCode);
-        $this->setImagePath($imagePath);
+        try {
+            $this->setImagePath($imagePath);
+        } catch (\Exception $e) {
+            // do nothing
+        }
         return $this;
     }
 
@@ -117,21 +125,21 @@ class Image
     public function resize($allowBiggerSize = false, $needResize = false)
     {
         $originalWidth = $this->image->getOriginalWidth();
-        $orignalHeight = $this->image->getOriginalHeight();
+        $originalHeight = $this->image->getOriginalHeight();
 
         $width = $this->miscParams['width'] ?? $originalWidth;
-        $height = $this->miscParams['width'] ?? $orignalHeight;
+        $height = $this->miscParams['width'] ?? $originalHeight;
 
         if (!$allowBiggerSize) {
             $width = min($originalWidth, $width);
-            $height = min($orignalHeight, $height);
+            $height = min($originalHeight, $height);
         }
 
         if ($width != $originalWidth) {
             $needResize = true;
         }
 
-        if ($height != $orignalHeight) {
+        if ($height != $originalHeight) {
             $needResize = true;
         }
 
