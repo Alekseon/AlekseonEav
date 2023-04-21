@@ -5,7 +5,7 @@
         "magento/framework": "102.* | 103.*"
     },
     "type": "magento2-module",
-    "version": "101.1.12",
+    "version": "101.1.13",
     "license": [
         "OSL-3.0",
         "AFL-3.0"

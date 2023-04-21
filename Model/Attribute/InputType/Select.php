@@ -170,10 +170,17 @@ class Select extends AbstractInputType
     }
 
     /**
-     * @return true
+     * @return bool
      */
     public function hasEmptyOption()
     {
+        $sourceModel = $this->getSourceModel();
+        $options = $sourceModel->getOptions();
+
+        if (isset($options[0])) {
+            return false;
+        }
+
         return true;
     }
 
