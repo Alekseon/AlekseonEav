@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [101.1.13] - 2023-04-21
+### Fixed
+- hide "not selected" option if there is option with key "0"
+
 ## [101.1.12] - 2023-04-20
 ### Fixed
 - fix image helper for not existing files
