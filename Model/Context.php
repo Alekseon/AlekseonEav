@@ -3,6 +3,8 @@
  * Copyright © Alekseon sp. z o.o.
  * http://www.alekseon.com/
  */
+declare(strict_types=1);
+
 namespace Alekseon\AlekseonEav\Model;
 
 /**
@@ -12,10 +14,10 @@ namespace Alekseon\AlekseonEav\Model;
 class Context extends \Magento\Framework\Model\Context
 {
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface 
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
-    
+
     /**
      * Context constructor.
      * @param \Psr\Log\LoggerInterface $logger
@@ -26,9 +28,9 @@ class Context extends \Magento\Framework\Model\Context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Psr\Log\LoggerInterface $logger, 
-        \Magento\Framework\Event\ManagerInterface $eventDispatcher, 
-        \Magento\Framework\App\CacheInterface $cacheManager, 
+        \Psr\Log\LoggerInterface $logger,
+        \Magento\Framework\Event\ManagerInterface $eventDispatcher,
+        \Magento\Framework\App\CacheInterface $cacheManager,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\Model\ActionValidator\RemoveAction $actionValidator,
         \Magento\Store\Model\StoreManagerInterface $storeManager

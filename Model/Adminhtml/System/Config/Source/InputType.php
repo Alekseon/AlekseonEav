@@ -3,6 +3,8 @@
  * Copyright © Alekseon sp. z o.o.
  * http://www.alekseon.com/
  */
+declare(strict_types=1);
+
 namespace Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source;
 
 use Alekseon\AlekseonEav\Model\Attribute\InputTypeRepository;
