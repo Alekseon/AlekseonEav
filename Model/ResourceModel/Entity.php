@@ -505,16 +505,8 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
         $connection = $this->getConnection();
         $attributes = $this->getAllLoadedAttributes();
 
-        $tableAttributes = [];
         foreach ($attributes as $attribute) {
-            $tableAttributes[$attribute->getBackendTable()][] = $attribute->getId();
-        }
-
-        foreach ($tableAttributes as $table => $attributeIds) {
-            $connection->delete($table, ['entity_id =?' => $object->getEntityId()]);
-        }
-
-        foreach ($attributes as $attribute) {
+            $connection->delete($attribute->getBackendTable(), ['entity_id =?' => $object->getEntityId()]);
             $backendModels = $attribute->getBackendModels();
             foreach ($backendModels as $backendModel) {
                 $backendModel->afterDelete($object);

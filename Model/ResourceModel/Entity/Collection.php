@@ -154,7 +154,7 @@ abstract class Collection extends \Magento\Framework\Model\ResourceModel\Db\Coll
 
         $tableAttributes = [];
         $attributeCodes = [];
-        foreach ($this->selectAttributes as $attributeCode => $attribute) {
+        foreach ($this->selectAttributes as $attribute) {
             if (!$attribute->getId()) {
                 continue;
             }
@@ -213,7 +213,7 @@ abstract class Collection extends \Magento\Framework\Model\ResourceModel\Db\Coll
      */
     protected function _afterLoadData() // @codingStandardsIgnoreLine
     {
-        foreach ($this->_data as $dataKey => $data) {
+        foreach (array_keys($this->_data) as $dataKey) {
             $this->_data[$dataKey]['store_id'] = $this->getStoreId();
         }
         $this->loadAttributes();

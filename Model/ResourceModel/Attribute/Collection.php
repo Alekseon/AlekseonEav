@@ -22,7 +22,7 @@ abstract class Collection extends \Magento\Framework\Model\ResourceModel\Db\Coll
         $resource = $this->getResource();
         if ($resource->getAdditionalTable()) {
             $fields = $resource->getConnection()->describeTable($resource->getAdditionalTable());
-            foreach ($fields as $fieldKey => $fieldData) {
+            foreach (array_keys($fields) as $fieldKey) {
                 $fields[$fieldKey] = $fieldKey;
             }
             unset($fields[$resource->getAdditionalTableAttributeIdFieldName()]);

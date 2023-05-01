@@ -242,7 +242,7 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
             }
         } elseif ($default) {
             $options = $object->getSourceModel()->getOptions();
-            foreach ($options as $optionId => $optionLabel) {
+            foreach (array_keys($options) as $optionId) {
                 if (in_array($optionId, $default)) {
                     $defaultValue[] = $optionId;
                 }
@@ -404,6 +404,7 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
      * @param \Magento\Framework\Model\AbstractModel $object
      * @return \Magento\Framework\DB\Select
      * @throws \Magento\Framework\Exception\LocalizedException
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _getLoadSelect($field, $value, $object) // @codingStandardsIgnoreLine
     {

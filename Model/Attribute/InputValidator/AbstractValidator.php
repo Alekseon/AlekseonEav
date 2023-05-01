@@ -28,6 +28,7 @@ class AbstractValidator extends \Magento\Framework\DataObject
     /**
      * @param $value
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function validateValue($value)
     {

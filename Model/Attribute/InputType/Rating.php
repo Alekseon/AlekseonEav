@@ -47,7 +47,7 @@ class Rating extends Select
     }
 
     /**
-     * @return bool
+     * @return \Alekseon\AlekseonEav\Model\Attribute\Source\Rating
      */
     public function getSourceModel()
     {
