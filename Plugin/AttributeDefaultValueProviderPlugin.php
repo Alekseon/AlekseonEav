@@ -17,6 +17,11 @@ use Alekseon\AlekseonEav\Model\Attribute\DefaultValueProviderRepository;
 class AttributeDefaultValueProviderPlugin
 {
     /**
+     * @var DefaultValueProviderRepository 
+     */
+    protected $defaultValueProviderRepository;
+    
+    /**
      * AttributeDefaultValueProviderPlugin constructor.
      * @param DefaultValueProviderRepository $defaultValueProviderRepository
      */
