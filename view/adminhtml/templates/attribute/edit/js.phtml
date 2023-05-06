@@ -47,7 +47,7 @@ if ($jsConfig = $block->getJsConfig()) {
     "*": {
         "Alekseon_AlekseonEav/js/attribute": {
             "frontend_input_default_value": "text",
-            "refresh_validators_list": "<?= $block->getRefreshValidatorsList() ?>",
+            "refresh_validators_list": "<?= $block->canRefreshValidatorsList() ?>",
             "input_types_config": <?= /* @noEscape */ json_encode($inputJsConfig) ?>
         }
     }

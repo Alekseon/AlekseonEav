@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Alekseon\AlekseonEav\Block\Adminhtml\Attribute\Edit\Tab;
 
+use Alekseon\AlekseonEav\Model\Attribute;
 use Magento\Store\Model\Store;
 
 /**
@@ -50,7 +51,7 @@ class Options extends \Magento\Backend\Block\Template
     {
         if ($this->stores == null) {
 
-            if ($this->getReadOnly()) {
+            if ($this->isReadOnly()) {
                 $this->stores = [$this->_storeManager->getStore(Store::DEFAULT_STORE_ID)];
             } else {
                 $this->stores = $this->_storeManager->getStores(true);
@@ -105,7 +106,7 @@ class Options extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @return mixed
+     * @return Attribute
      */
     public function getAttributeObject()
     {
@@ -115,7 +116,7 @@ class Options extends \Magento\Backend\Block\Template
     /**
      * @return bool
      */
-    public function getReadOnly()
+    public function isReadOnly()
     {
         $attribute = $this->getAttributeObject();
         if (!$attribute->getId()) {

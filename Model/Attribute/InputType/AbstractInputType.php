@@ -149,12 +149,12 @@ abstract class AbstractInputType extends DataObject
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
     public function canManageOptions()
     {
         $this->getSourceModel();
-        return $this->canManageOptions;
+        return (bool) $this->canManageOptions;
     }
 
     /**

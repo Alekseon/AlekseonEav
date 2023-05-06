@@ -11,6 +11,7 @@ use \Alekseon\AlekseonEav\Api\Data\AttributeInterface;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\Scopes;
 use Alekseon\AlekseonEav\Model\Attribute\Backend\AbstractBackend;
 use Alekseon\AlekseonEav\Model\Attribute\InputType\AbstractInputType;
+use Alekseon\AlekseonEav\Model\Attribute\Source\AbstractSource;
 
 /**
  * Class Attribute
@@ -172,7 +173,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     }
 
     /**
-     * @return bool
+     * @return AbstractSource | false
      */
     public function getSourceModel()
     {
@@ -189,7 +190,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     }
 
     /**
-     * @return bool
+     * @return array
      */
     public function getBackendModels()
     {
@@ -475,7 +476,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         $inputParams = [];
         $params = $this->getInputParamsConfig();
         if ($params) {
-            foreach ($params as $paramCode => $paramConfig) {
+            foreach (array_keys($params) as $paramCode) {
                 if (isset($inputParamsToSave[$paramCode])) {
                     $currentParams[$paramCode] = $inputParamsToSave[$paramCode];
                 }

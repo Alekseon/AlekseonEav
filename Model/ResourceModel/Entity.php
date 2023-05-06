@@ -521,6 +521,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
      * @param $attribute
      * @param $fileName
      * @return mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getNameForUploadedFile(
         \Magento\Framework\Model\AbstractModel $object,

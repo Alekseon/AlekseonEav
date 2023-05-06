@@ -3,10 +3,11 @@
  * Copyright © Alekseon sp. z o.o.
  * http://www.alekseon.com/
  */
+/* @var \Alekseon\AlekseonEav\Block\Adminhtml\Attribute\Edit\Tab\Options $block */
 ?>
 <?php if ($block->displayOptions()): ?>
     <?php $stores = $block->getStores() ?>
-    <fieldset class="admin__fieldset fieldset" id="<?php echo $block->getReadOnly() ? 'options_fieldset_read_only' : 'options_fieldset' ?>">
+    <fieldset class="admin__fieldset fieldset" id="<?php echo $block->isReadOnly() ? 'options_fieldset_read_only' : 'options_fieldset' ?>">
         <legend class="legend">
             <span><?= $block->escapeHtml(__('Manage Options (Values of Your Attribute)')) ?></span>
         </legend>
@@ -35,7 +36,7 @@
                 </thead>
                 <tbody data-role="options-container"></tbody>
                 <tfoot>
-                <?php if (!$this->getReadOnly()): ?>
+                <?php if (!$this->isReadOnly()): ?>
                     <tr>
                         <th colspan="<?= (int) $columnsCounter ?>" class="col-actions-add">
                             <button id="add_new_option_button" data-action="add_new_row"
@@ -52,7 +53,7 @@
         <script id="row-template" type="text/x-magento-template">
             <tr>
                 <td class="col-draggable">
-                    <?php if (!$this->getReadOnly()): ?>
+                    <?php if (!$this->isReadOnly()): ?>
                         <div data-role="draggable-handle" class="draggable-handle"
                              title="<?= $block->escapeHtml(__('Sort Option')) ?>">
                         </div>
@@ -67,7 +68,7 @@
                         <input name="option[option_code][<%- data.id %>]"
                                value="<%- data.option_code %>"
                                class="input-text"
-                                <?php if ($block->getReadOnly()): ?> disabled="disabled"<?php endif;?>
+                                <?php if ($block->isReadOnly()): ?> disabled="disabled"<?php endif;?>
                                type="text"/>
                     </td>
                 <?php endif ?>
@@ -76,12 +77,12 @@
                         <input name="option[value][<%- data.id %>][<?= (int)$store->getId() ?>]"
                                value="<%- data.store<?= /* @noEscape */ (int)$store->getId() ?> %>"
                                class="input-text"
-                                <?php if ($block->getReadOnly()): ?> disabled="disabled"<?php endif;?>
+                                <?php if ($block->isReadOnly()): ?> disabled="disabled"<?php endif;?>
                                type="text"/>
                     </td>
                 <?php endforeach; ?>
                 <td id="delete_button_container_<%- data.id %>" class="col-delete">
-                    <?php if (!$this->getReadOnly()): ?>
+                    <?php if (!$this->isReadOnly()): ?>
                         <input type="hidden" class="delete-flag" name="option[delete][<%- data.id %>]" value="" />
                         <button id="delete_button_<%- data.id %>"
                                 title="<?= $block->escapeHtml(__('Delete')) ?>"
@@ -99,7 +100,7 @@
                 "*": {
                     "Alekseon_AlekseonEav/js/attribute/options": {
                         "attributesData": <?= /* @noEscape */ json_encode($values) ?>,
-                        "readOnly": <?= (int)$this->getReadOnly() ?>
+                        "readOnly": <?= (int)$this->isReadOnly() ?>
                     }
                 }
             }

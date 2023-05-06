@@ -90,7 +90,7 @@ class Js extends \Magento\Backend\Block\Template
     /**
      * @return bool
      */
-    public function getRefreshValidatorsList()
+    public function canRefreshValidatorsList()
     {
         if ($this->getAttribute()->getId()) {
             return false;
