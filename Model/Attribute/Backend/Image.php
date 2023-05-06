@@ -24,6 +24,10 @@ class Image extends AbstractBackend
      */
     private $filesystem;
     /**
+     * @var \Magento\Framework\Filesystem\Driver\File
+     */
+    private $file;
+    /**
      * @var \Magento\MediaStorage\Model\File\UploaderFactory
      */
     private $uploaderFactory;
@@ -51,12 +55,14 @@ class Image extends AbstractBackend
     public function __construct(
         \Magento\Framework\Image\AdapterFactory $imageAdapterFactory,
         \Magento\Framework\Filesystem $filesystem,
+        \Magento\Framework\Filesystem\Driver\File $file,
         \Magento\MediaStorage\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Framework\UrlInterface $urlInterface,
         \Alekseon\AlekseonEav\Helper\Image $imageHelper
     ) {
         $this->imageAdapterFactory = $imageAdapterFactory;
         $this->filesystem = $filesystem;
+        $this->file = $file;
         $this->uploaderFactory = $uploaderFactory;
         $this->urlInterface = $urlInterface;
         $this->imageHelper = $imageHelper;
@@ -80,13 +86,21 @@ class Image extends AbstractBackend
     {
         $imagesDirName = $object->getResource()->getImagesDirName();
         $attrCode = $this->getAttribute()->getAttributeCode();
-        if (isset($_FILES[$attrCode]) && $_FILES[$attrCode]['name']) {
-            if (!$_FILES[$attrCode]['tmp_name'] || $_FILES[$attrCode]['error']) {
+
+        try {
+            $uploader = $this->uploaderFactory->create(['fileId' => $attrCode]);
+            $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
+        } catch (\Exception $e) {
+            $uploader = false;
+        }
+
+        if ($uploader) {
+            $file = $uploader->validateFile();
+
+            if (!$file['tmp_name'] || $file['error']) {
                 throw new LocalizedException(__('The file was not uploaded.'));
             }
 
-            $uploader = $this->uploaderFactory->create(['fileId' => $attrCode]);
-            $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
             if (!$uploader->checkMimeType(['image/png', 'image/jpeg', 'image/gif'])) {
                 throw new LocalizedException(__('File validation failed.'));
             }
@@ -133,7 +147,11 @@ class Image extends AbstractBackend
                     return parent::afterSave($object);
                 }
             }
-            @unlink($this->getImagesDirPath() . $oldValue);
+            try {
+                $this->file->deleteFile($this->getImagesDirPath() . $oldValue);
+            } catch (\Exception $e) {
+                // do nothing
+            }
         }
 
         return parent::afterSave($object);
@@ -157,7 +175,11 @@ class Image extends AbstractBackend
     {
         foreach ($this->imagesToBeDeleted as $imageValue) {
             $filePath = $this->getImagesDirPath() . $imageValue['value'];
-            @unlink($filePath);
+            try {
+                $this->file->deleteFile($filePath);
+            } catch (\Exception $e) {
+                // do nothing
+            }
         }
         return parent::afterDelete($object);
     }
