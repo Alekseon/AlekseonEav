@@ -109,9 +109,9 @@ class Image extends AbstractBackend
             $uploader->addValidateCallback('eav_image_attribute', $imageAdapter, 'validateUploadFile');
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);;
-            $fielName = $object->getResource()->getNameForUploadedFile($object, $this->getAttribute(), $_FILES[$attrCode]['name']);
+            $fielName = $object->getResource()->getNameForUploadedFile($object, $this->getAttribute(), $file['name']);
 
-            $this->imageHelper->setImagePath($_FILES[$attrCode]['tmp_name']);
+            $this->imageHelper->setImagePath($file['tmp_name']);
             $this->imageHelper->resize(false, true);
             $this->imageHelper->getImage()->save();
             $result = $uploader->save($this->getImagesDirPath() . $imagesDirName, $fielName);
@@ -182,18 +182,5 @@ class Image extends AbstractBackend
             }
         }
         return parent::afterDelete($object);
-    }
-
-    /**
-     * @param $object
-     * @return bool
-     */
-    public function isAttributeValueUpdated($object)
-    {
-        $attrCode = $this->getAttribute()->getAttributeCode();
-        if (isset($_FILES[$attrCode])) {
-            return true;
-        }
-        return false;
     }
 }

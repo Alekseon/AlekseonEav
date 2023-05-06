@@ -80,12 +80,4 @@ abstract class AbstractBackend
     {
         return $this;
     }
-
-    /**
-     * @param $object
-     */
-    public function isAttributeValueUpdated($object)
-    {
-        return false;
-    }
 }
