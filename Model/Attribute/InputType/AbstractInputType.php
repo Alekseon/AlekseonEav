@@ -141,7 +141,7 @@ abstract class AbstractInputType extends DataObject
     }
 
     /**
-     * @return bool
+     * @return Attribute\Source\AbstractSource | false
      */
     public function getSourceModel()
     {
@@ -199,6 +199,7 @@ abstract class AbstractInputType extends DataObject
     /**
      * @param $fieldConfig
      * @return $this
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function prepareFormFieldConfig(&$fieldConfig)
     {
@@ -208,6 +209,7 @@ abstract class AbstractInputType extends DataObject
     /**
      * @param $columnConfig
      * @return $this
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function prepareGridColumnConfig(&$columnConfig)
     {
@@ -226,6 +228,7 @@ abstract class AbstractInputType extends DataObject
      * @param $value
      * @param null $storeId
      * @return mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getValueAsText($value, $storeId = null)
     {
@@ -241,7 +244,7 @@ abstract class AbstractInputType extends DataObject
     }
 
     /**
-     * @return bool
+     * @return Attribute\MetadataForm\AbstractMetadataForm | false
      */
     public function getMetadataFormModel()
     {
@@ -257,7 +260,8 @@ abstract class AbstractInputType extends DataObject
     }
 
     /**
-     * @return bool
+     * @return string | bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getOptionCode($optionId)
     {

@@ -73,7 +73,7 @@ class Date extends AbstractInputType
     }
 
     /**
-     * @return bool
+     * @inheirtDoc
      */
     public function getMetadataFormModel()
     {

@@ -111,7 +111,7 @@ abstract class Entity extends \Magento\Framework\Model\AbstractModel implements 
 
     /**
      * @param $attributeCode
-     * @return bool
+     * @return string | false
      */
     public function getAttributeDefaultValue($attributeCode)
     {

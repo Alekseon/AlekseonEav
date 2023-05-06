@@ -144,6 +144,7 @@ abstract class Form extends Generic
     /**
      * @param AbstractElement $element
      * @return $this
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _addAdditionalFormElementData(AbstractElement $element)
     {

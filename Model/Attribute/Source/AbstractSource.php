@@ -106,6 +106,7 @@ abstract class AbstractSource
     /**
      * @param $optionId
      * @return array | bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getStoreLabels($optionId)
     {
