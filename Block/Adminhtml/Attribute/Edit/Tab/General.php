@@ -20,11 +20,6 @@ use \Alekseon\AlekseonEav\Model\Attribute\InputTypeRepository;
  */
 class General extends Generic
 {
-
-    /**
-     * @return mixed
-     */
-    protected $attribute;
     /**
      * @var InputType
      */
@@ -37,10 +32,6 @@ class General extends Generic
      * @var \Magento\Config\Model\Config\Source\Yesno
      */
     protected $yesNoSource;
-    /**
-     * @var InputTypeRepository
-     */
-    protected $inputTypeRepository;
     /**
      * @var InputValidator
      */
@@ -56,7 +47,6 @@ class General extends Generic
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Config\Model\Config\Source\Yesno $yesNoSource
-     * @param InputTypeRepository $inputTypeRepository
      * @param InputType $inputTypeSource
      * @param InputValidator $inputValidatorSource
      * @param DefaultValueProvider $defaultValueProviderSource
@@ -68,7 +58,6 @@ class General extends Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Config\Model\Config\Source\Yesno $yesNoSource,
-        InputTypeRepository $inputTypeRepository,
         InputType $inputTypeSource,
         InputValidator $inputValidatorSource,
         DefaultValueProvider $defaultValueProviderSource,
@@ -78,7 +67,6 @@ class General extends Generic
         $this->inputTypeSource = $inputTypeSource;
         $this->yesNoSource = $yesNoSource;
         $this->scopesSource = $scopesSource;
-        $this->inputTypeRepository = $inputTypeRepository;
         $this->inputValidatorSource = $inputValidatorSource;
         $this->defaultValueProviderSource = $defaultValueProviderSource;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -89,10 +77,7 @@ class General extends Generic
      */
     public function getAttributeObject()
     {
-        if (null === $this->attribute) {
-            return $this->_coreRegistry->registry('current_attribute');
-        }
-        return $this->attribute;
+        return $this->_coreRegistry->registry('current_attribute');
     }
 
     /**
@@ -225,42 +210,8 @@ class General extends Generic
             );
         }
 
-        $this->inputValidatorSource->setAttribute($attributeObject);
-        if ($attributeObject->getId()) {
-            $showInputValidatorSelect = $this->inputValidatorSource->hasOptions();
-        } else {
-            $showInputValidatorSelect = true;
-        }
-
-        if ($showInputValidatorSelect) {
-            $baseFieldset->addField(
-                'input_validator',
-                'select',
-                [
-                    'name' => 'input_validator',
-                    'label' => __('Input Validator'),
-                    'title' => __('Input Validator'),
-                    'values' => $this->inputValidatorSource->toOptionArray()
-                ]
-            );
-        }
-
-        if ($attributeObject->getId()) {
-            $this->defaultValueProviderSource->setAttribute($attributeObject);
-
-            if ($this->defaultValueProviderSource->hasOptions()) {
-                $baseFieldset->addField(
-                    'default_value',
-                    'select',
-                    [
-                        'name' => 'default_value',
-                        'label' => __('Default Value'),
-                        'title' => __('Default Value'),
-                        'values' => $this->defaultValueProviderSource->toOptionArray()
-                    ]
-                );
-            }
-        }
+        $this->addInputValidatorField($baseFieldset);
+        $this->addDefaultValueField($baseFieldset);
 
         if (!$attributeObject->getId() || $attributeObject->getInputTypeModel()->hasOptionCodes()) {
             $baseFieldset->addField(
@@ -307,6 +258,59 @@ class General extends Generic
         $this->setForm($form);
 
         return parent::_prepareForm();
+    }
+
+    /**
+     * @param $fieldset
+     * @return void
+     */
+    private function addInputValidatorField($fieldset)
+    {
+        $attributeObject = $this->getAttributeObject();
+        $this->inputValidatorSource->setAttribute($attributeObject);
+        if ($attributeObject->getId()) {
+            $showInputValidatorSelect = $this->inputValidatorSource->hasOptions();
+        } else {
+            $showInputValidatorSelect = true;
+        }
+
+        if ($showInputValidatorSelect) {
+            $fieldset->addField(
+                'input_validator',
+                'select',
+                [
+                    'name' => 'input_validator',
+                    'label' => __('Input Validator'),
+                    'title' => __('Input Validator'),
+                    'values' => $this->inputValidatorSource->toOptionArray()
+                ]
+            );
+        }
+    }
+
+    /**
+     * @param $fieldset
+     * @return void
+     */
+    private function addDefaultValueField($fieldset)
+    {
+        $attributeObject = $this->getAttributeObject();
+        if ($attributeObject->getId()) {
+            $this->defaultValueProviderSource->setAttribute($attributeObject);
+
+            if ($this->defaultValueProviderSource->hasOptions()) {
+                $fieldset->addField(
+                    'default_value',
+                    'select',
+                    [
+                        'name' => 'default_value',
+                        'label' => __('Default Value'),
+                        'title' => __('Default Value'),
+                        'values' => $this->defaultValueProviderSource->toOptionArray()
+                    ]
+                );
+            }
+        }
     }
 
     /**
