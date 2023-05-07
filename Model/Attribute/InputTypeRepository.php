@@ -85,9 +85,7 @@ class InputTypeRepository
             $frontendInputType = $inputTypes[$frontendInput];
             $inputTypeModel = $frontendInputType->getFactory()->create();
         } else {
-            if ($frontendInput != self::DEFAULT_INPUT_TYPE_CODE) {
-                $inputTypeModel = $this->getInputTypeModelByFrontendInput(self::DEFAULT_INPUT_TYPE_CODE); // return text as default
-            }
+            $inputTypeModel = $this->getInputTypeModelByFrontendInput(self::DEFAULT_INPUT_TYPE_CODE); // return text as default
         }
 
         return $inputTypeModel;

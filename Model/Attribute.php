@@ -11,6 +11,7 @@ use \Alekseon\AlekseonEav\Api\Data\AttributeInterface;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\Scopes;
 use Alekseon\AlekseonEav\Model\Attribute\Backend\AbstractBackend;
 use Alekseon\AlekseonEav\Model\Attribute\InputType\AbstractInputType;
+use Alekseon\AlekseonEav\Model\Attribute\MetadataForm\AbstractMetadataForm;
 use Alekseon\AlekseonEav\Model\Attribute\Source\AbstractSource;
 
 /**
@@ -306,7 +307,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     }
 
     /**
-     * @return mixed
+     * @return AbstractMetadataForm
      */
     public function getMetadataFormModel()
     {
@@ -337,7 +338,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
      */
     public function extractValueFromRequest(\Magento\Framework\App\RequestInterface $request, $paramName = null)
     {
-        $metadataFormModel = $this->getMetadataFormModel($request);
+        $metadataFormModel = $this->getMetadataFormModel();
         if ($metadataFormModel) {
             return $metadataFormModel->extractValue($request, $paramName);
         } else {

@@ -19,6 +19,10 @@ class EmailTemplate extends AbstractSource
      * @var bool
      */
     protected $validateOptionKeyOnEntitySave = false;
+    /**
+     * @var \Magento\Config\Model\Config\Source\Email\Template
+     */
+    private $emailTemplateSource;
 
     /**
      * EmailTemplate constructor.

@@ -12,6 +12,11 @@ namespace Alekseon\AlekseonEav\Model\Attribute\Source;
 class EmailIdentity extends AbstractSource
 {
     /**
+     * @var \Magento\Config\Model\Config\Source\Email\Identity
+     */
+    private $emailIdentitySource;
+
+    /**
      * EmailIdentity constructor.
      * @param \Magento\Config\Model\Config\Source\Email\Identity $emailIdentitySource
      */
