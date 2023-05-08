@@ -40,8 +40,8 @@ abstract class Form extends Generic
      */
     public function addAllAttributeFields($formFieldset, EntityInterface $entity, $groups = [])
     {
-        $includedGroups = isset($groups['included']) ? $groups['included'] : null;
-        $excludedGroups = isset($groups['excluded']) ? $groups['excluded'] : null;
+        $includedGroups = $groups['included'] ?? null;
+        $excludedGroups = $groups['excluded'] ?? null;
 
         $resource = $entity->getResource();
         $resource->loadAllAttributes();
@@ -51,12 +51,12 @@ abstract class Form extends Generic
             $useGroups = $attribute->getCanUseGroup();
             $groupCode = $attribute->getGroupCode();
 
-            if ($useGroups && $includedGroups && !in_array($groupCode, $includedGroups)) {
-                continue;
-            }
-
-            if ($useGroups && $excludedGroups && in_array($groupCode, $excludedGroups)) {
-                continue;
+            if ($useGroups) {
+                if (($includedGroups && !in_array($groupCode, $includedGroups))
+                    || ($excludedGroups && in_array($groupCode, $excludedGroups)))
+                {
+                    continue;
+                }
             }
 
             $this->addAttributeField($formFieldset, $attribute);

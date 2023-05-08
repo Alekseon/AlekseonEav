@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Alekseon\AlekseonEav\Model\ResourceModel;
 
 use Alekseon\AlekseonEav\Api\Data\AttributeInterface;
+use Alekseon\AlekseonEav\Api\Data\EntityInterface;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\Scopes;
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Exception\LocalizedException;
@@ -34,7 +35,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     /**
      * @var array
      */
-    protected $notAttributeCode = [];
+    private $notAttributeCode = [];
     /**
      * @var bool
      */
@@ -42,11 +43,11 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     /**
      * @var array
      */
-    protected $attributeValuesToSave = [];
+    private $attributeValuesToSave = [];
     /**
      * @var array
      */
-    protected $attributeValuesToDelete = [];
+    private $attributeValuesToDelete = [];
     /**
      * @var string
      */
@@ -72,7 +73,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
 
         if (!isset($this->attributes[$attributeCode])) {
             if ($this->allAttributesLoaded) {
-                $this->notAttributeCode[$attributeCode] = false;
+                $this->notAttributeCode[$attributeCode] = $attributeCode;
                 return false;
             }
             $attributeCollection = $this->attributeCollectionFactory->create();
@@ -81,7 +82,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
             if ($attribute->getId()) {
                 $this->attributes[$attributeCode] = $attribute;
             } else {
-                $this->notAttributeCode[$attributeCode] = false;
+                $this->notAttributeCode[$attributeCode] = $attributeCode;
                 return false;
             }
         }
@@ -329,7 +330,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     }
 
     /**
-     * @param \Magento\Framework\Model\AbstractModel $object
+     * @param \Alekseon\AlekseonEav\Model\Entity $object
      * @param \Alekseon\AlekseonEav\Model\Attribute $attribute
      * @return $this
      * @throws \Exception
@@ -350,12 +351,12 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     }
 
     /**
-     * @param $object
-     * @param $attribute
+     * @param EntityInterface $object
+     * @param AttributeInterface $attribute
      * @return $this
      * @throws \Exception
      */
-    protected function prepareAttributeForSave($object, $attribute)
+    private function prepareAttributeForSave(EntityInterface $object, AttributeInterface $attribute)
     {
         $backendModels = $attribute->getBackendModels();
 
@@ -365,12 +366,8 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
 
         $table = $attribute->getBackendTable();
 
-        if (!isset($this->attributeValuesToDelete[$table])) {
-            $this->attributeValuesToDelete[$table] = [];
-        }
-        if (!isset($this->attributeValuesToSave[$table])) {
-            $this->attributeValuesToSave[$table] = [];
-        }
+        $this->attributeValuesToDelete[$table] = $this->attributeValuesToDelete[$table] ?? [];
+        $this->attributeValuesToSave[$table] = $this->attributeValuesToSave[$table] ?? [];
 
         $value = $this->prepareValueForSave($object, $attribute);
 
@@ -419,13 +416,13 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     {
         $attributeCode = $attribute->getAttributeCode();
         $value = $object->getData($attributeCode);
-        if ($attribute->getIsRequired()) {
-            // check if there is value of required attribute, its checked only on saving default values
-            if ($object->getStoreId() == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
-                if ($value === null || $value === '' || (is_array($value) && empty($value))) {
-                    throw new LocalizedException(__('"%1" cannot be empty.', $attribute->getFrontendLabel()));
-                }
-            }
+
+        // check if there is value of required attribute, its checked only on saving default values
+        if (!$value
+            && $attribute->getIsRequired()
+            && $object->getStoreId() == \Magento\Store\Model\Store::DEFAULT_STORE_ID
+        ) {
+            throw new LocalizedException(__('"%1" cannot be empty.', $attribute->getFrontendLabel()));
         }
 
         $inputValidators = $attribute->getInputValidators();

@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Alekseon\AlekseonEav\Block\Adminhtml\Entity\Grid\Renderer;
 
+use Alekseon\AlekseonEav\Model\Entity;
+
 /**
  * Class Image
  * @package Alekseon\AleksoenEav\Block\Adminhtml\Entity\Grid\Renderer
@@ -41,23 +43,19 @@ class Image extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
     }
 
     /**
-     * @param \Magento\Framework\DataObject $row
-     * @return string|void
+     * @param Entity $row
+     * @return string
      */
     public function render(\Magento\Framework\DataObject $row)
     {
         if (!$row->getData($this->getColumn()->getIndex())) {
-            return null;
+            return '';
         }
 
         $this->imageHelper->init($row, $this->getColumn()->getIndex());
         $this->imageHelper->setWidth(100);
         $this->imageHelper->setHeight(100);
         $url =  $this->imageHelper->getUrl();
-        if ($url) {
-            return '<img src="' . $url . '"/>';
-        }
-
-        return '';
+        return $url ? '<img src="' . $url . '"/>' : '';
     }
 }

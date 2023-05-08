@@ -44,12 +44,12 @@ interface EntityInterface
 
     /**
      * @param $storeId
-     * @return mixed
+     * @return int
      */
     public function setStoreId($storeId);
 
     /**
-     * @return mixed
+     * @return \Magento\Store\Api\Data\StoreInterface
      */
     public function getStore();
 

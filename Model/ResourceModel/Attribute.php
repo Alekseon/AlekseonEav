@@ -215,9 +215,11 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
     }
 
     /**
-     *
+     * @param \Alekseon\AlekseonEav\Model\Attribute $object
+     * @return void
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    private function processAttributeOptions($object)
+    private function processAttributeOptions(\Alekseon\AlekseonEav\Model\Attribute $object)
     {
         $default = $object->getDefault() ?: [];
         $optionsData = $object->getOption();
@@ -227,8 +229,10 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
             $defaultValue[] = $object->getData('default_value');
         }
 
-        if (is_array($optionsData) && isset($optionsData['value'])) {
-            foreach ($optionsData['value'] as $optionId => $values) {
+        $optionsValues = $optionsData['value'] ?? [];
+
+        if (!empty($optionsValues)) {
+            foreach ($optionsValues as $optionId => $values) {
                 $updatedOptionId = $this->updateAttributeOption($object, $optionId, $optionsData);
                 if ($updatedOptionId === false) {
                     continue;
@@ -240,7 +244,7 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
                     $defaultValue[] = $updatedOptionId;
                 }
             }
-        } elseif ($default) {
+        } else {
             $options = $object->getSourceModel()->getOptions();
             foreach (array_keys($options) as $optionId) {
                 if (in_array($optionId, $default)) {
