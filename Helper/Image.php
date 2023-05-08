@@ -175,6 +175,10 @@ class Image
      */
     public function getUrl($storeId = null)
     {
+        if (!$this->image) {
+            return '';
+        }
+
         $mediaDir = $this->directoryList->getPath('media');
 
         $path = 'cache'
