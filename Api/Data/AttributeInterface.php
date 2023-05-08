@@ -26,4 +26,9 @@ interface AttributeInterface
      * @return mixed
      */
     public function addBackendModel(string $backendModelCode, $backendModel);
+
+    /**
+     * @return string
+     */
+    public function getDefaultValue();
 }
