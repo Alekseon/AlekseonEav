@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Alekseon\AlekseonEav\Model;
 
-use \Alekseon\AlekseonEav\Api\Data\AttributeInterface;
+use Alekseon\AlekseonEav\Api\Data\AttributeInterface;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\Scopes;
 use Alekseon\AlekseonEav\Model\Attribute\Backend\AbstractBackend;
 use Alekseon\AlekseonEav\Model\Attribute\InputType\AbstractInputType;
@@ -17,6 +17,7 @@ use Alekseon\AlekseonEav\Model\Attribute\Source\AbstractSource;
 /**
  * Class Attribute
  * @package Alekseon\AlekseonEav\Model
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class Attribute extends \Magento\Framework\Model\AbstractModel implements AttributeInterface
 {
@@ -534,7 +535,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     }
 
     /**
-     * @return array|mixed|null
+     * @return mixed
      */
     public function getIsRequired()
     {
