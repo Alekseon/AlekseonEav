@@ -83,6 +83,7 @@ class General extends Generic
     /**
      * @return $this
      * @throws \Magento\Framework\Exception\LocalizedException
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _prepareForm() // @codingStandardsIgnoreLine
     {
