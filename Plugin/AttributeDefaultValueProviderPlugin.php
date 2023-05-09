@@ -17,10 +17,10 @@ use Alekseon\AlekseonEav\Model\Attribute\DefaultValueProviderRepository;
 class AttributeDefaultValueProviderPlugin
 {
     /**
-     * @var DefaultValueProviderRepository 
+     * @var DefaultValueProviderRepository
      */
     protected $defaultValueProviderRepository;
-    
+
     /**
      * AttributeDefaultValueProviderPlugin constructor.
      * @param DefaultValueProviderRepository $defaultValueProviderRepository
@@ -34,16 +34,16 @@ class AttributeDefaultValueProviderPlugin
 
     /**
      * @param AttributeInterface $attribute
-     * @param callable $proceed
-     * @return mixed
+     * @param string $defaultValue
+     * @return string
      */
-    public function aroundGetDefaultValue(AttributeInterface $attribute, callable $proceed)
+    public function afterGetDefaultValue(AttributeInterface $attribute, string $defaultValue)
     {
         $defaultValueProvider = $this->defaultValueProviderRepository->getAttributeDefaultValueProvider($attribute);
         if ($defaultValueProvider) {
-            return $defaultValueProvider->getValue();
+            $defaultValue = $defaultValueProvider->getValue();
         }
-        return $proceed();
+        return $defaultValue;
     }
 
     /**

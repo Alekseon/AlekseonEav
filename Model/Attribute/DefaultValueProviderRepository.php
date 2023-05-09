@@ -5,6 +5,7 @@
  */
 namespace Alekseon\AlekseonEav\Model\Attribute;
 
+use Alekseon\AlekseonEav\Api\Data\AttributeInterface;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\DefaultValueProvider;
 use Alekseon\AlekseonEav\Model\Attribute;
 
@@ -38,9 +39,9 @@ class DefaultValueProviderRepository
     }
 
     /**
-     * @return array
+     * @return DefaultValueProvider
      */
-    public function getDefaultValueProviders(Attribute $attribute): array
+    public function getDefaultValueProviders(AttributeInterface $attribute): array
     {
         $attributeKey = $attribute->getResource()->getEntityTypeCode() . '_' . $attribute->getId();
         if (!isset($this->defaultValueProvidersByCodes[$attributeKey])) {
@@ -62,10 +63,10 @@ class DefaultValueProviderRepository
     }
 
     /**
-     * @param Attribute $attribute
+     * @param AttributeInterface $attribute
      * @return Attribute\DefaultValueProvider\AbstractProvider | false
      */
-    public function getAttributeDefaultValueProvider(Attribute $attribute)
+    public function getAttributeDefaultValueProvider(AttributeInterface $attribute)
     {
         $attributeKey = $attribute->getResource()->getEntityTypeCode() . '_' . $attribute->getId();
         if (!isset($this->defaultValueProviderByAttribute[$attributeKey])) {

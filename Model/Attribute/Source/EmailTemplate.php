@@ -14,7 +14,7 @@ class EmailTemplate extends AbstractSource
     /**
      * @var
      */
-    protected $path;
+    private $path;
     /**
      * @var bool
      */
@@ -51,10 +51,13 @@ class EmailTemplate extends AbstractSource
     public function getOptions()
     {
         $options = [];
-        $emailTemplateOptions = $this->emailTemplateSource->setPath($this->path)->toOptionArray();
 
-        foreach ($emailTemplateOptions as $option) {
-            $options[$option['value']] = $option['label'];
+        if ($this->path) {
+            $emailTemplateOptions = $this->emailTemplateSource->setPath($this->path)->toOptionArray();
+
+            foreach ($emailTemplateOptions as $option) {
+                $options[$option['value']] = $option['label'];
+            }
         }
 
         return $options;

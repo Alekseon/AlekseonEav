@@ -269,11 +269,11 @@ abstract class AbstractInputType extends DataObject
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getDefaultValue()
     {
-        return $this->getAttribute()->getData('default_value');
+        return (string) $this->getAttribute()->getData('default_value');
     }
 
     /**
