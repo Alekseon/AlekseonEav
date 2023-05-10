@@ -106,6 +106,7 @@ class EavSchemaSetup implements EavSchemaSetupInterface
     /**
      * @param $attributeTableName
      * @throws \Zend_Db_Exception
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function createEavAttributeTable($attributeTableName)
     {
@@ -189,67 +190,11 @@ class EavSchemaSetup implements EavSchemaSetupInterface
                 'Visible In Grid'
             )
             ->addColumn(
-                'has_option_codes',
-                Table::TYPE_SMALLINT,
-                null,
-                ['unsigned' => true, 'nullable' => false, 'default' => '0'],
-                'Has Option Codes'
-            )
-            ->addColumn(
                 'sort_order',
                 Table::TYPE_INTEGER,
                 null,
                 ['unsigned' => true, 'nullable' => false, 'default' => '0'],
                 'Sort Order'
-            )
-            ->addColumn(
-                'is_user_defined',
-                Table::TYPE_SMALLINT,
-                null,
-                ['unsigned' => true, 'nullable' => false, 'default' => '0'],
-                'Is User Defined'
-            )->addColumn(
-                'default_value',
-                Table::TYPE_TEXT,
-                '64k',
-                [],
-                'Default Value'
-            )->addColumn(
-                'is_unique',
-                Table::TYPE_SMALLINT,
-                null,
-                ['unsigned' => true, 'nullable' => false, 'default' => '0'],
-                'Is Unique'
-            )->addColumn(
-                'frontend_class',
-                Table::TYPE_TEXT,
-                255,
-                [],
-                'Frontend Class'
-            )->addColumn(
-                'group_code',
-                Table::TYPE_TEXT,
-                255,
-                [],
-                'Attributes Group Code'
-            )->addColumn(
-                'input_validator',
-                Table::TYPE_TEXT,
-                255,
-                [],
-                'Attributes Input Validator'
-            )->addColumn(
-                'attribute_extra_params',
-                Table::TYPE_TEXT,
-                '64k',
-                [],
-                'Attribute Extra Params'
-            )->addColumn(
-                'is_wysiwyg_enabled',
-                Table::TYPE_SMALLINT,
-                null,
-                ['unsigned' => true, 'nullable' => false, 'default' => '0'],
-                'Is WYSIWYG Enabled'
             )->addColumn(
                 'note',
                 Table::TYPE_TEXT,
@@ -268,6 +213,10 @@ class EavSchemaSetup implements EavSchemaSetupInterface
             )
             ->setComment('Alekseon EAV Attribute');
         $this->setup->getConnection()->createTable($attributesTable);
+
+        $this->updateAttributeTableV2($attributesTable);
+        $this->updateAttributeTableV3($attributesTable);
+        $this->updateAttributeTableV4($attributesTable);
     }
 
     /**
@@ -280,6 +229,7 @@ class EavSchemaSetup implements EavSchemaSetupInterface
      * set null if entities are used for more entities
      * @param string $entityTableIdField
      * @throws \Zend_Db_Exception
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function createEavEntitiesTables(
         $attributeTableName,
@@ -400,13 +350,6 @@ class EavSchemaSetup implements EavSchemaSetupInterface
                 'Option Id'
             )
             ->addColumn(
-                'option_code',
-                Table::TYPE_TEXT,
-                255,
-                [],
-                'Option Code'
-            )
-            ->addColumn(
                 'attribute_id',
                 Table::TYPE_INTEGER,
                 null,
@@ -484,6 +427,7 @@ class EavSchemaSetup implements EavSchemaSetupInterface
             'Alekseon Eav Attribute Option Value'
         );
         $this->setup->getConnection()->createTable($optionValuesTable);
+        $this->installOptionCodes($attributeTableName, $optionValuesTable);
     }
 
     /**
@@ -548,11 +492,113 @@ class EavSchemaSetup implements EavSchemaSetupInterface
     }
 
     /**
-     * @param $attributeTableName
      * @param $optionsTableName
      */
-    public function installOptionCodes($attributeTableName, $optionsTableName)
+    public function installOptionCodes($optionsTableName)
     {
+        $this->setup->getConnection()->addColumn(
+            $this->setup->getTable($optionsTableName),
+            'option_code',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => 255,
+                'comment' => 'Option Code'
+            ]
+        );
+    }
+
+
+    /**
+     * @param $attributeTableName
+     * @return void
+     */
+    public function updateAttributeTableV2($attributeTableName)
+    {
+        $this->setup->getConnection()->addColumn(
+            $this->setup->getTable($attributeTableName),
+            'is_user_defined',
+            [
+                'type' => Table::TYPE_SMALLINT,
+                'unsigned' => true,
+                'nullable' => false,
+                'default' => 0,
+                'comment' => 'Is User Defined'
+            ]
+        );
+        $this->setup->getConnection()->addColumn(
+            $this->setup->getTable($attributeTableName),
+            'default_value',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => '64k',
+                'comment' => 'Default Value'
+            ]
+        );
+        $this->setup->getConnection()->addColumn(
+            $this->setup->getTable($attributeTableName),
+            'is_unique',
+            [
+                'type' => Table::TYPE_SMALLINT,
+                'unsigned' => true,
+                'nullable' => false,
+                'default' => 0,
+                'comment' => 'Is Unique'
+            ]
+        );
+        $this->setup->getConnection()->addColumn(
+            $this->setup->getTable($attributeTableName),
+            'frontend_class',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => '255',
+                'comment' => 'Frontend Class'
+            ]
+        );
+        $this->setup->getConnection()->addColumn(
+            $this->setup->getTable($attributeTableName),
+            'is_wysiwyg_enabled',
+            [
+                'type' => Table::TYPE_SMALLINT,
+                'unsigned' => true,
+                'nullable' => false,
+                'default' => 0,
+                'comment' => 'Is WYSIWYG Enabled'
+            ]
+        );
+    }
+
+    public function updateAttributeTableV3($attributeTableName)
+    {
+        $this->setup->getConnection()->addColumn(
+            $this->setup->getTable($attributeTableName),
+            'group_code',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => '255',
+                'comment' => 'Attributes Group Code'
+            ]
+        );
+        $this->setup->getConnection()->addColumn(
+            $this->setup->getTable($attributeTableName),
+            'input_validator',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => '255',
+                'comment' => 'Attributes Input Validator'
+            ]
+        );
+        $this->setup->getConnection()->addColumn(
+            $this->setup->getTable($attributeTableName),
+            'attribute_extra_params',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => '64k',
+                'comment' => 'Attribute Extra Params'
+            ]
+        );
+
+        $this->setup->getConnection()->dropColumn($attributeTableName, 'has_option_code');
+
         $this->setup->getConnection()->addColumn(
             $this->setup->getTable($attributeTableName),
             'has_option_codes',
@@ -564,14 +610,22 @@ class EavSchemaSetup implements EavSchemaSetupInterface
                 'comment' => 'Has Option Codes'
             ]
         );
+    }
 
-        $this->setup->getConnection()->addColumn(
-            $this->setup->getTable($optionsTableName),
-            'option_code',
+    /**
+     * @param $setup
+     */
+    public function updateAttributeTableV4($attributeTableName)
+    {
+        $this->getConnection()->modifyColumn(
+            $this->getTable($attributeTableName),
+            'attribute_code',
             [
                 'type' => Table::TYPE_TEXT,
+                'nullable' => false,
+                'default' => '',
                 'length' => 255,
-                'comment' => 'Option Code'
+                'comment' => 'Attribute Code'
             ]
         );
     }
