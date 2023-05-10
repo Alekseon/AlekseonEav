@@ -57,9 +57,9 @@ class CreateEavTables implements SchemaPatchInterface
         //$eavSetup->createFrontendLabelsTable('alekseon_eav_attribute', 'alekseon_eav_attribute_frontend_label');
 
         // updates for old module versions:
-        $this->updateAttributeTableV2('alekseon_eav_attribute');
-        $this->updateAttributeTableV3('alekseon_eav_attribute');
-        $this->updateAttributeTableV4('alekseon_eav_attribute');
+        $eavSetup->updateAttributeTableV2('alekseon_eav_attribute');
+        $eavSetup->updateAttributeTableV3('alekseon_eav_attribute');
+        $eavSetup->updateAttributeTableV4('alekseon_eav_attribute');
 
         $this->schemaSetup->endSetup();
     }

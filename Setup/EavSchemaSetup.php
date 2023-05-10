@@ -72,8 +72,8 @@ class EavSchemaSetup implements EavSchemaSetupInterface
     }
 
     /**
-     * @param $attributeTableName
-     * @param $eavEntityTablesPrefix
+     * @param string $attributeTableName
+     * @param string $eavEntityTablesPrefix
      * @param null $entitiesToCreate
      * @param null $entityTableName
      * IMPORTANT: set entity table name for foreign key only if
@@ -83,8 +83,8 @@ class EavSchemaSetup implements EavSchemaSetupInterface
      * @throws \Zend_Db_Exception
      */
     public function createFullEavStructure(
-        $attributeTableName,
-        $eavEntityTablesPrefix,
+        string $attributeTableName,
+        string $eavEntityTablesPrefix,
         $entitiesToCreate = null,
         $entityTableName = null,
         $entityTableIdField = 'entity_id'
@@ -214,14 +214,14 @@ class EavSchemaSetup implements EavSchemaSetupInterface
             ->setComment('Alekseon EAV Attribute');
         $this->setup->getConnection()->createTable($attributesTable);
 
-        $this->updateAttributeTableV2($attributesTable);
-        $this->updateAttributeTableV3($attributesTable);
-        $this->updateAttributeTableV4($attributesTable);
+        $this->updateAttributeTableV2($attributeTableName);
+        $this->updateAttributeTableV3($attributeTableName);
+        $this->updateAttributeTableV4($attributeTableName);
     }
 
     /**
-     * @param $attributeTableName
-     * @param $eavEntityTablesPrefix
+     * @param string $attributeTableName
+     * @param string $eavEntityTablesPrefix
      * @param null $entitiesToCreate
      * @param null $entityTableName
      * IMPORTANT: set entity table name for foreign key only if
@@ -232,8 +232,8 @@ class EavSchemaSetup implements EavSchemaSetupInterface
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function createEavEntitiesTables(
-        $attributeTableName,
-        $eavEntityTablesPrefix,
+        string $attributeTableName,
+        string $eavEntityTablesPrefix,
         $entitiesToCreate = null,
         $entityTableName = null,
         $entityTableIdField = 'entity_id'
@@ -334,11 +334,11 @@ class EavSchemaSetup implements EavSchemaSetupInterface
     }
 
     /**
-     * @param $attributeTableName
-     * @param $optionsTableName
+     * @param string $attributeTableName
+     * @param string $optionsTableName
      * @throws \Zend_Db_Exception
      */
-    public function createOptionTables($attributeTableName, $optionsTableName)
+    public function createOptionTables(string $attributeTableName, string $optionsTableName)
     {
         $optionsTable = $this->setup->getConnection()
             ->newTable($this->setup->getTable($optionsTableName))
@@ -427,15 +427,16 @@ class EavSchemaSetup implements EavSchemaSetupInterface
             'Alekseon Eav Attribute Option Value'
         );
         $this->setup->getConnection()->createTable($optionValuesTable);
-        $this->installOptionCodes($attributeTableName, $optionValuesTable);
+
+        $this->installOptionCodes($optionValuesTableName);
     }
 
     /**
-     * @param $attributeTableName
-     * @param $attributeFrontendLabelsTableName
+     * @param string $attributeTableName
+     * @param string $attributeFrontendLabelsTableName
      * @throws \Zend_Db_Exception
      */
-    public function createFrontendLabelsTable($attributeTableName, $attributeFrontendLabelsTableName)
+    public function createFrontendLabelsTable(string $attributeTableName, string $attributeFrontendLabelsTableName)
     {
         if ($this->setup->tableExists($this->setup->getTable($attributeFrontendLabelsTableName))) {
             return;
@@ -492,9 +493,10 @@ class EavSchemaSetup implements EavSchemaSetupInterface
     }
 
     /**
-     * @param $optionsTableName
+     * @param string $optionsTableName
+     * @return void
      */
-    public function installOptionCodes($optionsTableName)
+    public function installOptionCodes(string $optionsTableName)
     {
         $this->setup->getConnection()->addColumn(
             $this->setup->getTable($optionsTableName),
@@ -509,10 +511,10 @@ class EavSchemaSetup implements EavSchemaSetupInterface
 
 
     /**
-     * @param $attributeTableName
+     * @param string $attributeTableName
      * @return void
      */
-    public function updateAttributeTableV2($attributeTableName)
+    public function updateAttributeTableV2(string $attributeTableName)
     {
         $this->setup->getConnection()->addColumn(
             $this->setup->getTable($attributeTableName),
@@ -567,7 +569,11 @@ class EavSchemaSetup implements EavSchemaSetupInterface
         );
     }
 
-    public function updateAttributeTableV3($attributeTableName)
+    /**
+     * @param string $attributeTableName
+     * @return void
+     */
+    public function updateAttributeTableV3(string $attributeTableName)
     {
         $this->setup->getConnection()->addColumn(
             $this->setup->getTable($attributeTableName),
@@ -613,12 +619,13 @@ class EavSchemaSetup implements EavSchemaSetupInterface
     }
 
     /**
-     * @param $setup
+     * @param string $attributeTableName
+     * @return void
      */
-    public function updateAttributeTableV4($attributeTableName)
+    public function updateAttributeTableV4(string $attributeTableName)
     {
-        $this->getConnection()->modifyColumn(
-            $this->getTable($attributeTableName),
+        $this->setup->getConnection()->modifyColumn(
+            $this->setup->getTable($attributeTableName),
             'attribute_code',
             [
                 'type' => Table::TYPE_TEXT,
