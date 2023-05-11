@@ -214,9 +214,7 @@ class EavSchemaSetup implements EavSchemaSetupInterface
             ->setComment('Alekseon EAV Attribute');
         $this->setup->getConnection()->createTable($attributesTable);
 
-        $this->updateAttributeTableV2($attributeTableName);
-        $this->updateAttributeTableV3($attributeTableName);
-        $this->updateAttributeTableV4($attributeTableName);
+        $this->updateAttributeTable($attributeTableName);
     }
 
     /**
@@ -509,12 +507,11 @@ class EavSchemaSetup implements EavSchemaSetupInterface
         );
     }
 
-
     /**
      * @param string $attributeTableName
      * @return void
      */
-    public function updateAttributeTableV2(string $attributeTableName)
+    public function updateAttributeTable(string $attributeTableName)
     {
         $this->setup->getConnection()->addColumn(
             $this->setup->getTable($attributeTableName),
@@ -567,14 +564,7 @@ class EavSchemaSetup implements EavSchemaSetupInterface
                 'comment' => 'Is WYSIWYG Enabled'
             ]
         );
-    }
 
-    /**
-     * @param string $attributeTableName
-     * @return void
-     */
-    public function updateAttributeTableV3(string $attributeTableName)
-    {
         $this->setup->getConnection()->addColumn(
             $this->setup->getTable($attributeTableName),
             'group_code',
@@ -603,8 +593,6 @@ class EavSchemaSetup implements EavSchemaSetupInterface
             ]
         );
 
-        $this->setup->getConnection()->dropColumn($attributeTableName, 'has_option_code');
-
         $this->setup->getConnection()->addColumn(
             $this->setup->getTable($attributeTableName),
             'has_option_codes',
@@ -614,25 +602,6 @@ class EavSchemaSetup implements EavSchemaSetupInterface
                 'nullable' => false,
                 'default' => 0,
                 'comment' => 'Has Option Codes'
-            ]
-        );
-    }
-
-    /**
-     * @param string $attributeTableName
-     * @return void
-     */
-    public function updateAttributeTableV4(string $attributeTableName)
-    {
-        $this->setup->getConnection()->modifyColumn(
-            $this->setup->getTable($attributeTableName),
-            'attribute_code',
-            [
-                'type' => Table::TYPE_TEXT,
-                'nullable' => false,
-                'default' => '',
-                'length' => 255,
-                'comment' => 'Attribute Code'
             ]
         );
     }
