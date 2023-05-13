@@ -14,7 +14,7 @@
         </arguments>
     </type>
     <type name="Alekseon\AlekseonEav\Api\Data\AttributeInterface">
-        <plugin name="Alekseon_AlekseonEav::AttributeDefaultValueProviderPlugin" type="Alekseon\AlekseonEav\Plugin\AttributeDefaultValueProviderPlugin"/>
+        <plugin name="Alekseon_AlekseonEav::AttributeDefaultValueProviderPlugin" type="Alekseon\AlekseonEav\Plugin\AttributeDefaultValueProviderPlugin" sortOrder="100" />
     </type>
     <type name="Alekseon\AlekseonEav\Model\Attribute\InputTypeRepository">
         <arguments>
