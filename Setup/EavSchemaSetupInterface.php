@@ -14,47 +14,47 @@ namespace Alekseon\AlekseonEav\Setup;
 interface EavSchemaSetupInterface
 {
     /**
-     * @param $attributeTableName
-     * @param $eavEntityTablesPrefix
+     * @param string $attributeTableName
+     * @param string $eavEntityTablesPrefix
      * @param null $entitiesToCreate
      * @param null $entityTableName
      * @param string $entityTableIdField
      * @return mixed
      */
     public function createFullEavStructure(
-        $attributeTableName,
-        $eavEntityTablesPrefix,
+        string $attributeTableName,
+        string $eavEntityTablesPrefix,
         $entitiesToCreate = null,
         $entityTableName = null,
         $entityTableIdField = 'entity_id'
     );
 
     /**
-     * @param $attributeTableName
+     * @param string $attributeTableName
      * @return mixed
      */
-    public function createEavAttributeTable($attributeTableName);
+    public function createEavAttributeTable(string $attributeTableName);
 
     /**
-     * @param $attributeTableName
-     * @param $eavEntityTablesPrefix
+     * @param string $attributeTableName
+     * @param string $eavEntityTablesPrefix
      * @param null $entitiesToCreate
      * @param null $entityTableName
      * @param null $entityTableIdField
      * @return mixed
      */
     public function createEavEntitiesTables(
-        $attributeTableName,
-        $eavEntityTablesPrefix,
+        string $attributeTableName,
+        string $eavEntityTablesPrefix,
         $entitiesToCreate = null,
         $entityTableName = null,
         $entityTableIdField = null
     );
 
     /**
-     * @param $attributeTableName
-     * @param $optionsTableName
+     * @param string $attributeTableName
+     * @param string $optionsTableName
      * @return mixed
      */
-    public function createOptionTables($attributeTableName, $optionsTableName);
+    public function createOptionTables(string $attributeTableName, string $optionsTableName);
 }

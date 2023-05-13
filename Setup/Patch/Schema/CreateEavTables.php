@@ -3,44 +3,50 @@
  * Copyright © Alekseon sp. z o.o.
  * http://www.alekseon.com/
  */
-declare(strict_types=1);
+namespace Alekseon\AlekseonEav\Setup\Patch\Schema;
 
-namespace Alekseon\AlekseonEav\Setup;
-
-use Magento\Framework\Setup\InstallSchemaInterface;
-use Magento\Framework\Setup\ModuleContextInterface;
+use Magento\Framework\DB\Adapter\AdapterInterface;
+use Magento\Framework\DB\Ddl\Table;
+use Magento\Framework\Setup\Patch\SchemaPatchInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
+use Alekseon\AlekseonEav\Setup\EavSchemaSetupFactory;
 
 /**
- * Class InstallSchema
- * @package Alekseon\AlekseonEav\Setup
+ *
  */
-class InstallSchema implements InstallSchemaInterface
+class CreateEavTables implements SchemaPatchInterface
 {
+    /**
+     * @var SchemaSetupInterface
+     */
+    private $schemaSetup;
     /**
      * @var EavSchemaSetupFactory
      */
     private $eavSetupFactory;
 
     /**
-     * InstallSchema constructor.
-     * @param EavSchemaSetupFactory $eavSetupFactory
+     * EnableSegmentation constructor.
+     *
+     * @param SchemaSetupInterface $schemaSetup
      */
     public function __construct(
+        SchemaSetupInterface $schemaSetup,
         EavSchemaSetupFactory $eavSetupFactory
     ) {
+        $this->schemaSetup = $schemaSetup;
         $this->eavSetupFactory = $eavSetupFactory;
     }
 
     /**
-     * {@inheritdoc}
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @return CreateEavTables|void
      */
-    public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
+    public function apply()
     {
+        $this->schemaSetup->startSetup();
+        $setup = $this->schemaSetup;
+
         $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
-        $installer = $setup;
-        $installer->startSetup();
 
         $eavSetup->createFullEavStructure('alekseon_eav_attribute', 'alekseon_eav_entity');
 
@@ -50,6 +56,22 @@ class InstallSchema implements InstallSchemaInterface
         //$eavSetup->createEavEntitiesTables('alekseon_eav_attribute', 'alekseon_eav_entity');
         //$eavSetup->createFrontendLabelsTable('alekseon_eav_attribute', 'alekseon_eav_attribute_frontend_label');
 
-        $installer->endSetup();
+        $this->schemaSetup->endSetup();
+    }
+
+    /**
+     * @return array
+     */
+    public function getAliases()
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getDependencies()
+    {
+        return [];
     }
 }
