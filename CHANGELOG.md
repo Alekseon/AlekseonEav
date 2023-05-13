@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.2.0] - 2023-05-13
+### Changed
+- moved schema install/updates to patches
+- code quality improvements
+
 ## [101.1.16] - 2023-05-09
 ### Fixed
 - fix for error "Email template '' is not defined" in magento 2.4.0
