@@ -416,12 +416,12 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     {
         $attributeCode = $attribute->getAttributeCode();
         $value = $object->getData($attributeCode);
-        $hasValue =  !($value === null || $value === '' || (is_array($value) && empty($value)));
 
         // check if there is value of required attribute, its checked only on saving default values
-        if (!$hasValue
+        if (
+            $object->getStoreId() == \Magento\Store\Model\Store::DEFAULT_STORE_ID
             && $attribute->getIsRequired()
-            && $object->getStoreId() == \Magento\Store\Model\Store::DEFAULT_STORE_ID
+            && !$this->hasValue($object, $value)
         ) {
             throw new LocalizedException(__('"%1" cannot be empty.', $attribute->getFrontendLabel()));
         }
@@ -434,6 +434,17 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
         }
 
         return $value;
+    }
+
+    /**
+     * @param EntityInterface $object
+     * @param string $attributeCode
+     * @return bool
+     */
+    private function hasValue(EntityInterface $object, string $attributeCode)
+    {
+        $value = $object->getData($attributeCode);
+        return !($value === null || $value === '' || (is_array($value) && empty($value)));
     }
 
     /**
