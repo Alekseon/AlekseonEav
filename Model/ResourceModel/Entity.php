@@ -421,7 +421,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
         if (
             $object->getStoreId() == \Magento\Store\Model\Store::DEFAULT_STORE_ID
             && $attribute->getIsRequired()
-            && !$this->hasValue($object, $value)
+            && !$this->hasValue($object, $attributeCode)
         ) {
             throw new LocalizedException(__('"%1" cannot be empty.', $attribute->getFrontendLabel()));
         }
@@ -452,7 +452,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
      *
      * @return $this
      */
-    protected function saveAttributeValues()
+    private function saveAttributeValues()
     {
         $connection = $this->getConnection();
 
