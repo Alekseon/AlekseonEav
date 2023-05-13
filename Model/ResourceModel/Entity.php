@@ -416,9 +416,10 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     {
         $attributeCode = $attribute->getAttributeCode();
         $value = $object->getData($attributeCode);
+        $hasValue =  !($value === null || $value === '' || (is_array($value) && empty($value)));
 
         // check if there is value of required attribute, its checked only on saving default values
-        if (!$value
+        if (!$hasValue
             && $attribute->getIsRequired()
             && $object->getStoreId() == \Magento\Store\Model\Store::DEFAULT_STORE_ID
         ) {
