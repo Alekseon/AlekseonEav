@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [Unreleased]
+### Added
+- declare strict_types
+- Yes/No option source
+
 ## [101.2.0] - 2023-05-13
 ### Changed
 - moved schema install/updates to patches
