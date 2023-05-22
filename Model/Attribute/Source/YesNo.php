@@ -8,12 +8,11 @@ declare(strict_types=1);
 namespace Alekseon\AlekseonEav\Model\Attribute\Source;
 
 /**
- * Class Boolean
- * @package Alekseon\AlekseonEav\Model\Attribute\Source
+ *
  */
-class Boolean extends AbstractSource
+class YesNo extends AbstractSource
 {
-    const VALUE_NO = 0;
+    const VALUE_NO = 2;
     const VALUE_YES = 1;
 
     /**
