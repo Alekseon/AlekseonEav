@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [Unreleased]
+### Fixed
+- fix for isRequired validation for new objects with storeId
+
 ## [101.2.1] - 2023-05-22
 ### Added
 - declare strict_types
