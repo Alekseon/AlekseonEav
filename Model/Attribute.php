@@ -213,7 +213,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     /**
      * @param string $backendModelCode
      * @param $backendModel
-     * @return bool
+     * @return $this
      */
     public function addBackendModel(string $backendModelCode, $backendModel)
     {
@@ -229,7 +229,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
     public function canDisplayInGrid()
     {
