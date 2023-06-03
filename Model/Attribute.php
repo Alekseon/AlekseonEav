@@ -541,4 +541,12 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     {
         return $this->getData('is_required');
     }
+
+    /**
+     * @return string|null
+     */
+    public function getAttributeCode()
+    {
+        return $this->getData('attribute_code');
+    }
 }

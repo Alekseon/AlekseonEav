@@ -31,4 +31,9 @@ interface AttributeInterface
      * @return string
      */
     public function getDefaultValue();
+
+    /**
+     * @return string|null
+     */
+    public function getAttributeCode();
 }
