@@ -426,7 +426,7 @@ class EavSchemaSetup implements EavSchemaSetupInterface
         );
         $this->setup->getConnection()->createTable($optionValuesTable);
 
-        $this->installOptionCodes($optionValuesTableName);
+        $this->installOptionCodes($optionsTableName);
     }
 
     /**
