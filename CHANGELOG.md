@@ -9,9 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
-## [Unreleased]
+## [101.2.2] - 2023-06-12
 ### Fixed
 - fix for isRequired validation for new objects with storeId
+- fix table name for adding 'option_code' column (https://github.com/Alekseon/AlekseonEav/issues/42)
 
 ## [101.2.1] - 2023-05-22
 ### Added
