@@ -407,19 +407,25 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     }
 
     /**
-     * @param $value
-     * @param $attribute
+     * @param EntityInterface $object
+     * @param AttributeInterface $attribute
      * @return mixed
-     * @throws \Exception
+     * @throws LocalizedException
      */
-    private function prepareValueForSave($object, $attribute)
-    {
+    private function prepareValueForSave(
+        EntityInterface $object,
+        AttributeInterface $attribute
+    ) {
         $attributeCode = $attribute->getAttributeCode();
         $value = $object->getData($attributeCode);
 
-        // check if there is value of required attribute, its checked only on saving default values
+        // check if there is value of required attribute,
+        // its checked only on saving default values or its new object
         if (
-            $object->getStoreId() == \Magento\Store\Model\Store::DEFAULT_STORE_ID
+            (
+                $object->getStoreId() == \Magento\Store\Model\Store::DEFAULT_STORE_ID
+                || $object->isObjectNew()
+            )
             && $attribute->getIsRequired()
             && !$this->hasValue($object, $attributeCode)
         ) {
