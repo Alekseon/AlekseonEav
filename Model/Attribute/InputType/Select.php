@@ -158,7 +158,7 @@ class Select extends AbstractInputType
     }
 
     /**
-     * @return void|null
+     * @return string|array
      */
     public function getDefaultValue()
     {
@@ -167,7 +167,7 @@ class Select extends AbstractInputType
             return explode(',', $defaultValue);
         }
 
-        return false;
+        return '';
     }
 
     /**

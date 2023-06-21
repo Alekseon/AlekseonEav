@@ -13,8 +13,8 @@ namespace Alekseon\AlekseonEav\Model\Attribute\Source;
  */
 class Boolean extends AbstractSource
 {
-    const VALUE_NO = 0;
-    const VALUE_YES = 1;
+    const VALUE_NO = '0';
+    const VALUE_YES = '1';
 
     /**
      * @return array|mixed
