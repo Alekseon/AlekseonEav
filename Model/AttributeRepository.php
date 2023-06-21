@@ -48,6 +48,7 @@ abstract class AttributeRepository
         $attribute->getResource()->load($attribute, $attributeCode, 'attribute_code');
         if (!$attribute->getId()) {
             if ($graceful) {
+                $attribute->setAttributeCode($attributeCode);
                 return $attribute;
             } else {
                 throw new NoSuchEntityException(__('Attribute with code "%1" does not exist.', $attributeCode));
