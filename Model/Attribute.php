@@ -449,7 +449,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     }
 
     /**
-     * @return string
+     * @return string|array
      */
     public function getDefaultValue()
     {

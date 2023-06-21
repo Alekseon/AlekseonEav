@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.2.3] - 2023-06-21
+### Fixed
+- fix for defaulr value when its array (for multiselects)
+
 ## [101.2.2] - 2023-06-12
 ### Fixed
 - fix for isRequired validation for new objects with storeId
