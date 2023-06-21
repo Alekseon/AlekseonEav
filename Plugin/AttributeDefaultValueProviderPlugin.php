@@ -34,10 +34,10 @@ class AttributeDefaultValueProviderPlugin
 
     /**
      * @param AttributeInterface $attribute
-     * @param string $defaultValue
-     * @return string
+     * @param string|array $defaultValue
+     * @return string|array
      */
-    public function afterGetDefaultValue(AttributeInterface $attribute, string|array $defaultValue)
+    public function afterGetDefaultValue(AttributeInterface $attribute, $defaultValue)
     {
         $defaultValueProvider = $this->defaultValueProviderRepository->getAttributeDefaultValueProvider($attribute);
         if ($defaultValueProvider) {
