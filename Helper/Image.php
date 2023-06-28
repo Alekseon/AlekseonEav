@@ -70,8 +70,7 @@ class Image
      */
     public function init(Entity $entity, $attributeCode)
     {
-        $mediaDir = $this->directoryList->getPath('media');
-        $imagePath = $mediaDir . DIRECTORY_SEPARATOR . $entity->getData($attributeCode);
+        $imagePath = $entity->getData($attributeCode);
         try {
             $this->setImagePath($imagePath);
         } catch (\Exception $e) {
@@ -88,7 +87,8 @@ class Image
     {
         $this->reset();
         $this->imagePath = $imagePath;
-        $this->image = $this->imageFactory->create($imagePath);
+        $mediaDir = $this->directoryList->getPath('media');
+        $this->image = $this->imageFactory->create($mediaDir . DIRECTORY_SEPARATOR . $imagePath);
         return $this;
     }
 
