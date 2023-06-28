@@ -102,7 +102,7 @@ class Image
     /**
      * @return $this
      */
-    protected function reset()
+    private function reset()
     {
         $this->imagePath = null;
         $this->miscParams = [];
@@ -165,7 +165,7 @@ class Image
     /**
      * @return $this
      */
-    protected function prepareOutputImage()
+    private function prepareOutputImage()
     {
         $this->resize();
         return $this;
@@ -224,7 +224,7 @@ class Image
     /**
      * @return string
      */
-    protected function getMiscPath()
+    private function getMiscPath()
     {
         return $this->encryptor->hash(
             implode('_', $this->miscParams),
