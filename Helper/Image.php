@@ -20,31 +20,31 @@ class Image
     /**
      * @var
      */
-    protected $imagePath;
+    private $imagePath;
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
-    protected $storeManager;
+    private $storeManager;
     /**
      * @var
      */
-    protected $imageFactory;
+    private $imageFactory;
     /**
      * @var \Magento\Framework\Encryption\EncryptorInterface
      */
-    protected $encryptor;
+    private $encryptor;
     /**
      * @var
      */
-    protected $image;
+    private $image;
     /**
      * @var \Magento\Framework\App\Filesystem\DirectoryList
      */
-    protected $directoryList;
+    private $directoryList;
     /**
      * @var array
      */
-    protected $miscParams = [];
+    private $miscParams = [];
 
     /**
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -66,13 +66,15 @@ class Image
     }
 
     /**
-     *
+     * @param Entity $entity
+     * @param string $attributeCode
+     * @return $this
      */
-    public function init(Entity $entity, $attributeCode)
+    public function init(Entity $entity, string $attributeCode)
     {
         $imagePath = $entity->getData($attributeCode);
         try {
-            $this->setImagePath($imagePath);
+            $this->setImagePath($imagePath, true);
         } catch (\Exception $e) {
             // do nothing
         }
@@ -80,15 +82,20 @@ class Image
     }
 
     /**
-     * @param $imagePath
+     * @param string $imagePath
+     * @param bool $isMediaImage
      * @return $this
+     * @throws \Magento\Framework\Exception\FileSystemException
      */
-    public function setImagePath($imagePath)
+    public function setImagePath(string $imagePath, bool $isMediaImage = false)
     {
         $this->reset();
         $this->imagePath = $imagePath;
-        $mediaDir = $this->directoryList->getPath('media');
-        $this->image = $this->imageFactory->create($mediaDir . DIRECTORY_SEPARATOR . $imagePath);
+        if ($isMediaImage) {
+            $mediaDir = $this->directoryList->getPath('media');
+            $imagePath = $mediaDir . DIRECTORY_SEPARATOR . $imagePath;
+        }
+        $this->image = $this->imageFactory->create($imagePath);
         return $this;
     }
 
@@ -104,7 +111,7 @@ class Image
     }
 
     /**
-     *
+     * @return $this
      */
     public function setWidth(int $width)
     {
@@ -113,7 +120,8 @@ class Image
     }
 
     /**
-     *
+     * @param int $height
+     * @return $this
      */
     public function setHeight(int $height)
     {
@@ -122,9 +130,11 @@ class Image
     }
 
     /**
-     *
+     * @param bool $allowBiggerSize
+     * @param bool $needResize
+     * @return $this
      */
-    public function resize($allowBiggerSize = false, $needResize = false)
+    public function resize(bool $allowBiggerSize = false, bool $needResize = false)
     {
         $originalWidth = $this->image->getOriginalWidth();
         $originalHeight = $this->image->getOriginalHeight();
@@ -153,7 +163,7 @@ class Image
     }
 
     /**
-     * @return \Magento\Framework\Image
+     * @return $this
      */
     protected function prepareOutputImage()
     {
@@ -170,7 +180,9 @@ class Image
     }
 
     /**
-     * @return string
+     * @param $storeId
+     * @return false|string
+     * @throws \Magento\Framework\Exception\FileSystemException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getUrl($storeId = null)
