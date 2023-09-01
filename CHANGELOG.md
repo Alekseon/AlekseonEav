@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.2.5] - 2023-09-01
+### Fixed
+- fix for images upload
+
 ## [101.2.4] - 2023-06-28
 ### Fixed
 - fix for image url
