@@ -191,10 +191,13 @@ class Image extends AbstractBackend
      */
     public function isAttributeValueUpdated($object)
     {
+        $isAttributeUpdated = parent::isAttributeValueUpdated($object);
         $attrCode = $this->getAttribute()->getAttributeCode();
-        if (isset($_FILES[$attrCode])) {
-            return true;
+        // phpcs:disable Magento2.Security.Superglobal
+        if (!$isAttributeUpdated && isset($_FILES[$attrCode])) {
+            $isAttributeUpdated = true;
         }
-        return false;
+        // phpcs:enable Magento2.Security.Superglobal
+        return $isAttributeUpdated;
     }
 }
