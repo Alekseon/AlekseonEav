@@ -183,4 +183,18 @@ class Image extends AbstractBackend
         }
         return parent::afterDelete($object);
     }
+
+    /**
+     * @param $object
+     * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function isAttributeValueUpdated($object)
+    {
+        $attrCode = $this->getAttribute()->getAttributeCode();
+        if (isset($_FILES[$attrCode])) {
+            return true;
+        }
+        return false;
+    }
 }
