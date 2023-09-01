@@ -85,4 +85,14 @@ abstract class AbstractBackend
     {
         return $this;
     }
+
+    /**
+     * @param $object
+     * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function isAttributeValueUpdated($object)
+    {
+        return false;
+    }
 }

@@ -304,6 +304,13 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
             return true;
         }
 
+        $backendModels = $this->getBackendModels();
+        foreach ($backendModels as $backendModel) {
+            if ($backendModel->isAttributeValueUpdated($object)) {
+                return true;
+            }
+        }
+
         return false;
     }
 
