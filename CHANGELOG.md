@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.2.6] - 2023-09-08
+### Fixed
+- optimization for getAttributeText method
+
 ## [101.2.5] - 2023-09-01
 ### Fixed
 - fix for images upload
