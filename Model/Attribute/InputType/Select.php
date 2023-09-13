@@ -137,7 +137,7 @@ class Select extends AbstractInputType
     {
         $sourceModel = $this->getSourceModel();
         $sourceModel->setStoreId($storeId);
-        $options = $sourceModel->getOptions();
+        $options = $sourceModel->getOptionArray();
         if (array_key_exists($value, $options)) {
             return $options[$value];
         }

@@ -16,15 +16,15 @@ abstract class AbstractSource
     /**
      * @var
      */
-    protected $options;
+    private $optionsArray = [];
     /**
      * @var
      */
-    protected $attribute;
+    private $attribute;
     /**
      * @var
      */
-    protected $storeId = null;
+    private $storeId = null;
     /**
      * @var bool
      */
@@ -58,17 +58,16 @@ abstract class AbstractSource
      */
     public function getAllOptions($withEmpty = false)
     {
-        if (is_null($this->options)) {
-            $this->options = [];
-            if ($withEmpty) {
-                $this->options[] = ['value' => '', 'label' => $this->getEmptyOptionLabel()];
-            }
-            $options = $this->getOptions();
-            foreach ($options as $value => $label) {
-                $this->options[] = ['value' => $value, 'label' => $label];
-            }
+        $allOptions = [];
+        if ($withEmpty) {
+            $allOptions[] = ['value' => '', 'label' => $this->getEmptyOptionLabel()];
         }
-        return $this->options;
+        $options = $this->getOptionArray();
+        foreach ($options as $value => $label) {
+            $allOptions[] = ['value' => $value, 'label' => $label];
+        }
+
+        return $allOptions;
     }
 
     /**
@@ -76,7 +75,11 @@ abstract class AbstractSource
      */
     public function getOptionArray()
     {
-        return $this->getOptions();
+        $storeId = $this->storeId ?? 0;
+        if (!array_key_exists($storeId, $this->optionsArray)) {
+            $this->optionsArray[$storeId] = $this->getOptions();
+        }
+        return $this->optionsArray[$storeId];
     }
 
     /**
