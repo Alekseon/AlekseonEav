@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [Unreleased]
+### Changed
+- Removed Attribute Metadata, it was used in custom project to date format and its not needed anymore
+
 ## [101.2.6] - 2023-09-08
 ### Fixed
 - optimization for getAttributeText method
