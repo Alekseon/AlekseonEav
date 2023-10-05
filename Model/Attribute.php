@@ -11,13 +11,14 @@ use Alekseon\AlekseonEav\Api\Data\AttributeInterface;
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\Scopes;
 use Alekseon\AlekseonEav\Model\Attribute\Backend\AbstractBackend;
 use Alekseon\AlekseonEav\Model\Attribute\InputType\AbstractInputType;
-use Alekseon\AlekseonEav\Model\Attribute\MetadataForm\AbstractMetadataForm;
 use Alekseon\AlekseonEav\Model\Attribute\Source\AbstractSource;
 
 /**
  * Class Attribute
  * @package Alekseon\AlekseonEav\Model
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ *
+ * @method string getGroupCode()
  */
 abstract class Attribute extends \Magento\Framework\Model\AbstractModel implements AttributeInterface
 {
@@ -45,10 +46,6 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
      * @var array
      */
     private $assignedBackendModelCodes = [];
-    /**
-     * @var
-     */
-    private $metadataFormModel;
     /**
      * @var bool
      */
@@ -315,46 +312,15 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     }
 
     /**
-     * @return AbstractMetadataForm
-     */
-    public function getMetadataFormModel()
-    {
-        if ($this->metadataFormModel === null) {
-            $metadataFormModel = $this->getInputTypeModel()->getMetadataFormModel();
-            if ($metadataFormModel) {
-                $metadataFormModel->setAttribute($this);
-            }
-            $this->metadataFormModel = $metadataFormModel;
-        }
-        return $this->metadataFormModel;
-    }
-
-    /**
-     * @param $metadataFormModel
-     * @return $this
-     */
-    public function setMetadataFormModel($metadataFormModel)
-    {
-        $this->metadataFormModel = $metadataFormModel;
-        $metadataFormModel->setAttribute($this);
-        return $this;
-    }
-
-    /**
      * @param \Magento\Framework\App\RequestInterface $request
      * @return mixed
      */
     public function extractValueFromRequest(\Magento\Framework\App\RequestInterface $request, $paramName = null)
     {
-        $metadataFormModel = $this->getMetadataFormModel();
-        if ($metadataFormModel) {
-            return $metadataFormModel->extractValue($request, $paramName);
-        } else {
-            if ($paramName === null) {
-                $paramName = $this->getAttributeCode();
-            }
-            return $request->getParam($paramName);
+        if ($paramName === null) {
+            $paramName = $this->getAttributeCode();
         }
+        return $request->getParam($paramName);
     }
 
     /**

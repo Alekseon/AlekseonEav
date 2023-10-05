@@ -246,14 +246,6 @@ abstract class AbstractInputType extends DataObject
     }
 
     /**
-     * @return Attribute\MetadataForm\AbstractMetadataForm | false
-     */
-    public function getMetadataFormModel()
-    {
-       return false;
-    }
-
-    /**
      * @return bool
      */
     public function hasOptionCodes()

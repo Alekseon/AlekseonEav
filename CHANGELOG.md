@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.2.7] - 2023-10-05
+### Changed
+- Removed Attribute Metadata, it was used in custom project to date format and its not needed anymore
+
+## [101.2.6] - 2023-09-08
+### Fixed
+- optimization for getAttributeText method
+
 ## [101.2.5] - 2023-09-01
 ### Fixed
 - fix for images upload
@@ -19,7 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [101.2.3] - 2023-06-21
 ### Fixed
-- fix for defaulr value when its array (for multiselects)
+- fix for default value when its array (for multiselects)
 
 ## [101.2.2] - 2023-06-12
 ### Fixed

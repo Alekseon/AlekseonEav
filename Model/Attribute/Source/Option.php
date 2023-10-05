@@ -18,7 +18,7 @@ class Option extends AbstractSource
     /**
      * @var array
      */
-    private $storeLabels = [];
+    private $storeLabels;
     /**
      * @var array
      */
@@ -40,6 +40,7 @@ class Option extends AbstractSource
             ->getAttributeOptionValues($this->getAttribute());
 
         $options = [];
+        $this->storeLabels = [];
 
         foreach ($attributeOptionValues as $optionValue) {
             $optionId = $optionValue->getOptionId();
@@ -58,7 +59,9 @@ class Option extends AbstractSource
      */
     public function getStoreLabels($optionId)
     {
-        $this->getAllOptions(); // to be sure that options have been loaded
+        if ($this->storeLabels === null) {
+            $this->getOptionArray(); // load options
+        }
         if (isset($this->storeLabels[$optionId])) {
             return $this->storeLabels[$optionId];
         } else {
