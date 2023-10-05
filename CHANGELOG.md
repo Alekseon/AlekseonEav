@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
-## [Unreleased]
+## [101.2.7] - 2023-10-05
 ### Changed
 - Removed Attribute Metadata, it was used in custom project to date format and its not needed anymore
 
