@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [101.2.3] - 2023-06-21
 ### Fixed
-- fix for defaulr value when its array (for multiselects)
+- fix for default value when its array (for multiselects)
 
 ## [101.2.2] - 2023-06-12
 ### Fixed
