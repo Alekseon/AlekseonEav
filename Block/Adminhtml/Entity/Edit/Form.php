@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Alekseon\AlekseonEav\Block\Adminhtml\Entity\Edit;
 
+use Alekseon\AlekseonEav\Model\Attribute\InputValidator\AbstractValidator;
 use Magento\Backend\Block\Widget\Form\Generic;
 use Alekseon\AlekseonEav\Api\Data\AttributeInterface;
 use Alekseon\AlekseonEav\Api\Data\EntityInterface;
@@ -93,6 +94,7 @@ abstract class Form extends Generic
         );
 
         $validators = $attribute->getInputValidators();
+        /** @var AbstractValidator $validator */
         foreach ($validators as $validator) {
             $validator->prepareAdminField($element);
         }

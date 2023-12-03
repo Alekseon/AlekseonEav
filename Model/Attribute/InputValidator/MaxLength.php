@@ -27,16 +27,12 @@ class MaxLength extends AbstractValidator
     }
 
     /**
-     * @return array|string[]
+     * @return string
      */
     public function getValidationFieldClass()
     {
         $maxLength = $this->attribute->getInputParam('maxLength');
-        if ($maxLength) {
-            return 'validate-length maximum-length-' . $maxLength;
-        }
-
-        return '';
+        return $maxLength ? 'validate-length maximum-length-' . $maxLength : '';
     }
 
     /**
