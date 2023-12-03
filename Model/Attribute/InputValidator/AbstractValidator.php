@@ -52,7 +52,7 @@ class AbstractValidator extends \Magento\Framework\DataObject
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function getValidationFieldClass()
     {
