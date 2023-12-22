@@ -35,7 +35,7 @@ class EavDataSetup implements EavDataSetupInterface
     private function getAttributeRepository()
     {
         if ($this->attributeRepository === null) {
-            throw new \Exception(__('Attribute Repository is not set.'));
+            throw new \Exception((string)__('Attribute Repository is not set.'));
         }
         return $this->attributeRepository;
     }
@@ -55,7 +55,7 @@ class EavDataSetup implements EavDataSetupInterface
                           ->getByAttributeCode($attributeCode, true);
         if ($attribute->getId()) {
             if ($exceptionIfAttributeAlreadyExists) {
-                throw new \Exception(__('Cannot create attribute %1, this attribute already exists.', $attributeCode));
+                throw new \Exception((string)__('Cannot create attribute %1, this attribute already exists.', $attributeCode));
             }
             return $attribute;
         }
