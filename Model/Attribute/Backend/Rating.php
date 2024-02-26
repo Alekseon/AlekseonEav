@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Alekseon\AlekseonEav\Model\Attribute\Backend;
 
 /**
- * Class ArrayBackend
+ * Class Rating
  * @package Alekseon\AlekseonEav\Model\Attribute\Backend
  */
 class Rating extends AbstractBackend

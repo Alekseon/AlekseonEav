@@ -485,4 +485,10 @@ abstract class Collection extends \Magento\Framework\Model\ResourceModel\Db\Coll
         }
         return false;
     }
+
+    protected function beforeAddLoadedItem(\Magento\Framework\DataObject $item)
+    {
+        $item->setResource($this->getResource());
+        return $item;
+    }
 }

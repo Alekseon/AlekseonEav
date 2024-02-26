@@ -12,6 +12,7 @@ use Magento\Backend\Block\Widget\Form\Generic;
 use Alekseon\AlekseonEav\Api\Data\AttributeInterface;
 use Alekseon\AlekseonEav\Api\Data\EntityInterface;
 use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\Fieldset;
 
 /**
  * Class General
@@ -39,7 +40,7 @@ abstract class Form extends Generic
      * @param array $groups
      * @return $this
      */
-    public function addAllAttributeFields($formFieldset, EntityInterface $entity, $groups = [])
+    public function addAllAttributeFields(Fieldset $formFieldset, EntityInterface $entity, $groups = [])
     {
         $includedGroups = $groups['included'] ?? null;
         $excludedGroups = $groups['excluded'] ?? null;
@@ -69,7 +70,7 @@ abstract class Form extends Generic
      * @param $formFieldset
      * @param AttributeInterface $attribute
      */
-    public function addAttributeField($formFieldset, AttributeInterface $attribute)
+    public function addAttributeField(Fieldset $formFieldset, AttributeInterface $attribute)
     {
         $inputTypeModel = $attribute->getInputTypeModel();
         $inputTypeModel->setForm($this);

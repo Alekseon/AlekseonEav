@@ -62,6 +62,16 @@ abstract class Entity extends \Magento\Framework\Model\AbstractModel implements 
     }
 
     /**
+     * @param $resource
+     * @return $this
+     */
+    public function setResource($resource)
+    {
+        $this->_resource = $resource;
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getStoreId()
