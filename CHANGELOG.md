@@ -9,12 +9,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
-## [Unreleased]
+## [101.2.9] - 2024-02-26
 ### Fixed
-- set collection resource model on all collections items 
+- set collection resource model on all collections items
 - fix argument type error in EavDataSetup
 ### Added
 - serialized backend model
+
+## [101.2.8] - 2023-12-03
+### Added
+- File size validator
 
 ## [101.2.7] - 2023-10-05
 ### Changed
