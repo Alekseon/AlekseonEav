@@ -66,7 +66,7 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/edit', ['entity_id' => $row->getEntityId()]);
+        return $this->getUrl('*/*/edit', ['entity_id' => $row->getEntityId(), 'store' => $row->getStoreId()]);
     }
 
     /**
