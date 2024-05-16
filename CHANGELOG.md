@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.2.11] - 2024-05-16
+### Changed
+- Translate labels (https://github.com/Alekseon/AlekseonEav/issues/44)
 
 ## [101.2.10] - 2024-05-15
 ### Added
