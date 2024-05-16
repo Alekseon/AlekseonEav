@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+
+## [101.2.10] - 2024-05-15
+### Added
+- Store ID is now passed to row url in grid
+
 ## [101.2.9] - 2024-02-26
 ### Fixed
 - set collection resource model on all collections items
