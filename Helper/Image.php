@@ -72,7 +72,7 @@ class Image
      */
     public function init(Entity $entity, string $attributeCode)
     {
-        $imagePath = $entity->getData($attributeCode);
+        $imagePath = (string) $entity->getData($attributeCode);
         try {
             $this->setImagePath($imagePath, true);
         } catch (\Exception $e) {
@@ -90,6 +90,9 @@ class Image
     public function setImagePath(string $imagePath, bool $isMediaImage = false)
     {
         $this->reset();
+        if (empty($imagePath)) {
+            return $this;
+        }
         $this->imagePath = $imagePath;
         if ($isMediaImage) {
             $mediaDir = $this->directoryList->getPath('media');
