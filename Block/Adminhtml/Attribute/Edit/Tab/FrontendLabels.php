@@ -83,8 +83,8 @@ class FrontendLabels extends Generic
                         'text',
                         [
                             'name' => 'frontend_labels[' . $store->getId() . ']',
-                            'label' => $store->getName(),
-                            'title' => $store->getName(),
+                            'label' => __($store->getName()),
+                            'title' => __($store->getName()),
                         ]
                     );
                 }

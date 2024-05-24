@@ -276,11 +276,11 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getDefaultFrontendLabel()
     {
-        return $this->getData('frontend_label');
+        return (string) $this->getData('frontend_label');
     }
 
     /**

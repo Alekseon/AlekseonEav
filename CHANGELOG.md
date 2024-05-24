@@ -11,10 +11,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Fixed
-- set collection resource model on all collections items 
+- fix image helper for empty image path
+
+## [101.2.11] - 2024-05-16
+### Changed
+- Translate labels (https://github.com/Alekseon/AlekseonEav/issues/44)
+
+## [101.2.10] - 2024-05-15
+### Added
+- Store ID is now passed to row url in grid
+
+## [101.2.9] - 2024-02-26
+### Fixed
+- set collection resource model on all collections items
 - fix argument type error in EavDataSetup
 ### Added
 - serialized backend model
+
+## [101.2.8] - 2023-12-03
+### Added
+- File size validator
 
 ## [101.2.7] - 2023-10-05
 ### Changed
