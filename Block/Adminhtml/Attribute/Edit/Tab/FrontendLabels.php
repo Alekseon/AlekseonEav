@@ -76,6 +76,7 @@ class FrontendLabels extends Generic
             foreach($website->getGroups() as $group) {
                 $groupFieldset = $form->addFieldset('group_' . $group->getId() . '_fieldset', ['legend' => $website->getName() . ' / ' . $group->getName()]);
 
+                /** @var \Magento\Store\Api\Data\StoreInterface $store */
                 foreach($group->getStores() as $store) {
                     $groupFieldset->addField(
                         'frontend_labels_' . $store->getId(),
