@@ -93,10 +93,10 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * @param $attribute
-     * @throws \Exception
+     * @param AttributeInterface $attribute
+     * @return array
      */
-    protected function addAttributeColumn(AttributeInterface $attribute)
+    protected function getAttributeColumnConfig(AttributeInterface $attribute)
     {
         $inputTypeModel = $attribute->getInputTypeModel();
         $columnConfig = [
@@ -104,13 +104,21 @@ abstract class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'header' => __($attribute->getDefaultFrontendLabel()),
             'index' => $attribute->getAttributeCode(),
         ];
-
         $inputTypeModel->prepareGridColumnConfig($columnConfig);
         if (isset($columnConfig['options'])) {
             $optionNone = ['' => ' '];
             $columnConfig['options'] = $optionNone + $columnConfig['options'];
         }
+        return $columnConfig;
+    }
 
+    /**
+     * @param $attribute
+     * @throws \Exception
+     */
+    protected function addAttributeColumn(AttributeInterface $attribute)
+    {
+        $columnConfig = $this->getAttributeColumnConfig($attribute);
         $this->attributesToAddToCollection[] = $attribute->getAttributeCode();
         $this->addColumn(
             $attribute->getAttributeCode(),

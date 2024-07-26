@@ -134,4 +134,12 @@ abstract class AbstractSource
     {
         return $this->validateOptionKeyOnEntitySave;
     }
+
+    /**
+     * @return bool
+     */
+    public function canUseDefaultValue()
+    {
+        return true;
+    }
 }
