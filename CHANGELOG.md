@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
-## [Unreleased]
+## [101.2.12] - 2024-07-29
 ### Fixed
 - fix image helper for empty image path
 - not display "default value" input for attribute with options
