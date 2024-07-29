@@ -106,6 +106,6 @@ class Option extends AbstractSource
      */
     public function canUseDefaultValue()
     {
-        return false; // its false, because default values are implemented in manage options grid for this source type
+        return false; // its false, because its not implemented
     }
 }
