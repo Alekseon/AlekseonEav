@@ -100,4 +100,12 @@ class Option extends AbstractSource
         }
         return '';
     }
+
+    /**
+     * @return bool
+     */
+    public function canUseDefaultValue()
+    {
+        return false; // its false, because its not implemented
+    }
 }

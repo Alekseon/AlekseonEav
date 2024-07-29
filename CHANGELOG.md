@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [Unreleased]
+### Fixed
+- fix image helper for empty image path
+- not display "default value" input for attribute with options
+### Changed
+- separeate getAttributeColumnConfig method
+
 ## [101.2.11] - 2024-05-16
 ### Changed
 - Translate labels (https://github.com/Alekseon/AlekseonEav/issues/44)

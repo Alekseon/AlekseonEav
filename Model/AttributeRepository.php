@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Alekseon\AlekseonEav\Model;
 
+use Alekseon\AlekseonEav\Api\Data\AttributeInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\TemporaryState\CouldNotSaveException;
 
@@ -23,7 +24,7 @@ abstract class AttributeRepository
 
     /**
      * @param $attributeId
-     * @return mixed
+     * @return AttributeInterface
      * @throws NoSuchEntityException
      */
     public function getById($attributeId)
@@ -39,7 +40,7 @@ abstract class AttributeRepository
     /**
      * @param $attributeCode
      * @param bool $graceful
-     * @return mixed
+     * @return AttributeInterface
      * @throws NoSuchEntityException
      */
     public function getByAttributeCode($attributeCode, $graceful = false)
@@ -79,12 +80,12 @@ abstract class AttributeRepository
     }
 
     /**
-     * @param \Alekseon\AlekseonEav\Api\Data\AttributeInterface $attribute
+     * @param AttributeInterface $attribute
      * @param bool $graceful
-     * @return \Alekseon\AlekseonEav\Api\Data\AttributeInterface
+     * @return AttributeInterface
      * @throws CouldNotSaveException
      */
-    public function save(\Alekseon\AlekseonEav\Api\Data\AttributeInterface $attribute, $graceful = false)
+    public function save(AttributeInterface $attribute, $graceful = false)
     {
         try {
             $attribute->getResource()->save($attribute);
