@@ -80,6 +80,7 @@ abstract class Form extends Generic
             'name' => $attribute->getAttributeCode(),
             'label' => __($attribute->getDefaultFrontendLabel()),
             'title' => __($attribute->getDefaultFrontendLabel()),
+            'note' => __($attribute->getNote()),
         ];
 
         if ($attribute->getIsRequired()) {

@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.2.13] - 2024-08-01
+### Added
+- show Attribute notes on element edit
+
 ## [101.2.12] - 2024-07-29
 ### Fixed
 - fix image helper for empty image path
