@@ -41,7 +41,7 @@ class Email extends AbstractValidator
     public function getDataValidateParams()
     {
         return [
-            'validate-email' => true,
+            'email' => true,
         ];
     }
 }
