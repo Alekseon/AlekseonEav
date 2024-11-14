@@ -59,10 +59,7 @@ abstract class AbstractSource
     public function getAllOptions($withEmpty = false)
     {
         $allOptions = [];
-        if ($withEmpty) {
-            $allOptions[] = ['value' => '', 'label' => $this->getEmptyOptionLabel()];
-        }
-        $options = $this->getOptionArray();
+        $options = $this->getOptionArray($withEmpty);
         foreach ($options as $value => $label) {
             $allOptions[] = ['value' => $value, 'label' => $label];
         }
@@ -73,13 +70,18 @@ abstract class AbstractSource
     /**
      * @return mixed
      */
-    public function getOptionArray()
+    public function getOptionArray($withEmpty = false)
     {
         $storeId = $this->storeId ?? 0;
         if (!array_key_exists($storeId, $this->optionsArray)) {
             $this->optionsArray[$storeId] = $this->getOptions();
         }
-        return $this->optionsArray[$storeId];
+        $optionsArray = $this->optionsArray[$storeId];
+        if ($withEmpty) {
+            $emptyOption = ['' => $this->getEmptyOptionLabel()];
+            $optionsArray = array_merge($emptyOption, $optionsArray);
+        }
+        return $optionsArray;
     }
 
     /**

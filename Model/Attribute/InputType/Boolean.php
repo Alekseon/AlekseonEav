@@ -24,17 +24,15 @@ class Boolean extends Select
 
     /**
      * Boolean constructor.
-     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Alekseon\AlekseonEav\Model\Attribute\Source\OptionFactory $optionFactory
      * @param \Alekseon\AlekseonEav\Model\Attribute\Source\Boolean $yesNoSource
      */
     public function __construct(
-        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Alekseon\AlekseonEav\Model\Attribute\Source\OptionFactory $optionFactory,
         \Alekseon\AlekseonEav\Model\Attribute\Source\Boolean $yesNoSource
     ) {
         $this->yesNoSource = $yesNoSource;
-        parent::__construct($universalFactory, $optionFactory);
+        parent::__construct($optionFactory);
     }
 
     /**

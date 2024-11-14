@@ -479,6 +479,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
             } else {
                 $this->inputParamsConfig = [];
             }
+
             $inputValidators = $this->getInputValidators();
 
             foreach ($inputValidators as $validator) {

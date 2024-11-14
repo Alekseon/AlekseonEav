@@ -36,15 +36,13 @@ class Date extends AbstractInputType
 
     /**
      * Date constructor.
-     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      */
     public function __construct(
-        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
     ) {
         $this->localeDate = $localeDate;
-        parent::__construct($universalFactory);
+        parent::__construct();
     }
 
     /**

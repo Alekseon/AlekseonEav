@@ -34,17 +34,15 @@ class Rating extends Select
 
     /**
      * Boolean constructor.
-     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Alekseon\AlekseonEav\Model\Attribute\Source\OptionFactory $optionFactory
      * @param \Alekseon\AlekseonEav\Model\Attribute\Source\Rating $ratingSource
      */
     public function __construct(
-        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Alekseon\AlekseonEav\Model\Attribute\Source\OptionFactory $optionFactory,
         \Alekseon\AlekseonEav\Model\Attribute\Source\Rating $ratingSource
     ) {
         $this->ratingSource = $ratingSource;
-        parent::__construct($universalFactory, $optionFactory);
+        parent::__construct($optionFactory);
     }
 
     /**
