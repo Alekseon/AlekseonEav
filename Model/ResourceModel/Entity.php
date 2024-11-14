@@ -434,6 +434,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
 
         $inputValidators = $attribute->getInputValidators();
         foreach ($inputValidators as $inputValidator) {
+            $inputValidator->setEntity($object);
             if ($value && !$inputValidator->validateValue($value)) {
                 throw new LocalizedException(__('Incorrect value for "%1".', $attribute->getFrontendLabel()));
             }
