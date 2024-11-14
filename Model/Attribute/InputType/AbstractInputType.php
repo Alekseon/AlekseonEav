@@ -267,14 +267,6 @@ abstract class AbstractInputType extends DataObject
     }
 
     /**
-     * @return true
-     */
-    public function isRequiredEditable()
-    {
-        return true;
-    }
-
-    /**
      * @return false|mixed
      */
     public function getValidator()
