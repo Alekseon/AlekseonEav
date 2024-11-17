@@ -14,6 +14,11 @@ namespace Alekseon\AlekseonEav\Model\Attribute\InputValidator;
 class MaxLength extends AbstractValidator
 {
     /**
+     * @var string
+     */
+    protected $code = 'max_length';
+
+    /**
      * @param $value
      * @return bool
      */

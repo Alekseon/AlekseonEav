@@ -7,12 +7,20 @@ declare(strict_types=1);
 
 namespace Alekseon\AlekseonEav\Model\Attribute\InputValidator;
 
+use Magento\Framework\Data\Form\Element\AbstractElement;
+use \Alekseon\AlekseonEav\Block\Adminhtml\Entity\Edit\Form;
+
 /**
  * Class AbstractValidator
  * @package Alekseon\AlekseonEav\Model\Attribute\InputValidator
  */
 class Email extends AbstractValidator
 {
+    /**
+     * @var string
+     */
+    protected $code = 'email';
+
     /**
      * @return bool
      */
@@ -25,10 +33,9 @@ class Email extends AbstractValidator
     }
 
     /**
-     * @param $attribute
-     * @param $adminField
+     * @inheritDoc
      */
-    public function prepareAdminField($adminField)
+    public function prepareAdminField(AbstractElement $adminField)
     {
         $adminField->setType('email');
         return parent::prepareAdminField($adminField);

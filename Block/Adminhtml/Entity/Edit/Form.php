@@ -112,8 +112,7 @@ abstract class Form extends Generic
     }
 
     /**
-     * @return $this|void
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @inheritDoc
      */
     protected function _prepareLayout() // @codingStandardsIgnoreLine
     {
@@ -135,6 +134,8 @@ abstract class Form extends Generic
                 $this->getNameInLayout() . '_fieldset_element'
             )
         );
+
+        return \Magento\Backend\Block\Widget::_prepareLayout();
     }
 
     /**
