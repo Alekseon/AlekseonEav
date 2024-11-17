@@ -67,9 +67,9 @@ abstract class AbstractInputType extends DataObject
      */
     protected $attribute;
     /**
-     * @var \Magento\Framework\Validator\UniversalFactory
+     * @var \Magento\Framework\ObjectManagerInterface
      */
-    protected $universalFactory;
+    protected $objectManager;
     /**
      * @var mixed|LoggerInterface
      */
@@ -81,15 +81,11 @@ abstract class AbstractInputType extends DataObject
 
     /**
      * AbstractInputType constructor.
-     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param LoggerInterface|null $logger
      */
-    public function __construct(
-        \Magento\Framework\Validator\UniversalFactory $universalFactory,
-        LoggerInterface $logger = null
-    ) {
-        $this->universalFactory = $universalFactory;
-        $this->logger = $logger ?: ObjectManager::getInstance()->get(LoggerInterface::class);
+    public function __construct() {
+        $this->logger = ObjectManager::getInstance()->get(LoggerInterface::class);
     }
 
     /**
@@ -176,7 +172,7 @@ abstract class AbstractInputType extends DataObject
     }
 
     /**
-     * @return bool|\Magento\Framework\Validator\Builder
+     * @return false|mixed
      */
     public function getBackendModel()
     {
@@ -195,7 +191,7 @@ abstract class AbstractInputType extends DataObject
      */
     protected function createObject($class)
     {
-        return $this->universalFactory->create($class);
+        return ObjectManager::getInstance()->create($class);
     }
 
     /**
@@ -271,15 +267,7 @@ abstract class AbstractInputType extends DataObject
     }
 
     /**
-     * @return true
-     */
-    public function isRequiredEditable()
-    {
-        return true;
-    }
-
-    /**
-     * @return false|\Magento\Framework\Validator\Builder
+     * @return false|mixed
      */
     public function getValidator()
     {

@@ -9,9 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.2.15] - 2024-11-17
+### Added
+- input validator codes
+
 ## [101.2.14] - 2024-08-16
 ### Changed
-- data-validate parameter "validate-email" chagned to "email"
+- data-validate parameter "validate-email" changed to "email"
 
 ## [101.2.13] - 2024-08-01
 ### Added

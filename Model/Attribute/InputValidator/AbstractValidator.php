@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Alekseon\AlekseonEav\Model\Attribute\InputValidator;
 
+use Magento\Framework\Data\Form\Element\AbstractElement;
+
 /**
  * Class AbstractValidator
  * @package Alekseon\AlekseonEav\Model\Attribute\InputValidator
@@ -17,6 +19,10 @@ class AbstractValidator extends \Magento\Framework\DataObject
      * @var
      */
     protected $attribute;
+    /**
+     * @var string
+     */
+    protected $code = '';
 
     /**
      *
@@ -25,6 +31,14 @@ class AbstractValidator extends \Magento\Framework\DataObject
     {
         $this->attribute = $attribute;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
     }
 
     /**
@@ -38,9 +52,10 @@ class AbstractValidator extends \Magento\Framework\DataObject
     }
 
     /**
-     * @param $adminField
+     * @param AbstractElement $adminField
+     * @return $this
      */
-    public function prepareAdminField($adminField)
+    public function prepareAdminField(AbstractElement $adminField)
     {
         $fieldClass = $adminField->getClass();
         if ($this->getValidationFieldClass()) {

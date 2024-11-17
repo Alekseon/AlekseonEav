@@ -50,15 +50,13 @@ class Select extends AbstractInputType
 
     /**
      * Select constructor.
-     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Alekseon\AlekseonEav\Model\Attribute\Source\OptionFactory $optionFactory
      */
     public function __construct(
-        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Alekseon\AlekseonEav\Model\Attribute\Source\OptionFactory $optionFactory
     ) {
         $this->optionFactory = $optionFactory;
-        parent::__construct($universalFactory);
+        parent::__construct();
     }
 
     /**

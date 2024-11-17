@@ -32,15 +32,13 @@ class Textarea extends AbstractInputType
 
     /**
      * Textarea constructor.
-     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      */
     public function __construct(
-        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
     ) {
         $this->wysiwygConfig = $wysiwygConfig;
-        parent::__construct($universalFactory);
+        parent::__construct();
     }
 
     /**

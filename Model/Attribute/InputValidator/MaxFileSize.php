@@ -14,6 +14,11 @@ namespace Alekseon\AlekseonEav\Model\Attribute\InputValidator;
 class MaxFileSize extends AbstractValidator
 {
     /**
+     * @var string
+     */
+    protected $code = 'max_file_size';
+
+    /**
      * @param $value
      * @return bool
      */
