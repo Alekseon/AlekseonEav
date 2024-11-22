@@ -9,8 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
-## [101.2.15] - 2024-11-17
+## [101.2.15] - 2024-11-24
 ### Added
+- getAdminDataValidateParams method
 - input validator codes
 
 ## [101.2.14] - 2024-08-16
