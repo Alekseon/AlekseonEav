@@ -52,6 +52,14 @@ class AbstractValidator extends \Magento\Framework\DataObject
     }
 
     /**
+     * @return array
+     */
+    public function getInputParams()
+    {
+        return [];
+    }
+
+    /**
      * @param AbstractElement $adminField
      * @return $this
      */
@@ -61,6 +69,9 @@ class AbstractValidator extends \Magento\Framework\DataObject
         if ($this->getValidationFieldClass()) {
             $fieldClass .= ' ' . $this->getValidationFieldClass();
             $adminField->setClass($fieldClass);
+        }
+        if ($this->getAdminDataValidateParams()) {
+            $adminField->setData('data-validation-params', $this->getAdminDataValidateParams());
         }
 
         return $this;
@@ -80,5 +91,13 @@ class AbstractValidator extends \Magento\Framework\DataObject
     public function getDataValidateParams()
     {
         return [];
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminDataValidateParams()
+    {
+        return '';
     }
 }
