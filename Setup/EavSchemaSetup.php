@@ -12,6 +12,7 @@ use Magento\Framework\DB\Ddl\Table;
 /**
  * Class SchemaSetup
  * @package Alekseon\AlekseonEav\Setup
+ * @deprecated 101.2.16
  */
 class EavSchemaSetup implements EavSchemaSetupInterface
 {
@@ -81,6 +82,7 @@ class EavSchemaSetup implements EavSchemaSetupInterface
      * set null if entities are used for more entities
      * @param string $entityTableIdField
      * @throws \Zend_Db_Exception
+     * @deprecated 101.2.16
      */
     public function createFullEavStructure(
         string $attributeTableName,
@@ -107,6 +109,7 @@ class EavSchemaSetup implements EavSchemaSetupInterface
      * @param $attributeTableName
      * @throws \Zend_Db_Exception
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @deprecated 101.2.16
      */
     public function createEavAttributeTable($attributeTableName)
     {
@@ -228,6 +231,7 @@ class EavSchemaSetup implements EavSchemaSetupInterface
      * @param string $entityTableIdField
      * @throws \Zend_Db_Exception
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @deprecated 101.2.16
      */
     public function createEavEntitiesTables(
         string $attributeTableName,
@@ -335,6 +339,7 @@ class EavSchemaSetup implements EavSchemaSetupInterface
      * @param string $attributeTableName
      * @param string $optionsTableName
      * @throws \Zend_Db_Exception
+     * @deprecated 101.2.16
      */
     public function createOptionTables(string $attributeTableName, string $optionsTableName)
     {
@@ -433,6 +438,7 @@ class EavSchemaSetup implements EavSchemaSetupInterface
      * @param string $attributeTableName
      * @param string $attributeFrontendLabelsTableName
      * @throws \Zend_Db_Exception
+     * @deprecated 101.2.16
      */
     public function createFrontendLabelsTable(string $attributeTableName, string $attributeFrontendLabelsTableName)
     {
