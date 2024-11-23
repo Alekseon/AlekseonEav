@@ -33,7 +33,7 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="id"/>
         </constraint>
-        <constraint xsi:type="unique">
+        <constraint xsi:type="unique" referenceId="ALEKSEON_EAV_ATTRIBUTE_ENTITY_TYPE_CODE_ATTRIBUTE_CODE">
             <column name="entity_type_code"/>
             <column name="attribute_code"/>
         </constraint>
@@ -47,12 +47,13 @@
             <column name="option_id"/>
         </constraint>
         <constraint xsi:type="foreign"
+                    referenceId="ALEKSEON_EAV_ATTR_OPT_ATTR_ID_ALEKSEON_EAV_ATTR_ID"
                     table="alekseon_eav_attribute_option"
                     column="attribute_id"
                     referenceTable="alekseon_eav_attribute"
                     referenceColumn="id"
                     onDelete="CASCADE"/>
-        <index indexType="btree">
+        <index indexType="btree" referenceId="ALEKSEON_EAV_ATTRIBUTE_OPTION_ATTRIBUTE_ID">
             <column name="attribute_id"/>
         </index>
     </table>
@@ -65,19 +66,21 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="value_id"/>
         </constraint>
-        <index indexType="btree">
+        <index indexType="btree" referenceId="ALEKSEON_EAV_ATTRIBUTE_OPTION_VALUE_OPTION_ID">
             <column name="option_id"/>
         </index>
-        <index indexType="btree">
+        <index indexType="btree" referenceId="ALEKSEON_EAV_ATTRIBUTE_OPTION_VALUE_STORE_ID">
             <column name="store_id"/>
         </index>
         <constraint xsi:type="foreign"
+                    referenceId="ALEKSEON_EAV_ATTR_OPT_VAL_OPT_ID_ALEKSEON_EAV_ATTR_OPT_OPT_ID"
                     table="alekseon_eav_attribute_option_value"
                     column="option_id"
                     referenceTable="alekseon_eav_attribute_option"
                     referenceColumn="option_id"
                     onDelete="CASCADE"/>
         <constraint xsi:type="foreign"
+                    referenceId="ALEKSEON_EAV_ATTRIBUTE_OPTION_VALUE_STORE_ID_STORE_STORE_ID"
                     table="alekseon_eav_attribute_option_value"
                     column="store_id"
                     referenceTable="store"
@@ -92,19 +95,21 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="id"/>
         </constraint>
-        <index indexType="btree">
+        <index indexType="btree" referenceId="ALEKSEON_EAV_ATTRIBUTE_FRONTEND_LABEL_ATTRIBUTE_ID">
             <column name="attribute_id"/>
         </index>
-        <index indexType="btree">
+        <index indexType="btree" referenceId="ALEKSEON_EAV_ATTRIBUTE_FRONTEND_LABEL_STORE_ID">
             <column name="store_id"/>
         </index>
         <constraint xsi:type="foreign"
+                    referenceId="ALEKSEON_EAV_ATTR_FRONTEND_LBL_ATTR_ID_ALEKSEON_EAV_ATTR_ID"
                     table="alekseon_eav_attribute_frontend_label"
                     column="attribute_id"
                     referenceTable="alekseon_eav_attribute"
                     referenceColumn="id"
                     onDelete="CASCADE"/>
         <constraint xsi:type="foreign"
+                    referenceId="ALEKSEON_EAV_ATTRIBUTE_FRONTEND_LABEL_STORE_ID_STORE_STORE_ID"
                     table="alekseon_eav_attribute_frontend_label"
                     column="store_id"
                     referenceTable="store"
@@ -120,27 +125,29 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="value_id"/>
         </constraint>
-        <index indexType="btree">
+        <index indexType="btree" referenceId="ALEKSEON_EAV_ENTITY_VARCHAR_ATTRIBUTE_ID">
             <column name="attribute_id"/>
         </index>
-        <index indexType="btree">
+        <index indexType="btree" referenceId="ALEKSEON_EAV_ENTITY_VARCHAR_STORE_ID">
             <column name="store_id"/>
         </index>
-        <index indexType="btree">
+        <index indexType="btree" referenceId="ALEKSEON_EAV_ENTITY_VARCHAR_ENTITY_ID">
             <column name="entity_id"/>
         </index>
-        <constraint xsi:type="unique">
+        <constraint xsi:type="unique" referenceId="ALEKSEON_EAV_ENTITY_VARCHAR_ENTITY_ID_ATTRIBUTE_ID_STORE_ID">
             <column name="entity_id"/>
-            <column name="attribute_code"/>
+            <column name="attribute_id"/>
             <column name="store_id"/>
         </constraint>
         <constraint xsi:type="foreign"
+                    referenceId="ALEKSEON_EAV_ENTITY_VARCHAR_STORE_ID_STORE_STORE_ID"
                     table="alekseon_eav_entity_varchar"
                     column="attribute_id"
                     referenceTable="alekseon_eav_attribute"
                     referenceColumn="id"
                     onDelete="CASCADE"/>
         <constraint xsi:type="foreign"
+                    referenceId="ALEKSEON_EAV_ENTT_VCHR_ATTR_ID_ALEKSEON_EAV_ATTR_ID"
                     table="alekseon_eav_entity_varchar"
                     column="store_id"
                     referenceTable="store"
@@ -156,27 +163,29 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="value_id"/>
         </constraint>
-        <index indexType="btree">
+        <index indexType="btree" referenceId="ALEKSEON_EAV_ENTITY_INT_ATTRIBUTE_ID">
             <column name="attribute_id"/>
         </index>
-        <index indexType="btree">
+        <index indexType="btree" referenceId="ALEKSEON_EAV_ENTITY_INT_STORE_ID">
             <column name="store_id"/>
         </index>
-        <index indexType="btree">
+        <index indexType="btree" referenceId="ALEKSEON_EAV_ENTITY_INT_ENTITY_ID">
             <column name="entity_id"/>
         </index>
-        <constraint xsi:type="unique">
+        <constraint xsi:type="unique" referenceId="ALEKSEON_EAV_ENTITY_INT_ENTITY_ID_ATTRIBUTE_ID_STORE_ID">
             <column name="entity_id"/>
-            <column name="attribute_code"/>
+            <column name="attribute_id"/>
             <column name="store_id"/>
         </constraint>
         <constraint xsi:type="foreign"
+                    referenceId="ALEKSEON_EAV_ENTITY_INT_ATTRIBUTE_ID_ALEKSEON_EAV_ATTRIBUTE_ID"
                     table="alekseon_eav_entity_int"
                     column="attribute_id"
                     referenceTable="alekseon_eav_attribute"
                     referenceColumn="id"
                     onDelete="CASCADE"/>
         <constraint xsi:type="foreign"
+                    referenceId="ALEKSEON_EAV_ENTITY_INT_STORE_ID_STORE_STORE_ID"
                     table="alekseon_eav_entity_int"
                     column="store_id"
                     referenceTable="store"
@@ -192,27 +201,29 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="value_id"/>
         </constraint>
-        <index indexType="btree">
+        <index indexType="btree" referenceId="ALEKSEON_EAV_ENTITY_TEXT_ATTRIBUTE_ID">
             <column name="attribute_id"/>
         </index>
-        <index indexType="btree">
+        <index indexType="btree" referenceId="ALEKSEON_EAV_ENTITY_TEXT_STORE_ID">
             <column name="store_id"/>
         </index>
-        <index indexType="btree">
+        <index indexType="btree" referenceId="ALEKSEON_EAV_ENTITY_TEXT_ENTITY_ID">
             <column name="entity_id"/>
         </index>
-        <constraint xsi:type="unique">
+        <constraint xsi:type="unique" referenceId="ALEKSEON_EAV_ENTITY_TEXT_ENTITY_ID_ATTRIBUTE_ID_STORE_ID">
             <column name="entity_id"/>
-            <column name="attribute_code"/>
+            <column name="attribute_id"/>
             <column name="store_id"/>
         </constraint>
         <constraint xsi:type="foreign"
+                    referenceId="ALEKSEON_EAV_ENTITY_TEXT_ATTRIBUTE_ID_ALEKSEON_EAV_ATTRIBUTE_ID"
                     table="alekseon_eav_entity_text"
                     column="attribute_id"
                     referenceTable="alekseon_eav_attribute"
                     referenceColumn="id"
                     onDelete="CASCADE"/>
         <constraint xsi:type="foreign"
+                    referenceId="ALEKSEON_EAV_ENTITY_TEXT_STORE_ID_STORE_STORE_ID"
                     table="alekseon_eav_entity_text"
                     column="store_id"
                     referenceTable="store"
@@ -228,27 +239,29 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="value_id"/>
         </constraint>
-        <index indexType="btree">
+        <index indexType="btree" referenceId="ALEKSEON_EAV_ENTITY_DATETIME_ATTRIBUTE_ID">
             <column name="attribute_id"/>
         </index>
-        <index indexType="btree">
+        <index indexType="btree" referenceId="ALEKSEON_EAV_ENTITY_DATETIME_STORE_ID">
             <column name="store_id"/>
         </index>
-        <index indexType="btree">
+        <index indexType="btree" referenceId="ALEKSEON_EAV_ENTITY_DATETIME_ENTITY_ID">
             <column name="entity_id"/>
         </index>
-        <constraint xsi:type="unique">
+        <constraint xsi:type="unique" referenceId="ALEKSEON_EAV_ENTITY_DATETIME_ENTITY_ID_ATTRIBUTE_ID_STORE_ID">
             <column name="entity_id"/>
-            <column name="attribute_code"/>
+            <column name="attribute_id"/>
             <column name="store_id"/>
         </constraint>
         <constraint xsi:type="foreign"
+                    referenceId="ALEKSEON_EAV_ENTITY_DATETIME_STORE_ID_STORE_STORE_ID"
                     table="alekseon_eav_entity_datetime"
                     column="attribute_id"
                     referenceTable="alekseon_eav_attribute"
                     referenceColumn="id"
                     onDelete="CASCADE"/>
         <constraint xsi:type="foreign"
+                    referenceId="ALEKSEON_EAV_ENTT_DTIME_ATTR_ID_ALEKSEON_EAV_ATTR_ID"
                     table="alekseon_eav_entity_datetime"
                     column="store_id"
                     referenceTable="store"
