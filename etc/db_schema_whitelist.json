@@ -1,0 +1,43 @@
+{
+    "alekseon_eav_attribute_option": {
+        "constraint": {
+            "ALEKSEON_EAV_ATTR_OPT_ATTR_ID_ALEKSEON_EAV_ATTR_ID": true
+        }
+    },
+    "alekseon_eav_attribute_option_value": {
+        "constraint": {
+            "ALEKSEON_EAV_ATTR_OPT_VAL_OPT_ID_ALEKSEON_EAV_ATTR_OPT_OPT_ID": true,
+            "ALEKSEON_EAV_ATTRIBUTE_OPTION_VALUE_STORE_ID_STORE_STORE_ID": true
+        }
+    },
+    "alekseon_eav_attribute_frontend_label": {
+        "constraint": {
+            "ALEKSEON_EAV_ATTR_FRONTEND_LBL_ATTR_ID_ALEKSEON_EAV_ATTR_ID": true,
+            "ALEKSEON_EAV_ATTRIBUTE_FRONTEND_LABEL_STORE_ID_STORE_STORE_ID": true
+        }
+    },
+    "alekseon_eav_entity_varchar": {
+        "constraint": {
+            "ALEKSEON_EAV_ENTITY_VARCHAR_STORE_ID_STORE_STORE_ID": true,
+            "ALEKSEON_EAV_ENTT_VCHR_ATTR_ID_ALEKSEON_EAV_ATTR_ID": true
+        }
+    },
+    "alekseon_eav_entity_int": {
+        "constraint": {
+            "ALEKSEON_EAV_ENTITY_INT_ATTRIBUTE_ID_ALEKSEON_EAV_ATTRIBUTE_ID": true,
+            "ALEKSEON_EAV_ENTITY_INT_STORE_ID_STORE_STORE_ID": true
+        }
+    },
+    "alekseon_eav_entity_text": {
+        "constraint": {
+            "ALEKSEON_EAV_ENTITY_TEXT_ATTRIBUTE_ID_ALEKSEON_EAV_ATTRIBUTE_ID": true,
+            "ALEKSEON_EAV_ENTITY_TEXT_STORE_ID_STORE_STORE_ID": true
+        }
+    },
+    "alekseon_eav_entity_datetime": {
+        "constraint": {
+            "ALEKSEON_EAV_ENTITY_DATETIME_STORE_ID_STORE_STORE_ID": true,
+            "ALEKSEON_EAV_ENTT_DTIME_ATTR_ID_ALEKSEON_EAV_ATTR_ID": true
+        }
+    }
+}
