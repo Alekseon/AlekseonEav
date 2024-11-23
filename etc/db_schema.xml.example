@@ -1,0 +1,290 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Alekseon sp. z o.o.
+ * http://www.alekseon.com/
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="alekseon_eav_entity" resource="default" engine="innodb" comment="Alekseon Eav Entity">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="alekseon_eav_attribute" resource="default" engine="innodb" comment="Alekseon EAV Attribute">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="varchar" name="entity_type_code" length="255" nullable="false" default="" comment="Entity Type Code"/>
+        <column xsi:type="varchar" name="attribute_code" length="255" nullable="false" default="" comment="Attribute Code"/>
+        <column xsi:type="varchar" name="frontend_input" length="50" comment="Frontend Input"/>
+        <column xsi:type="varchar" name="backend_type" length="8" nullable="false" comment="Backend Type"/>
+        <column xsi:type="varchar" name="frontend_label" length="255" comment="Frontend Label"/>
+        <column xsi:type="varchar" name="source_model" length="255" comment="Source Model"/>
+        <column xsi:type="varchar" name="backend_model" length="255" comment="Backend Model"/>
+        <column xsi:type="smallint" name="scope" nullable="false" unsigned="true" default="0" comment="Scope"/>
+        <column xsi:type="smallint" name="is_required" nullable="false" unsigned="true" default="0" comment="Is Required"/>
+        <column xsi:type="smallint" name="visible_in_grid" nullable="false" unsigned="true" default="0" comment="Visible In Grid"/>
+        <column xsi:type="smallint" name="has_option_codes" nullable="false" unsigned="true" default="0" comment="Has Option Codes"/>
+        <column xsi:type="int" name="sort_order" nullable="false" unsigned="true" default="0" comment="Sort Order"/>
+        <column xsi:type="smallint" name="is_user_defined" nullable="false" unsigned="true" default="0" comment="Is User Defined"/>
+        <column xsi:type="text" name="default_value" comment="Default Value"/>
+        <column xsi:type="smallint" name="is_unique" nullable="false" unsigned="true" default="0" comment="Is Unique"/>
+        <column xsi:type="varchar" name="frontend_class" length="255" comment="Frontend Class"/>
+        <column xsi:type="varchar" name="group_code" length="255" comment="Attributes Group Code"/>
+        <column xsi:type="varchar" name="input_validator" length="255" comment="Attributes Input Validator"/>
+        <column xsi:type="text" name="attribute_extra_params" comment="Attributes Input Validator"/>
+        <column xsi:type="smallint" name="is_wysiwyg_enabled" nullable="false" unsigned="true" default="0" comment="Is WYSIWYG Enabled"/>
+        <column xsi:type="varchar" name="note" length="255" comment="Note"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="unique">
+            <column name="entity_type_code"/>
+            <column name="attribute_code"/>
+        </constraint>
+    </table>
+    <table name="alekseon_eav_attribute_option" resource="default" engine="innodb" comment="Alekseon EAV Attribute Option">
+        <column xsi:type="int" name="option_id" unsigned="true" nullable="false" identity="true" comment="Option ID"/>
+        <column xsi:type="varchar" name="option_code" length="255" comment="Option Code"/>
+        <column xsi:type="int" name="attribute_id" unsigned="true" nullable="false" comment="Attribute ID"/>
+        <column xsi:type="int" name="sort_order" nullable="false" unsigned="true" default="0" comment="Sort Order"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="option_id"/>
+        </constraint>
+        <constraint xsi:type="foreign"
+                    table="alekseon_eav_attribute_option"
+                    column="attribute_id"
+                    referenceTable="alekseon_eav_attribute"
+                    referenceColumn="id"
+                    onDelete="CASCADE"/>
+        <index indexType="btree">
+            <column name="attribute_id"/>
+        </index>
+    </table>
+    <table name="alekseon_eav_attribute_option_value" resource="default" engine="innodb" comment="Alekseon Eav Attribute Option Value">
+        <column xsi:type="int" name="value_id" unsigned="true" nullable="false" identity="true" comment="Value ID"/>
+        <column xsi:type="int" name="option_id" unsigned="true" nullable="false" default="0" comment="Option ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" default="0" comment="Store ID"/>
+        <column xsi:type="text" name="value" length="255" comment="Value"/>
+        <column xsi:type="text" name="option_code" length="255" comment="Option Code"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="value_id"/>
+        </constraint>
+        <index indexType="btree">
+            <column name="option_id"/>
+        </index>
+        <index indexType="btree">
+            <column name="store_id"/>
+        </index>
+        <constraint xsi:type="foreign"
+                    table="alekseon_eav_attribute_option_value"
+                    column="option_id"
+                    referenceTable="alekseon_eav_attribute_option"
+                    referenceColumn="option_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign"
+                    table="alekseon_eav_attribute_option_value"
+                    column="store_id"
+                    referenceTable="store"
+                    referenceColumn="store_id"
+                    onDelete="CASCADE"/>
+    </table>
+    <table name="alekseon_eav_attribute_frontend_label" resource="default" engine="innodb" comment="Alekseon Eav Attribute Frontend Labels">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="int" name="attribute_id" unsigned="true" nullable="false" comment="Attribute ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" default="0" comment="Store ID"/>
+        <column xsi:type="varchar" name="label" length="255" comment="Label"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <index indexType="btree">
+            <column name="attribute_id"/>
+        </index>
+        <index indexType="btree">
+            <column name="store_id"/>
+        </index>
+        <constraint xsi:type="foreign"
+                    table="alekseon_eav_attribute_frontend_label"
+                    column="attribute_id"
+                    referenceTable="alekseon_eav_attribute"
+                    referenceColumn="id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign"
+                    table="alekseon_eav_attribute_frontend_label"
+                    column="store_id"
+                    referenceTable="store"
+                    referenceColumn="store_id"
+                    onDelete="CASCADE"/>
+    </table>
+    <table name="alekseon_eav_entity_varchar" resource="default" engine="innodb" comment="Alekseon EAV Entity Varchar">
+        <column xsi:type="int" name="value_id" unsigned="true" nullable="false" identity="true" comment="Value ID"/>
+        <column xsi:type="int" name="attribute_id" unsigned="true" nullable="false" comment="Attribute ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" default="0" comment="Store ID"/>
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" comment="Entity ID"/>
+        <column xsi:type="varchar" name="value" length="255"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="value_id"/>
+        </constraint>
+        <index indexType="btree">
+            <column name="attribute_id"/>
+        </index>
+        <index indexType="btree">
+            <column name="store_id"/>
+        </index>
+        <index indexType="btree">
+            <column name="entity_id"/>
+        </index>
+        <constraint xsi:type="unique">
+            <column name="entity_id"/>
+            <column name="attribute_code"/>
+            <column name="store_id"/>
+        </constraint>
+        <constraint xsi:type="foreign"
+                    table="alekseon_eav_entity_varchar"
+                    column="attribute_id"
+                    referenceTable="alekseon_eav_attribute"
+                    referenceColumn="id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign"
+                    table="alekseon_eav_entity_varchar"
+                    column="store_id"
+                    referenceTable="store"
+                    referenceColumn="store_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign"
+                    table="alekseon_eav_entity_varchar"
+                    column="entity_id"
+                    referenceTable="alekseon_eav_entity"
+                    referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+    </table>
+    <table name="alekseon_eav_entity_int" resource="default" engine="innodb" comment="Alekseon EAV Entity Integer">
+        <column xsi:type="int" name="value_id" unsigned="true" nullable="false" identity="true" comment="Value ID"/>
+        <column xsi:type="int" name="attribute_id" unsigned="true" nullable="false" comment="Attribute ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" default="0" comment="Store ID"/>
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" comment="Entity ID"/>
+        <column xsi:type="int" name="value"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="value_id"/>
+        </constraint>
+        <index indexType="btree">
+            <column name="attribute_id"/>
+        </index>
+        <index indexType="btree">
+            <column name="store_id"/>
+        </index>
+        <index indexType="btree">
+            <column name="entity_id"/>
+        </index>
+        <constraint xsi:type="unique">
+            <column name="entity_id"/>
+            <column name="attribute_code"/>
+            <column name="store_id"/>
+        </constraint>
+        <constraint xsi:type="foreign"
+                    table="alekseon_eav_entity_int"
+                    column="attribute_id"
+                    referenceTable="alekseon_eav_attribute"
+                    referenceColumn="id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign"
+                    table="alekseon_eav_entity_int"
+                    column="store_id"
+                    referenceTable="store"
+                    referenceColumn="store_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign"
+                    table="alekseon_eav_entity_int"
+                    column="entity_id"
+                    referenceTable="alekseon_eav_entity"
+                    referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+    </table>
+    <table name="alekseon_eav_entity_text" resource="default" engine="innodb" comment="Alekseon EAV Entity Text">
+        <column xsi:type="int" name="value_id" unsigned="true" nullable="false" identity="true" comment="Value ID"/>
+        <column xsi:type="int" name="attribute_id" unsigned="true" nullable="false" comment="Attribute ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" default="0" comment="Store ID"/>
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" comment="Entity ID"/>
+        <column xsi:type="text" name="value"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="value_id"/>
+        </constraint>
+        <index indexType="btree">
+            <column name="attribute_id"/>
+        </index>
+        <index indexType="btree">
+            <column name="store_id"/>
+        </index>
+        <index indexType="btree">
+            <column name="entity_id"/>
+        </index>
+        <constraint xsi:type="unique">
+            <column name="entity_id"/>
+            <column name="attribute_code"/>
+            <column name="store_id"/>
+        </constraint>
+        <constraint xsi:type="foreign"
+                    table="alekseon_eav_entity_text"
+                    column="attribute_id"
+                    referenceTable="alekseon_eav_attribute"
+                    referenceColumn="id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign"
+                    table="alekseon_eav_entity_text"
+                    column="store_id"
+                    referenceTable="store"
+                    referenceColumn="store_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign"
+                    table="alekseon_eav_entity_text"
+                    column="entity_id"
+                    referenceTable="alekseon_eav_entity"
+                    referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+    </table>
+    <table name="alekseon_eav_entity_datetime" resource="default" engine="innodb" comment="Alekseon EAV Entity Datetime">
+        <column xsi:type="int" name="value_id" unsigned="true" nullable="false" identity="true" comment="Value ID"/>
+        <column xsi:type="int" name="attribute_id" unsigned="true" nullable="false" comment="Attribute ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" default="0" comment="Store ID"/>
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" comment="Entity ID"/>
+        <column xsi:type="datetime" name="value"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="value_id"/>
+        </constraint>
+        <index indexType="btree">
+            <column name="attribute_id"/>
+        </index>
+        <index indexType="btree">
+            <column name="store_id"/>
+        </index>
+        <index indexType="btree">
+            <column name="entity_id"/>
+        </index>
+        <constraint xsi:type="unique">
+            <column name="entity_id"/>
+            <column name="attribute_code"/>
+            <column name="store_id"/>
+        </constraint>
+        <constraint xsi:type="foreign"
+                    table="alekseon_eav_entity_datetime"
+                    column="attribute_id"
+                    referenceTable="alekseon_eav_attribute"
+                    referenceColumn="id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign"
+                    table="alekseon_eav_entity_datetime"
+                    column="store_id"
+                    referenceTable="store"
+                    referenceColumn="store_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign"
+                    table="alekseon_eav_entity_datetime"
+                    column="entity_id"
+                    referenceTable="alekseon_eav_entity"
+                    referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+    </table>
+</schema>
+
