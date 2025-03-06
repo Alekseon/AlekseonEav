@@ -1,9 +1,9 @@
-name: AI PR Analysis
-
+name: PR Analysis by AI
 on: [pull_request]
 
 jobs:
   analyze:
+    name: PR Analysis by AI
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
