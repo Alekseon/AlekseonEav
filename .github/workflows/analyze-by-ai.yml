@@ -14,9 +14,6 @@ jobs:
         with:
           php-version: '8.2'
 
-      - name: Install dependencies
-        run: composer require ext-curl
-
       - name: Run PHP Security Analysis and Post to Jira
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
