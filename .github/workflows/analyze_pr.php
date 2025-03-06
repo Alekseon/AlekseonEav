@@ -21,8 +21,6 @@ $headers = [
 // Pobranie zmienionych plików w PR
 $url = "https://api.github.com/repos/$repo/pulls/$prNumber/files";
 
-$url = "https://api.github.com/repos/Alekseon/magento2-widget-forms/pulls/24/files";
-
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
