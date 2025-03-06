@@ -1,7 +1,6 @@
-name: Code Analysis
+name: AI PR Analysis
 
-on:
-  pull_request:
+on: [pull_request]
 
 jobs:
   analyze:
