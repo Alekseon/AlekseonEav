@@ -24,4 +24,4 @@ jobs:
           JIRA_TICKET: ${{ secrets.JIRA_TICKET }}
           JIRA_USER: ${{ secrets.JIRA_USER }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-        run: pwd && ls && php analyze_pr.php
+        run: php .test/analyze_pr.php
