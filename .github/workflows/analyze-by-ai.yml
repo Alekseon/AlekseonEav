@@ -1,5 +1,5 @@
 name: PR Analysis by AI
-on: [pull_request]
+on: [push, pull_request]
 
 jobs:
   analyze:
