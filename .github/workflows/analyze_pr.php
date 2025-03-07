@@ -24,6 +24,12 @@ function addCommentToPr($repo, $prNumber, $reviewComment)
     $response = curl_exec($ch);
     curl_close($ch);
 
+    if ($response === false) {
+        error_log(curl_error($ch));
+        echo "Wystąpił błąd podczas dodawania komentarza!";
+        return;
+    }
+
     echo "Dodano komentarz do PR z analizą bezpieczeństwa!";
 }
 
@@ -53,6 +59,12 @@ function addCommentToJira($prNumber, $reviewComment)
     $response = curl_exec($ch);
     curl_close($ch);
 
+    if ($response === false) {
+        error_log(curl_error($ch));
+        echo "Wystąpił błąd podczas dodawania komentarza!";
+        return;
+    }
+
     echo "Dodano komentarz do ticketa Jira!";
 }
 
@@ -77,14 +89,19 @@ function getChangedFiles($repo, $prNumber)
     $files = json_decode($response, true);
     $changedFiles = [];
 
-    if (!$files) {
+    if (!isset($files)) {
         $files = [];
     }
 
     foreach ($files as $file) {
         if (preg_match('/\.(php|xml|phtml|js)$/i', $file["filename"])) {
-            $fileContent = file_get_contents($file["raw_url"]);
-            $changedFiles[] = "File: {$file['filename']}\n$fileContent";
+            $parsedUrl = parse_url($file["raw_url"]);
+            if ($parsedUrl['scheme'] === 'https' && $parsedUrl['host'] === 'raw.githubusercontent.com') {
+                $fileContent = file_get_contents($file["raw_url"]);
+                $changedFiles[] = "File: {$file['filename']}\n$fileContent";
+            } else {
+                echo 'Incorrent file: ' . $file["raw_url"];
+            }
         }
     }
 
@@ -127,7 +144,7 @@ function getReviewComment($changedFiles)
 
     $openaiResponse = json_decode($response, true);
     $reviewComment = $openaiResponse["choices"][0]["message"]["content"] ?? "Brak odpowiedzi z OpenAI.";
-    return $reviewComment;
+    return htmlspecialchars($reviewComment, ENT_QUOTES, 'UTF-8');
 }
 
 // Pobranie zmiennych środowiskowych
