@@ -96,11 +96,11 @@ function getChangedFiles($repo, $prNumber)
     foreach ($files as $file) {
         if (preg_match('/\.(php|xml|phtml|js)$/i', $file["filename"])) {
             $parsedUrl = parse_url($file["raw_url"]);
-            if ($parsedUrl['scheme'] === 'https' && $parsedUrl['host'] === 'raw.githubusercontent.com') {
+            if ($parsedUrl['scheme'] === 'https' && $parsedUrl['host'] === 'github.com') {
                 $fileContent = file_get_contents($file["raw_url"]);
                 $changedFiles[] = "File: {$file['filename']}\n$fileContent";
             } else {
-                echo 'Incorrent file: ' . $file["raw_url"];
+                echo 'Incorrent file: ' . $file["raw_url"] . "\n";
             }
         }
     }
