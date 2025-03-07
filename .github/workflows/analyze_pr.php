@@ -4,7 +4,6 @@
 
 function addCommentToPr($repo, $prNumber, $reviewComment)
 {
-    $repo = getenv("GITHUB_REPOSITORY");
     $githubToken = getenv("GITHUB_TOKEN");
     $headers = [
         "Authorization: token $githubToken",
@@ -68,6 +67,31 @@ function addCommentToJira($prNumber, $reviewComment)
     echo "Dodano komentarz do ticketa Jira!";
 }
 
+function getUrlContent($url) {
+    // Inicjalizacja cURL
+    $ch = curl_init();
+
+    // Ustawienia cURL
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  // Zwróć odpowiedź jako string
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);  // Obsługuje przekierowania
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);     // Weryfikacja SSL
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);  // Weryfikacja certyfikatu SSL
+
+    // Pobierz odpowiedź
+    $response = curl_exec($ch);
+
+    // Sprawdzenie błędów cURL
+    if(curl_errno($ch)) {
+        echo 'Błąd cURL: ' . curl_error($ch);
+    }
+
+    // Zamknij cURL
+    curl_close($ch);
+
+    return $response;
+}
+
 function getChangedFiles($repo, $prNumber)
 {
     $githubToken = getenv("GITHUB_TOKEN");
@@ -97,7 +121,7 @@ function getChangedFiles($repo, $prNumber)
         if (preg_match('/\.(php|xml|phtml|js)$/i', $file["filename"])) {
             $parsedUrl = parse_url($file["raw_url"]);
             if ($parsedUrl['scheme'] === 'https' && $parsedUrl['host'] === 'github.com') {
-                $fileContent = file_get_contents($file["raw_url"]);
+                $fileContent = getUrlContent($file["raw_url"]);
                 $changedFiles[] = "File: {$file['filename']}\n$fileContent";
             } else {
                 echo 'Incorrent file: ' . $file["raw_url"] . "\n";
@@ -144,7 +168,7 @@ function getReviewComment($changedFiles)
 
     $openaiResponse = json_decode($response, true);
     $reviewComment = $openaiResponse["choices"][0]["message"]["content"] ?? "Brak odpowiedzi z OpenAI.";
-    return htmlspecialchars($reviewComment, ENT_QUOTES, 'UTF-8');
+    return htmlspecialchars($reviewComment,  ENT_NOQUOTES, 'UTF-8');
 }
 
 // Pobranie zmiennych środowiskowych
