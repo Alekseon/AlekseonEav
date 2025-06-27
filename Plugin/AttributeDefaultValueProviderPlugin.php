@@ -66,7 +66,9 @@ class AttributeDefaultValueProviderPlugin
     {
         if (!$hasDefaultValue) {
             $defaultValueProvider = $this->defaultValueProviderRepository->getAttributeDefaultValueProvider($attribute);
-            $hasDefaultValue = $defaultValueProvider->hasValue();
+            if ($defaultValueProvider) {
+                $hasDefaultValue = $defaultValueProvider->hasValue();
+            }
         }
 
         return $hasDefaultValue;

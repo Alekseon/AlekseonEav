@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.2.17] - 2025-06-27
+### Fixed
+- fix error "Call to a member function hasValue() on bool" when default value provider is not set
+
 ## [101.2.16] - 2024-11-23
 ### Added
 - added db_schema.xml
