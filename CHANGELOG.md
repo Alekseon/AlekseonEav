@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
-## [101.2.15] - 2024-11-24
+## [101.2.16] - 2024-11-23
+### Added
+- added db_schema.xml
+### Changed
+- moved table creations to db_schema.xml
+
+## [101.2.15] - 2024-11-22
 ### Added
 - getAdminDataValidateParams method
 - input validator codes

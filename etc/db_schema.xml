@@ -61,8 +61,8 @@
         <column xsi:type="int" name="value_id" unsigned="true" nullable="false" identity="true" comment="Value ID"/>
         <column xsi:type="int" name="option_id" unsigned="true" nullable="false" default="0" comment="Option ID"/>
         <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" default="0" comment="Store ID"/>
-        <column xsi:type="text" name="value" length="255" comment="Value"/>
-        <column xsi:type="text" name="option_code" length="255" comment="Option Code"/>
+        <column xsi:type="varchar" name="value" length="255" comment="Value"/>
+        <column xsi:type="varchar" name="option_code" length="255" comment="Option Code"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="value_id"/>
         </constraint>

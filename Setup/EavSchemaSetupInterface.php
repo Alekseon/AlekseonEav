@@ -19,7 +19,7 @@ interface EavSchemaSetupInterface
      * @param null $entitiesToCreate
      * @param null $entityTableName
      * @param string $entityTableIdField
-     * @return mixed
+     * @deprecated 101.2.16
      */
     public function createFullEavStructure(
         string $attributeTableName,
@@ -31,7 +31,7 @@ interface EavSchemaSetupInterface
 
     /**
      * @param string $attributeTableName
-     * @return mixed
+     * @deprecated 101.2.16
      */
     public function createEavAttributeTable(string $attributeTableName);
 
@@ -41,7 +41,7 @@ interface EavSchemaSetupInterface
      * @param null $entitiesToCreate
      * @param null $entityTableName
      * @param null $entityTableIdField
-     * @return mixed
+     * @deprecated 101.2.16
      */
     public function createEavEntitiesTables(
         string $attributeTableName,
@@ -54,7 +54,7 @@ interface EavSchemaSetupInterface
     /**
      * @param string $attributeTableName
      * @param string $optionsTableName
-     * @return mixed
+     * @deprecated 101.2.16
      */
     public function createOptionTables(string $attributeTableName, string $optionsTableName);
 }
