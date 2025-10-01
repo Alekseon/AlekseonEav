@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.2.18] - 2025-09-30
+### Fixed
+- fix for saving boolean attribute when it use default value
+
 ## [101.2.17] - 2025-06-27
 ### Fixed
 - fix error "Call to a member function hasValue() on bool" when default value provider is not set
