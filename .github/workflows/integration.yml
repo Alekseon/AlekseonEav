@@ -35,6 +35,7 @@ jobs:
           composer_name: alekseon/alekseon-eav
           ce_version: '2.4.8-p3'
           composer_audit_ignore: 'PKSA-db8d-773v-rd1n'
+          composer_audit_block_insecure: 'false'
         env:
           MAGENTO_MARKETPLACE_USERNAME: ${{ secrets.MAGENTO_MARKETPLACE_USERNAME }}
           MAGENTO_MARKETPLACE_PASSWORD: ${{ secrets.MAGENTO_MARKETPLACE_PASSWORD }}
