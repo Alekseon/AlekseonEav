@@ -60,7 +60,7 @@ class Boolean extends Select
         if ($defaultValue !== \Alekseon\AlekseonEav\Model\Attribute\Source\Boolean::VALUE_YES) {
             $defaultValue = \Alekseon\AlekseonEav\Model\Attribute\Source\Boolean::VALUE_NO;
         }
-        return [$defaultValue];
+        return $defaultValue;
     }
 
     /**
