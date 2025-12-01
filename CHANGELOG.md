@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.2.19] - 2025-12-01
+### Fixed
+- fix default value for boolean attribute
+
 ## [101.2.18] - 2025-09-30
 ### Fixed
 - fix for saving boolean attribute when it use default value

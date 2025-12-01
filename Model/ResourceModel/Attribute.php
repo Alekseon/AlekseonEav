@@ -246,6 +246,7 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
             }
         } else {
             $options = $object->getSourceModel()->getOptions();
+            $defaultValue = [];
             foreach (array_keys($options) as $optionId) {
                 if (in_array($optionId, $default)) {
                     $defaultValue[] = $optionId;
