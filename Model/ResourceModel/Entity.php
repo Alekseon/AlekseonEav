@@ -186,12 +186,22 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     {
         $attributes = $this->getAllLoadedAttributes();
         foreach ($attributes as $attribute) {
-            if ($attribute->getDefaultValue() !== null) {
-                $object->setData($attribute->getAttributeCode(), $attribute->getDefaultValue());
-                $backendModels = $attribute->getBackendModels();
-                foreach ($backendModels as $backendModel) {
-                    $backendModel->afterLoad($object);
-                }
+            $this->loadAttributeDefaultValue($object, $attribute);
+        }
+    }
+
+    /**
+     * @param $object
+     * @param $attribute
+     * @return void
+     */
+    protected function loadAttributeDefaultValue($object, $attribute)
+    {
+        if ($attribute->getDefaultValue() !== null) {
+            $object->setData($attribute->getAttributeCode(), $attribute->getDefaultValue());
+            $backendModels = $attribute->getBackendModels();
+            foreach ($backendModels as $backendModel) {
+                $backendModel->afterLoad($object);
             }
         }
     }
@@ -417,6 +427,9 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
         AttributeInterface $attribute
     ) {
         $attributeCode = $attribute->getAttributeCode();
+        if ($object->isObjectNew() && !$object->hasData($attributeCode)) {
+            $this->loadAttributeDefaultValue($object, $attribute);
+        }
         $value = $object->getData($attributeCode);
 
         // check if there is value of required attribute,
