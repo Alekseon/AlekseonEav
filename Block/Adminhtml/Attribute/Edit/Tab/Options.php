@@ -67,7 +67,8 @@ class Options extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @return mixed
+     * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity) 
      */
     public function getOptionValues()
     {
