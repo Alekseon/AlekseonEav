@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.2.21] - 2026-01-23
+### Fixed
+- fix saving attribute when database prefix is used
+
 ## [101.2.20] - 2025-12-02
 ### Added
 - set default value for new entities if has no data
