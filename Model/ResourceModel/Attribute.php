@@ -280,7 +280,7 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
     private function updateAttributeOption($object, $optionId, $optionsData)
     {
         $connection = $this->getConnection();
-        $table = $this->attributeOptionTable;
+        $table = $this->getTable($this->attributeOptionTable);
 
         $intOptionId = is_numeric($optionId) ? (int)$optionId : 0;
 
