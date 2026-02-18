@@ -446,7 +446,7 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
                     // label is empty, so it can be removed
                     $connection->delete($table, ['id = ?' => $currentLabel['id']]);
                 } else {
-                    $data = ['label' => $currentLabel['label']];
+                    $data = ['label' => $label];
                     $where = ['id = ?' => $currentLabel['id']];
                     $connection->update($table, $data, $where);
                 }
