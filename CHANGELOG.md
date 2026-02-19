@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
-## [Unreleased]
+## [101.2.22] - 2026-02-19
 - fix update attribute frontend labels
 
 ## [101.2.21] - 2026-01-23
