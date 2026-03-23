@@ -171,6 +171,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
                 foreach ($backendModels as $backendModel) {
                     $backendModel->afterLoad($object);
                 }
+                $this->loadAttributeDefaultValue($object, $attribute);
             }
         } else {
             $this->loadDefaultValues($object);
@@ -197,8 +198,11 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
      */
     protected function loadAttributeDefaultValue($object, $attribute)
     {
-        if ($attribute->getDefaultValue() !== null) {
-            $object->setData($attribute->getAttributeCode(), $attribute->getDefaultValue());
+        $defaultValue = $attribute->getDefaultValue();
+
+        if ($defaultValue !== null && $object->getData($attribute->getAttributeCode()) === null) {
+            $object->setData($attribute->getAttributeCode(), $defaultValue);
+            $attribute->setIsDefaultValue(true);
             $backendModels = $attribute->getBackendModels();
             foreach ($backendModels as $backendModel) {
                 $backendModel->afterLoad($object);

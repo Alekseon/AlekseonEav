@@ -45,15 +45,15 @@ abstract class AbstractProvider extends \Magento\Framework\DataObject
      */
     public function canBeUsedForAttribute()
     {
-        $applicatbleInputTypes =  $this->getApplicableFrontendInputs() ?? [];
-
         if ($this->attribute->getSourceModel()) {
             if (!$this->attribute->getSourceModel()->canUseDefaultValue()) {
                 return false;
             }
         }
 
-        if (!in_array($this->attribute->getFrontendInput(), $applicatbleInputTypes)) {
+        $applicableInputTypes =  $this->getApplicableFrontendInputs();
+
+        if (is_array($applicableInputTypes) && !in_array($this->attribute->getFrontendInput(), $applicableInputTypes)) {
            return false;
         }
 

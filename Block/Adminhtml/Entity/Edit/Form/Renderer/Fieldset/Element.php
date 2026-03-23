@@ -85,6 +85,11 @@ class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Eleme
             ) {
                 return true;
             }
+            if (!$this->getDataObject()->getStoreId()
+                && $attribute->canUseDefaultValue()
+            ) {
+                return true;
+            }
         }
         return false;
     }
@@ -94,15 +99,19 @@ class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Eleme
      */
     public function usedDefault()
     {
-        $attributeCode = $this->getAttribute()->getAttributeCode();
+        $attribute = $this->getAttribute();
+        if ($attribute->getIsDefaultValue()) {
+            return true;
+        }
+        $attributeCode = $attribute->getAttributeCode();
         $defaultValue = $this->getDataObject()->getAttributeDefaultValue($attributeCode);
-        if ($this->getElement()->getValue() != $defaultValue &&
+        if ($this->getElement()->getValue() == $defaultValue &&
             $this->getDataObject()->getStoreId() != Store::DEFAULT_STORE_ID
         ) {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**

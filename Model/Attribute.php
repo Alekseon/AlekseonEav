@@ -432,6 +432,14 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     /**
      * @return bool
      */
+    public function canUseDefaultValue()
+    {
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
     public function hasDefaultValue()
     {
         if ($this->getDefaultValue()) {

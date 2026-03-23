@@ -85,6 +85,10 @@
                         <item name="multiselect" xsi:type="string">multiselect</item>
                     </item>
                 </item>
+                <item name="scope_config_value" xsi:type="array">
+                    <item name="label" xsi:type="string">Scope Config Value</item>
+                    <item name="factory" xsi:type="object">Alekseon\AlekseonEav\Model\Attribute\DefaultValueProvider\ScopeConfigValueFactory</item>
+                </item>
             </argument>
         </arguments>
     </type>

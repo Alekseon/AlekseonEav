@@ -34,6 +34,18 @@ class AttributeDefaultValueProviderPlugin
 
     /**
      * @param AttributeInterface $attribute
+     * @return bool
+     */
+    public function afterCanUseDefaultValue(AttributeInterface $attribute)
+    {
+        if ($this->defaultValueProviderRepository->getAttributeDefaultValueProvider($attribute)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param AttributeInterface $attribute
      * @param string|array $defaultValue
      * @return string|array
      */
