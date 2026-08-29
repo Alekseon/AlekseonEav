@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Alekseon\AlekseonEav\Helper\Image` constructor takes `Magento\Framework\Filesystem` instead of `Magento\Framework\App\Filesystem\DirectoryList`
 ### Fixed
 - path traversal in image attribute backend: file removal and image cache writes are now restricted to the media directory
+- "use_default" list from the request can no longer reset entity columns that are not attributes
 ### Added
 
 ## [101.2.24] - 2026-08-21

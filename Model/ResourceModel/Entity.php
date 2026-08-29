@@ -306,7 +306,13 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     {
         $attributesUseDefault = $object->getUseDefault();
         if (is_array($attributesUseDefault)) {
+            $this->loadAllAttributes();
             foreach ($attributesUseDefault as $attributeCode) {
+                // the list comes from the request, so anything that is not an attribute of this
+                // entity type must be ignored, otherwise any column could be reset to null
+                if (!is_string($attributeCode) || !$this->getAttribute($attributeCode)) {
+                    continue;
+                }
                 if ($object->getId() || isset($object->getSystemValues()[$attributeCode])) {
                     $object->setData($attributeCode, null);
                 }
