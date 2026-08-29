@@ -9,7 +9,6 @@ namespace Alekseon\AlekseonEav\Helper;
 
 use Alekseon\AlekseonEav\Model\Entity;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\Encryption\Encryptor;
 use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 /**
@@ -154,32 +153,36 @@ class Image
     }
 
     /**
-     * @param bool $allowBiggerSize
-     * @param bool $needResize
+     * @param bool $allowUpscale when false the result is never bigger than the original image
+     * @param bool $forceResize resize even when the requested size equals the original one
      * @return $this
      */
-    public function resize(bool $allowBiggerSize = false, bool $needResize = false)
+    public function resize(bool $allowUpscale = false, bool $forceResize = false)
     {
+        if (!$this->image) {
+            return $this;
+        }
+
         $originalWidth = $this->image->getOriginalWidth();
         $originalHeight = $this->image->getOriginalHeight();
 
         $width = $this->miscParams['width'] ?? $originalWidth;
-        $height = $this->miscParams['width'] ?? $originalHeight;
+        $height = $this->miscParams['height'] ?? $originalHeight;
 
-        if (!$allowBiggerSize) {
+        if (!$allowUpscale) {
             $width = min($originalWidth, $width);
             $height = min($originalHeight, $height);
         }
 
         if ($width != $originalWidth) {
-            $needResize = true;
+            $forceResize = true;
         }
 
         if ($height != $originalHeight) {
-            $needResize = true;
+            $forceResize = true;
         }
 
-        if ($needResize) {
+        if ($forceResize) {
             $this->image->keepAspectRatio(true);
             $this->image->resize($width, $height);
         }
@@ -249,9 +252,6 @@ class Image
      */
     private function getMiscPath()
     {
-        return $this->encryptor->hash(
-            implode('_', $this->miscParams),
-            Encryptor::HASH_VERSION_MD5
-        );
+        return $this->encryptor->hash(implode('_', $this->miscParams));
     }
 }
