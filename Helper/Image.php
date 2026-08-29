@@ -11,11 +11,11 @@ use Alekseon\AlekseonEav\Model\Entity;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Encryption\Encryptor;
 use Magento\Framework\Filesystem\Directory\WriteInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class Image
  * @package Alekseon\AlekseonEav\Helper
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Image
 {
