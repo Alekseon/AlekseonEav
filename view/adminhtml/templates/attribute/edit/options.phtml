@@ -99,12 +99,11 @@
                 </td>
             </tr>
         </script>
-        <?php $values = $block->getOptionValues(); ?>
         <script type="text/x-magento-init">
             {
                 "*": {
                     "Alekseon_AlekseonEav/js/attribute/options": {
-                        "attributesData": <?= /* @noEscape */ json_encode($values) ?>,
+                        "attributesData": <?= /* @noEscape */ $block->getSerializedOptionValues() ?>,
                         "readOnly": <?= (int)$this->isReadOnly() ?>
                     }
                 }

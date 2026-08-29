@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Alekseon\AlekseonEav\Block\Adminhtml\Attribute\Edit\Tab;
 
 use Alekseon\AlekseonEav\Model\Attribute;
+use Magento\Framework\Serialize\Serializer\JsonHexTag;
 use Magento\Store\Model\Store;
 
 /**
@@ -26,19 +27,26 @@ class Options extends \Magento\Backend\Block\Template
      * @var \Magento\Framework\Registry
      */
     private $registry;
+    /**
+     * @var JsonHexTag
+     */
+    private $jsonSerializer;
 
     /**
      * Options constructor.
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param JsonHexTag $jsonSerializer
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
+        JsonHexTag $jsonSerializer,
         array $data = []
     ) {
         $this->registry = $registry;
+        $this->jsonSerializer = $jsonSerializer;
         parent::__construct($context, $data);
     }
 
@@ -106,6 +114,16 @@ class Options extends \Magento\Backend\Block\Template
         }
 
         return $result;
+    }
+
+    /**
+     * Option values encoded for use inside a "text/x-magento-init" block
+     *
+     * @return string
+     */
+    public function getSerializedOptionValues()
+    {
+        return $this->jsonSerializer->serialize($this->getOptionValues());
     }
 
     /**

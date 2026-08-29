@@ -9,6 +9,7 @@ namespace Alekseon\AlekseonEav\Block\Adminhtml\Attribute\Edit;
 
 use Alekseon\AlekseonEav\Model\Adminhtml\System\Config\Source\InputValidator;
 use Alekseon\AlekseonEav\Model\Attribute\InputTypeRepository;
+use Magento\Framework\Serialize\Serializer\JsonHexTag;
 
 /**
  * Class Js
@@ -28,6 +29,10 @@ class Js extends \Magento\Backend\Block\Template
      * @var InputValidator
      */
     protected $validatorSource;
+    /**
+     * @var JsonHexTag
+     */
+    private $jsonSerializer;
 
     /**
      * Js constructor.
@@ -35,16 +40,19 @@ class Js extends \Magento\Backend\Block\Template
      * @param \Magento\Framework\Registry $registry
      * @param InputTypeRepository $inputTypeRepository
      * @param InputValidator $validatorSource
+     * @param JsonHexTag $jsonSerializer
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         InputTypeRepository $inputTypeRepository,
-        InputValidator $validatorSource
+        InputValidator $validatorSource,
+        JsonHexTag $jsonSerializer
     ) {
         $this->registry = $registry;
         $this->inputTypeRepository = $inputTypeRepository;
         $this->validatorSource = $validatorSource;
+        $this->jsonSerializer = $jsonSerializer;
         parent::__construct($context);
     }
 
@@ -61,6 +69,7 @@ class Js extends \Magento\Backend\Block\Template
      */
     public function getJsConfig()
     {
+        $jsConfig = [];
         $inputTypes = $this->inputTypeRepository->getFrontendInputTypes();
         foreach ($inputTypes as $inputType => $inputTypeConfig) {
             $inputModel = $this->inputTypeRepository->getInputTypeModelByFrontendInput($inputType);
@@ -85,6 +94,56 @@ class Js extends \Magento\Backend\Block\Template
         $jsConfig['multiselect']['optionInputType'] = 'checkbox';
 
         return $jsConfig;
+    }
+
+    /**
+     * Input types config encoded for use inside a "text/x-magento-init" block
+     *
+     * @return string
+     */
+    public function getSerializedJsConfig()
+    {
+        $jsConfig = $this->getJsConfig();
+        if (!$jsConfig) {
+            $jsConfig = $this->getDefaultJsConfig();
+        }
+
+        return $this->jsonSerializer->serialize($jsConfig);
+    }
+
+    /**
+     * Kept for backward compatibility, used only when getJsConfig() returns nothing
+     *
+     * @return array
+     */
+    protected function getDefaultJsConfig()
+    {
+        return [
+            'default' => [
+                'show_options' => false,
+                'can_be_visible_in_grid' => true,
+                'can_use_wysiwyg' => false,
+            ],
+            'text' => [
+                'can_use_input_validator' => true,
+            ],
+            'textarea' => [
+                'can_use_wysiwyg' => true,
+            ],
+            'boolean' => [
+                'optionInputType' => 'radio',
+            ],
+            'select' => [
+                'show_options' => true,
+                'optionInputType' => 'radio',
+            ],
+            'multiselect' => [
+                'show_options' => true,
+                'optionInputType' => 'checkbox',
+            ],
+            'date' => [],
+            'image' => [],
+        ];
     }
 
     /**
