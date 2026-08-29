@@ -8,12 +8,14 @@ declare(strict_types=1);
 namespace Alekseon\AlekseonEav\Helper;
 
 use Alekseon\AlekseonEav\Model\Entity;
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Encryption\Encryptor;
-use Psr\Log\LoggerInterface;
+use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 /**
  * Class Image
  * @package Alekseon\AlekseonEav\Helper
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Image
 {
@@ -38,9 +40,13 @@ class Image
      */
     private $image;
     /**
-     * @var \Magento\Framework\App\Filesystem\DirectoryList
+     * @var \Magento\Framework\Filesystem
      */
-    private $directoryList;
+    private $filesystem;
+    /**
+     * @var WriteInterface|null
+     */
+    private $mediaDirectory;
     /**
      * @var array
      */
@@ -49,20 +55,32 @@ class Image
     /**
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Image\Factory $imageFactory
-     * @param \Magento\Framework\App\Filesystem\DirectoryList $directoryList
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Image\Factory $imageFactory,
-        \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor
     )
     {
         $this->storeManager = $storeManager;
         $this->imageFactory = $imageFactory;
-        $this->directoryList = $directoryList;
+        $this->filesystem = $filesystem;
         $this->encryptor = $encryptor;
+    }
+
+    /**
+     * @return WriteInterface
+     * @throws \Magento\Framework\Exception\FileSystemException
+     */
+    private function getMediaDirectory()
+    {
+        if ($this->mediaDirectory === null) {
+            $this->mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+        }
+        return $this->mediaDirectory;
     }
 
     /**
@@ -86,6 +104,7 @@ class Image
      * @param bool $isMediaImage
      * @return $this
      * @throws \Magento\Framework\Exception\FileSystemException
+     * @throws \Magento\Framework\Exception\ValidatorException
      */
     public function setImagePath(string $imagePath, bool $isMediaImage = false)
     {
@@ -93,12 +112,14 @@ class Image
         if (empty($imagePath)) {
             return $this;
         }
+
+        // getAbsolutePath() validates that the path stays inside pub/media
+        $absolutePath = $isMediaImage
+            ? $this->getMediaDirectory()->getAbsolutePath($imagePath)
+            : $imagePath;
+
         $this->imagePath = $imagePath;
-        if ($isMediaImage) {
-            $mediaDir = $this->directoryList->getPath('media');
-            $imagePath = $mediaDir . DIRECTORY_SEPARATOR . $imagePath;
-        }
-        $this->image = $this->imageFactory->create($imagePath);
+        $this->image = $this->imageFactory->create($absolutePath);
         return $this;
     }
 
@@ -187,6 +208,7 @@ class Image
      * @return false|string
      * @throws \Magento\Framework\Exception\FileSystemException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\ValidatorException
      */
     public function getUrl($storeId = null)
     {
@@ -194,25 +216,23 @@ class Image
             return '';
         }
 
-        $mediaDir = $this->directoryList->getPath('media');
+        $mediaDirectory = $this->getMediaDirectory();
 
-        $path = 'cache'
-            . DIRECTORY_SEPARATOR . 'alekseon_eav'
-            . DIRECTORY_SEPARATOR . $this->getMiscPath()
-            . DIRECTORY_SEPARATOR . $this->imagePath;
+        $path = 'cache/alekseon_eav/' . $this->getMiscPath() . '/' . $this->imagePath;
 
-        if (!file_exists($mediaDir . DIRECTORY_SEPARATOR . $path)) {
+        if (!$mediaDirectory->isExist($path)) {
             try {
                 $this->prepareOutputImage();
             } catch (\Exception $e) {
                 return false;
             }
 
-            $pathParts = explode(DIRECTORY_SEPARATOR, $path);
+            $pathParts = explode('/', $path);
             $fileName = array_pop($pathParts);
+            // getAbsolutePath() validates the destination stays inside pub/media
             $this->image->save(
-                $mediaDir . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $pathParts)
-                , $fileName
+                $mediaDirectory->getAbsolutePath(implode('/', $pathParts)),
+                $fileName
             );
         }
 
