@@ -7,7 +7,9 @@ declare(strict_types=1);
 
 namespace Alekseon\AlekseonEav\Model\ResourceModel;
 
+use Alekseon\AlekseonEav\Api\Data\AttributeInterface;
 use Magento\Framework\DataObject;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Store\Model\Store;
 
 /**
@@ -17,9 +19,32 @@ use Magento\Store\Model\Store;
 abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
     /**
+     * Attribute code is used to build SQL table aliases, HTML field names and entity data keys,
+     * so it has to be limited to the same charset the admin form validates on the client side
+     * ("validate-code" rule).
+     */
+    const ATTRIBUTE_CODE_PATTERN = '/^[a-z][a-z0-9_]*\z/';
+    /**
      * @var
      */
     protected $entityTypeCode = 'replace_by_entity_type_code';
+    /**
+     * Main table of the entity this attribute type belongs to. When set, its columns are treated
+     * as reserved attribute codes, so that an attribute value cannot overwrite an entity column.
+     *
+     * @var string|null
+     */
+    protected $entityTable = null;
+    /**
+     * Attribute codes that collide with keys used by the entity save flow.
+     *
+     * @var string[]
+     */
+    protected $reservedAttributeCodes = [
+        'entity_id',
+        'store_id',
+        'use_default',
+    ];
     /**
      * @var string
      */
@@ -107,6 +132,12 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
     protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object) // @codingStandardsIgnoreLine
     {
         $object->setEntityTypeCode($this->getEntityTypeCode());
+
+        // legacy attributes are left alone, only a new or changed code has to pass the validation
+        if ($object->isObjectNew() || $object->dataHasChangedFor('attribute_code')) {
+            $this->validateAttributeCode($object);
+        }
+
         if ($object->isObjectNew()) {
             if (!$object->getFrontendInput()) {
                 $object->setFrontendInput(
@@ -123,6 +154,67 @@ abstract class Attribute extends \Magento\Framework\Model\ResourceModel\Db\Abstr
 
         parent::_beforeSave($object);
         return $this;
+    }
+
+    /**
+     * Validate attribute code on the server side, the "validate-code" class in the admin form
+     * is only a client side check
+     *
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @return $this
+     * @throws LocalizedException
+     */
+    protected function validateAttributeCode(\Magento\Framework\Model\AbstractModel $object)
+    {
+        $attributeCode = $object->getAttributeCode();
+        $attributeCode = is_scalar($attributeCode) ? trim((string) $attributeCode) : '';
+        $object->setAttributeCode($attributeCode);
+
+        if (!preg_match(self::ATTRIBUTE_CODE_PATTERN, $attributeCode)) {
+            throw new LocalizedException(
+                __(
+                    'Attribute code "%1" is invalid. Please use only lowercase letters (a-z), numbers (0-9) '
+                    . 'or underscore (_), and the first character should be a letter.',
+                    $attributeCode
+                )
+            );
+        }
+
+        if (strlen($attributeCode) > AttributeInterface::ATTRIBUTE_CODE_MAX_LENGTH) {
+            throw new LocalizedException(
+                __(
+                    'Attribute code must not be more than %1 characters.',
+                    AttributeInterface::ATTRIBUTE_CODE_MAX_LENGTH
+                )
+            );
+        }
+
+        if (in_array($attributeCode, $this->getReservedAttributeCodes(), true)) {
+            throw new LocalizedException(
+                __('Attribute code "%1" is reserved by the system, please use another one.', $attributeCode)
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Attribute codes that cannot be used, because they would collide with entity columns
+     *
+     * @return string[]
+     */
+    protected function getReservedAttributeCodes()
+    {
+        $reservedAttributeCodes = $this->reservedAttributeCodes;
+
+        if ($this->entityTable) {
+            $reservedAttributeCodes = array_merge(
+                $reservedAttributeCodes,
+                array_keys($this->getConnection()->describeTable($this->getTable($this->entityTable)))
+            );
+        }
+
+        return $reservedAttributeCodes;
     }
 
     /**
