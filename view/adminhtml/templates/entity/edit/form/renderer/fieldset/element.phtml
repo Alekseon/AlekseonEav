@@ -5,22 +5,30 @@
  */
 ?>
 <?php
-/* @var $block \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element */
-$element = $block->getElement();
-$note = $block->getNote() ? '<div class="note admin__field-note" id="' . $element->getId() . '-note">' . $block->getNote() . '</div>' : '';
-$elementBeforeLabel = $element->getExtType() == 'checkbox admin__control-checkbox' || $element->getExtType() == 'radio admin__control-radio';
-$addOn = ($element->getBeforeElementHtml() || $element->getAfterElementHtml()) && !$element->getNoWrapAsAddon();
-$fieldId = ($element->getHtmlContainerId()) ? ' id="' . $element->getHtmlContainerId() . '"' : '';
-$fieldClass = "admin__field field field-{$element->getId()} {$element->getCssClass()}";
-$fieldClass .= ($elementBeforeLabel) ? ' choice' : '';
-$fieldClass .= ($addOn) ? ' with-addon' : '';
-$fieldClass .= ($element->getRequired()) ? ' required _required' : '';
-$fieldClass .= ($note) ? ' with-note' : '';
-$fieldClass .= (!$element->getLabelHtml()) ? ' no-label' : '';
+/** 
+ * @var \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+?>
+<?php
+    $element = $block->getElement();
+    $note = $block->getNote() ? '<div class="note admin__field-note" id="' 
+        . $escaper->escapeHtmlAttr($element->getId()) 
+        . '-note">' . $escaper->escapeHtml($block->getNote(), ['a', 'b', 'br']) 
+        . '</div>' : '';
+    $elementBeforeLabel = $element->getExtType() == 'checkbox admin__control-checkbox' || $element->getExtType() == 'radio admin__control-radio';
+    $addOn = ($element->getBeforeElementHtml() || $element->getAfterElementHtml()) && !$element->getNoWrapAsAddon();
+    $fieldId = ($element->getHtmlContainerId()) ? ' id="' . $element->getHtmlContainerId() . '"' : '';
+    $fieldClass = "admin__field field field-{$element->getId()} {$element->getCssClass()}";
+    $fieldClass .= ($elementBeforeLabel) ? ' choice' : '';
+    $fieldClass .= ($addOn) ? ' with-addon' : '';
+    $fieldClass .= ($element->getRequired()) ? ' required _required' : '';
+    $fieldClass .= ($note) ? ' with-note' : '';
+    $fieldClass .= (!$element->getLabelHtml()) ? ' no-label' : '';
 
-$fieldAttributes = $fieldId . ' class="' . $fieldClass . '" '
-    . $block->getUiId('form-field', $element->getId())
-    . ($element->getFieldExtraAttributes() ? ' ' . $element->getFieldExtraAttributes() : '');
+    $fieldAttributes = $fieldId . ' class="' . $fieldClass . '" '
+        . $block->getUiId('form-field', $element->getId())
+        . ($element->getFieldExtraAttributes() ? ' ' . $element->getFieldExtraAttributes() : '');
 ?>
 
 <?php
@@ -55,31 +63,31 @@ if ($block->canDisplayUseSystemValue() && $block->usedSystemValue()) {
             <?php endif; ?>
             <div class="field-service">
                 <?php if ($block->canDisplayUseDefault()): ?>
-                    <label for="<?= $element->getHtmlId() ?>_default" class="choice use-default">
+                    <label for="<?= $escaper->escapeHtmlAttr($element->getHtmlId()) ?>_default" class="choice use-default">
                         <input <?php if ($element->getReadonly()):?> disabled="disabled"<?php endif; ?>
                             type="checkbox"
                             name="use_default[]"
                             class="use-default-control"
-                            id="<?= $element->getHtmlId() ?>_default"
+                            id="<?= $escaper->escapeHtmlAttr($element->getHtmlId()) ?>_default"
                             <?php if ($block->usedDefault()): ?> checked="checked"<?php endif; ?>
                             onclick="<?= /* @escapeNotVerified */ $elementToggleCode ?>"
-                            value="<?= /* @escapeNotVerified */ $block->getAttributeCode() ?>"
+                            value="<?= $escaper->escapeHtmlAttr($block->getAttributeCode()) ?>"
                         />
                         <span class="use-default-label"><?= /* @escapeNotVerified */ __('Use Default Value') ?></span>
                     </label>
                 <?php endif ?>
                 <?php if ($block->canDisplayUseSystemValue()): ?>
-                    <label for="<?= $element->getHtmlId() ?>_default" class="choice use-default">
+                    <label for="<?= $escaper->escapeHtmlAttr($element->getHtmlId()) ?>_default" class="choice use-default">
                         <input <?php if ($element->getReadonly()):?> disabled="disabled"<?php endif; ?>
                             type="checkbox"
                             name="use_default[]"
                             class="use-default-control"
-                            id="<?= $element->getHtmlId() ?>_default"
+                            id="<?= $escaper->escapeHtmlAttr($element->getHtmlId()) ?>_default"
                             <?php if ($block->usedSystemValue()): ?> checked="checked"<?php endif; ?>
                             onclick="<?= /* @escapeNotVerified */ $elementToggleCode ?>"
-                            value="<?= /* @escapeNotVerified */ $block->getAttributeCode() ?>"
+                            value="<?= $escaper->escapeHtmlAttr($block->getAttributeCode()) ?>"
                         />
-                        <span class="use-default-label"><?= /* @noEscape  */ $block->getUseSystemValueLabel() ?></span>
+                        <span class="use-default-label"><?= $escaper->escapeHtml($block->getUseSystemValueLabel()) ?></span>
                     </label>
                 <?php endif ?>
             </div>

@@ -3,6 +3,11 @@
  * Copyright © Alekseon sp. z o.o.
  * http://www.alekseon.com/
  */
+/** 
+ * @var \Alekseon\AlekseonEav\Block\Adminhtml\Entity\Edit\Form\Renderer\Rating $block 
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
 ?>
 <div class="admin__field admin__field-rating field-detailed-rating">
     <div class="admin__field-rating">
@@ -10,7 +15,7 @@
             <?php for ($i = 5; $i > 0; $i--): ?>
                 <input type="radio"
                        class="<?php if ($block->getIsRequired()): ?>required-entry<?php endif ?>"
-                       name="<?= $block->getInputName() ?>"
+                       name="<?= $escaper->escapeHtmlAttr($block->getInputName()) ?>"
                        id="rating_<?= $i ?>"
                        value="<?= $i ?>"
                        <?php if ($block->getInputValue() == $i): ?>checked="checked"<?php endif; ?> />

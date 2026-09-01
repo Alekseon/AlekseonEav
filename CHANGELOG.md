@@ -8,11 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - image attribute path is no longer taken from the request, only the "delete" flag is
 - `Alekseon\AlekseonEav\Helper\Image` constructor takes `Magento\Framework\Filesystem` instead of `Magento\Framework\App\Filesystem\DirectoryList`
+- attribute note is rendered through an html whitelist (`a`, `b`, `br`) instead of raw html
 ### Fixed
 - path traversal in image attribute backend: file removal and image cache writes are now restricted to the media directory
 - "use_default" list from the request can no longer reset entity columns that are not attributes
 - sort field and direction in entity collection are no longer put into ORDER BY as a raw expression
 - attribute option labels can no longer break the admin page out of the "text/x-magento-init" block
+- missing escaping in admin grid renderers (multiselect option labels, image url) and in the attribute and entity edit templates
 
 ## [101.2.24] - 2026-08-21
 ### Added

@@ -56,6 +56,6 @@ class Image extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
         $this->imageHelper->setWidth(100);
         $this->imageHelper->setHeight(100);
         $url =  $this->imageHelper->getUrl();
-        return $url ? '<img src="' . $url . '"/>' : '';
+        return $url ? '<img src="' . $this->_escaper->escapeUrl($url) . '"/>' : '';
     }
 }
