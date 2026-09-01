@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Changed
+- `Alekseon\AlekseonEav\Helper\Image::resize()` parameters renamed: `$allowBiggerSize` to `$allowUpscale`, `$needResize` to `$forceResize` (affects named arguments only)
 - image attribute path is no longer taken from the request, only the "delete" flag is
 - `Alekseon\AlekseonEav\Helper\Image` constructor takes `Magento\Framework\Filesystem` instead of `Magento\Framework\App\Filesystem\DirectoryList`
 - attribute note is rendered through an html whitelist (`a`, `b`, `br`) instead of raw html
@@ -15,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - sort field and direction in entity collection are no longer put into ORDER BY as a raw expression
 - attribute option labels can no longer break the admin page out of the "text/x-magento-init" block
 - missing escaping in admin grid renderers (multiselect option labels, image url) and in the attribute and entity edit templates
+- `Alekseon\AlekseonEav\Helper\Image::resize()` used the width parameter to calculate the height
+- `Alekseon\AlekseonEav\Helper\Image::resize()` no longer fails when no image has been set
 
 ## [101.2.24] - 2026-08-21
 ### Added
