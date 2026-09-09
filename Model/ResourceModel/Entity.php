@@ -63,8 +63,15 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     }
 
     /**
+     * @return bool
+     */
+    protected function hasAllAttributeLoaded() {
+        return $this->allAttributesLoaded;
+    }
+
+    /**
      * @param $attributeCode
-     * @return mixed
+     * @return false|mixed
      */
     public function getAttribute($attributeCode)
     {
@@ -73,7 +80,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
         }
 
         if (!isset($this->attributes[$attributeCode])) {
-            if ($this->allAttributesLoaded) {
+            if ($this->hasAllAttributeLoaded()) {
                 $this->notAttributeCode[$attributeCode] = $attributeCode;
                 return false;
             }
@@ -103,7 +110,7 @@ abstract class Entity extends \Magento\Framework\Model\ResourceModel\Db\Abstract
      */
     public function loadAllAttributes()
     {
-        if ($this->allAttributesLoaded) {
+        if ($this->hasAllAttributeLoaded()) {
             return $this;
         }
         $attributeCollection = $this->attributeCollectionFactory->create();
