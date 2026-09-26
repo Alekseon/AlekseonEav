@@ -13,13 +13,12 @@ use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 /**
  * Class Image
- * @package Alekseon\AlekseonEav\Helper
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Image
 {
     /**
-     * @var
+     * @var string|null
      */
     private $imagePath;
     /**

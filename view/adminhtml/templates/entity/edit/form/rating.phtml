@@ -16,8 +16,8 @@
                 <input type="radio"
                        class="<?php if ($block->getIsRequired()): ?>required-entry<?php endif ?>"
                        name="<?= $escaper->escapeHtmlAttr($block->getInputName()) ?>"
-                       id="rating_<?= $i ?>"
-                       value="<?= $i ?>"
+                       id="rating_<?= /* @noEscape */ $i ?>"
+                       value="<?= /* @noEscape */ $i ?>"
                        <?php if ($block->getInputValue() == $i): ?>checked="checked"<?php endif; ?> />
                 <label for="rating_<?= $i ?>">&#9733;</label>
             <?php endfor; ?>
