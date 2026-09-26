@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - sort field and direction in entity collection are no longer put into ORDER BY as a raw expression
 - attribute option labels can no longer break the admin page out of the "text/x-magento-init" block
 - missing escaping in admin grid renderers (multiselect option labels, image url) and in the attribute and entity edit templates
+- attribute code is validated on the server side, not only by the "validate-code" class in the admin form: format, max length and codes reserved by the entity save flow (`entity_id`, `store_id`, `use_default`)
 - `Alekseon\AlekseonEav\Helper\Image::resize()` used the width parameter to calculate the height
 - `Alekseon\AlekseonEav\Helper\Image::resize()` no longer fails when no image has been set
 
