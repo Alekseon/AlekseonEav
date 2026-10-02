@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Added
 
+## [101.2.26] - 2026-10-02
+### Fixed
+- PHP 8.4 compatibility in Model/Attribute/InputValidatorRepository.php
+
 ## [101.2.25] - 2026-09-09
 ### Changed
 - Delegated the allAttributesLoaded check to a dedicated hasAllAttributeLoaded()

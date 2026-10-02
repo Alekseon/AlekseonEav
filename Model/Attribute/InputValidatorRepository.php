@@ -56,7 +56,7 @@ class InputValidatorRepository
     {
         $validators = $this->getInputValidators();
         $inputValidator = $attribute->getData('input_validator');
-        if (isset($validators[$inputValidator])) {
+        if ($inputValidator && isset($validators[$inputValidator])) {
             $validator = $validators[$inputValidator];
             /** @var \Alekseon\AlekseonEav\Model\Attribute\InputValidator\AbstractValidator $model */
             $model = $validator->getFactory()->create();
