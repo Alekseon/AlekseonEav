@@ -27,6 +27,10 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
      */
     private $backendTable;
     /**
+     * @var ResourceModel\Attribute
+     */
+    private $attributeResource;
+    /**
      * @var Attribute\InputTypeRepository
      */
     private $inputTypeRepository;
@@ -83,6 +87,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         \Alekseon\AlekseonEav\Model\ResourceModel\Attribute $resource,
         \Alekseon\AlekseonEav\Model\ResourceModel\Attribute\Collection $resourceCollection
     ) {
+        $this->attributeResource = $resource;
         $this->inputTypeRepository = $inputTypeRepository;
         $this->inputValidatorRepository = $inputValidatorRepository;
         parent::__construct(
@@ -128,8 +133,8 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     public function getBackendTable()
     {
         if ($this->backendTable === null) {
-            $entityTable = [$this->getResource()->getBackendTablePrefix(), $this->getBackendType()];
-            $backendTable = $this->getResource()->getTable($entityTable);
+            $entityTable = [$this->attributeResource->getBackendTablePrefix(), $this->getBackendType()];
+            $backendTable = $this->attributeResource->getTable($entityTable);
             $this->backendTable = $backendTable;
         }
 
@@ -179,8 +184,8 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
         if ($this->getInputTypeModel()->usesSource()) {
             $sourceModel = $this->getInputTypeModel()->getSourceModel();
             $sourceModel->setAttribute($this);
-            if ($this->getResource()->getCurrentStore()) {
-                $storeId = $this->getResource()->getCurrentStore()->getId();
+            if ($this->attributeResource->getCurrentStore()) {
+                $storeId = $this->attributeResource->getCurrentStore()->getId();
                 $sourceModel->setStoreId($storeId);
             }
             return $sourceModel;
@@ -250,7 +255,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     public function getFrontendLabels()
     {
         if ($this->getData('frontend_labels') === null) {
-            $this->setFrontendLabels($this->getResource()->getFrontendLabels($this, false));
+            $this->setFrontendLabels($this->attributeResource->getFrontendLabels($this, false));
         }
         return $this->getData('frontend_labels');
     }
@@ -263,7 +268,7 @@ abstract class Attribute extends \Magento\Framework\Model\AbstractModel implemen
     public function getFrontendLabel($storeId = null)
     {
         if ($storeId === null) {
-            $storeId = $this->getResource()->getCurrentStore()->getId();
+            $storeId = $this->attributeResource->getCurrentStore()->getId();
         }
 
         if ($frontendLabels = $this->getFrontendLabels()) {

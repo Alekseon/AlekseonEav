@@ -21,6 +21,11 @@ abstract class Entity extends \Magento\Framework\Model\AbstractModel implements 
     private $storeId;
 
     /**
+     * @var ResourceModel\Entity
+     */
+    private $entityResource;
+
+    /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
@@ -43,6 +48,7 @@ abstract class Entity extends \Magento\Framework\Model\AbstractModel implements 
         \Alekseon\AlekseonEav\Model\ResourceModel\Entity $resource,
         \Alekseon\AlekseonEav\Model\ResourceModel\Entity\Collection $resourceCollection
     ) {
+        $this->entityResource = $resource;
         $this->storeManager = $context->getStoreManager();
         parent::__construct(
             $context,
@@ -58,7 +64,7 @@ abstract class Entity extends \Magento\Framework\Model\AbstractModel implements 
      */
     public function getAttribute($attributeCode)
     {
-        return $this->getResource()->getAttribute($attributeCode);
+        return $this->entityResource->getAttribute($attributeCode);
     }
 
     /**
@@ -67,6 +73,7 @@ abstract class Entity extends \Magento\Framework\Model\AbstractModel implements 
      */
     public function setResource($resource)
     {
+        $this->entityResource = $resource;
         $this->_resource = $resource;
         return $this;
     }
@@ -152,7 +159,7 @@ abstract class Entity extends \Magento\Framework\Model\AbstractModel implements 
     {
         $attribute = $this->getAttribute($attributeCode);
         if ($attribute) {
-            $this->getResource()->saveAttributeValue($this, $attribute);
+            $this->entityResource->saveAttributeValue($this, $attribute);
         }
         return $this;
     }

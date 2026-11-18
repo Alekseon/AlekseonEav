@@ -14,9 +14,9 @@ namespace Alekseon\AlekseonEav\Model\Attribute\Source;
 class Category extends AbstractSource
 {
     /**
-     * @var \Magento\Catalog\Model\CategoryFactory
+     * @var \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory
      */
-    protected $categoryFactory;
+    protected $categoryCollectionFactory;
     /**
      * @var
      */
@@ -24,12 +24,12 @@ class Category extends AbstractSource
 
     /**
      * Category constructor.
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryCollectionFactory
      */
     public function __construct(
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory
+        \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryCollectionFactory
     ) {
-        $this->categoryFactory = $categoryFactory;
+        $this->categoryCollectionFactory = $categoryCollectionFactory;
     }
 
     /**
@@ -40,7 +40,7 @@ class Category extends AbstractSource
     {
         if ($this->categories === null) {
             $this->categories = [];
-            $categoryCollection = $this->categoryFactory->create()->getCollection();
+            $categoryCollection = $this->categoryCollectionFactory->create();
             $categoryCollection->addFieldToSelect('name');
             $categoryCollection->setOrder('position');
             foreach ($categoryCollection as $category) {
