@@ -57,14 +57,6 @@ abstract class AbstractInputType extends DataObject
     /**
      * @var bool
      */
-    protected $hasFrontendLabel = true;
-    /**
-     * @var bool
-     */
-    protected $canBeRequired = true;
-    /**
-     * @var bool
-     */
     protected $canUseWysiwyg = false;
     /**
      * @var bool
@@ -75,25 +67,16 @@ abstract class AbstractInputType extends DataObject
      */
     protected $attribute;
     /**
-     * @var \Magento\Framework\ObjectManagerInterface
-     */
-    protected $objectManager;
-    /**
-     * @var mixed|LoggerInterface
-     */
-    protected $logger;
-    /**
      * @var
      */
     protected $validator;
 
     /**
-     * AbstractInputType constructor.
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
-     * @param LoggerInterface|null $logger
+     * @return LoggerInterface
      */
-    public function __construct() {
-        $this->logger = ObjectManager::getInstance()->get(LoggerInterface::class);
+    protected function getLogger()
+    {
+        return ObjectManager::getInstance()->get(LoggerInterface::class);
     }
 
     /**
@@ -235,7 +218,7 @@ abstract class AbstractInputType extends DataObject
      */
     public function hasFrontendLabel()
     {
-        return $this->hasFrontendLabel;
+        return true;
     }
 
     /**
@@ -243,7 +226,7 @@ abstract class AbstractInputType extends DataObject
      */
     public function canBeRequired()
     {
-        return $this->canBeRequired;
+        return true;
     }
 
     /**
