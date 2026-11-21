@@ -81,7 +81,7 @@ class Select extends AbstractInputType
                 try {
                     $this->sourceModel = $this->createObject($sourceModel);
                 } catch (\Exception $e) {
-                    $this->logger->error(
+                    $this->getLogger()->error(
                         "AlekseonEav: unable to load for attribute '{$this->getAttribute()->getAttributeCode()}': "
                         . $e->getMessage()
                     );
