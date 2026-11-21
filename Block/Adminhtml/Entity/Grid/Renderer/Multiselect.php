@@ -29,7 +29,7 @@ class Multiselect extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abs
 
         foreach ($selectedOptions as $optionId) {
             if (isset($options[$optionId])) {
-                $result .= '<li>' . $options[$optionId] . '</li>';
+                $result .= '<li>' . $this->_escaper->escapeHtml($options[$optionId]) . '</li>';
             }
         }
 

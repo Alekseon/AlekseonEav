@@ -57,6 +57,14 @@ abstract class AbstractInputType extends DataObject
     /**
      * @var bool
      */
+    protected $hasFrontendLabel = true;
+    /**
+     * @var bool
+     */
+    protected $canBeRequired = true;
+    /**
+     * @var bool
+     */
     protected $canUseWysiwyg = false;
     /**
      * @var bool
@@ -220,6 +228,22 @@ abstract class AbstractInputType extends DataObject
     public function canDisplayInGrid()
     {
         return $this->canDisplayInGrid;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasFrontendLabel()
+    {
+        return $this->hasFrontendLabel;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canBeRequired()
+    {
+        return $this->canBeRequired;
     }
 
     /**

@@ -7,7 +7,10 @@ declare(strict_types=1);
 
 namespace Alekseon\AlekseonEav\Model\Attribute\Backend;
 
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\ValidatorException;
+use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 /**
  * Class Image
@@ -25,8 +28,9 @@ class Image extends AbstractBackend
     private $filesystem;
     /**
      * @var \Magento\Framework\Filesystem\Driver\File
+     * @deprecated file removal goes through the media directory (see deleteImageFile())
      */
-    private $file;
+    protected $file;
     /**
      * @var \Magento\MediaStorage\Model\File\UploaderFactory
      */
@@ -43,6 +47,10 @@ class Image extends AbstractBackend
      * @var \Alekseon\AlekseonEav\Helper\Image
      */
     protected $imageHelper;
+    /**
+     * @var WriteInterface|null
+     */
+    private $mediaDirectory;
 
     /**
      * Image constructor.
@@ -73,8 +81,42 @@ class Image extends AbstractBackend
      */
     public function getImagesDirPath()
     {
-        $mediaDirectory = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA);
+        $mediaDirectory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
         return $mediaDirectory->getAbsolutePath();
+    }
+
+    /**
+     * @return WriteInterface
+     * @throws \Magento\Framework\Exception\FileSystemException
+     */
+    private function getMediaDirectory()
+    {
+        if ($this->mediaDirectory === null) {
+            $this->mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+        }
+        return $this->mediaDirectory;
+    }
+
+    /**
+     * Remove an image file, never touching anything outside of the media directory.
+     *
+     * @param mixed $relativePath
+     * @return void
+     */
+    private function deleteImageFile($relativePath)
+    {
+        if (!is_string($relativePath) || trim($relativePath) === '') {
+            return;
+        }
+
+        try {
+            // WriteInterface::delete() validates that the path stays inside pub/media
+            $this->getMediaDirectory()->delete($relativePath);
+        } catch (ValidatorException $e) {
+            // path points outside of the media directory, it must never be removed
+        } catch (\Exception $e) {
+            // do nothing
+        }
     }
 
     /**
@@ -108,24 +150,25 @@ class Image extends AbstractBackend
             $imageAdapter = $this->imageAdapterFactory->create();
             $uploader->addValidateCallback('eav_image_attribute', $imageAdapter, 'validateUploadFile');
             $uploader->setAllowRenameFiles(true);
-            $uploader->setFilesDispersion(true);;
-            $fielName = $object->getResource()->getNameForUploadedFile($object, $this->getAttribute(), $file['name']);
+            $uploader->setFilesDispersion(true);
+            $fileName = $object->getResource()->getNameForUploadedFile($object, $this->getAttribute(), $file['name']);
 
             $this->imageHelper->setImagePath($file['tmp_name']);
             $this->imageHelper->resize(false, true);
             $this->imageHelper->getImage()->save();
-            $result = $uploader->save($this->getImagesDirPath() . $imagesDirName, $fielName);
+            $result = $uploader->save($this->getImagesDirPath() . $imagesDirName, $fileName);
 
-            $attrCode = $this->getAttribute()->getAttributeCode();
-            $object->setData($attrCode, $imagesDirName . $result['file']);
+            $object->setData(
+                $attrCode,
+                rtrim($imagesDirName, '/') . '/' . ltrim($result['file'], '/')
+            );
         }
         $value = $object->getData($attrCode);
         if (is_array($value)) {
-            if (isset($value['delete'])) {
-                $object->setData($attrCode, null);
-            } else {
-                $object->setData($attrCode, $value['value']);
-            }
+            // The request only decides whether the image is dropped. The path itself is never taken
+            // from the posted "[value]" field (that is just Magento's hidden round trip input),
+            // it always comes from the database.
+            $object->setData($attrCode, empty($value['delete']) ? $object->getOrigData($attrCode) : null);
         }
 
         return parent::beforeSave($object);
@@ -140,19 +183,20 @@ class Image extends AbstractBackend
         $attrCode = $this->getAttribute()->getAttributeCode();
         $newValue = $object->getData($attrCode);
         $oldValue = $object->getOrigData($attrCode);
-        if ($newValue != $oldValue) {
-            $currentImageValues = $object->getResource()->getAllAttributeValues($object, $this->getAttribute());
-            foreach ($currentImageValues as $imageValue) {
-                if ($imageValue['value'] == $oldValue) {
-                    return parent::afterSave($object);
-                }
-            }
-            try {
-                $this->file->deleteFile($this->getImagesDirPath() . $oldValue);
-            } catch (\Exception $e) {
-                // do nothing
+
+        if ($newValue == $oldValue || !$oldValue) {
+            return parent::afterSave($object);
+        }
+
+        $currentImageValues = $object->getResource()->getAllAttributeValues($object, $this->getAttribute());
+        foreach ($currentImageValues as $imageValue) {
+            if ($imageValue['value'] == $oldValue) {
+                // the file is still used by another store view
+                return parent::afterSave($object);
             }
         }
+
+        $this->deleteImageFile($oldValue);
 
         return parent::afterSave($object);
     }
@@ -174,12 +218,7 @@ class Image extends AbstractBackend
     public function afterDelete($object)
     {
         foreach ($this->imagesToBeDeleted as $imageValue) {
-            $filePath = $this->getImagesDirPath() . $imageValue['value'];
-            try {
-                $this->file->deleteFile($filePath);
-            } catch (\Exception $e) {
-                // do nothing
-            }
+            $this->deleteImageFile($imageValue['value'] ?? null);
         }
         return parent::afterDelete($object);
     }

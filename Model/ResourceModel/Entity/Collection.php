@@ -246,8 +246,12 @@ abstract class Collection extends \Magento\Framework\Model\ResourceModel\Db\Coll
      */
     public function addAttributeToSort($attribute, $direction = self::SORT_ORDER_ASC)
     {
+        $direction = $this->prepareSortDirection($direction);
+
         if (!isset($this->selectAttributes[$attribute])) {
-            $this->_select->order(new \Zend_Db_Expr($attribute . ' ' . $direction));
+            // passed as a plain string, not as Zend_Db_Expr, so that the select renderer
+            // quotes it as an identifier instead of injecting it into the query as is
+            $this->getSelect()->order($attribute . ' ' . $direction);
             return $this;
         }
 
@@ -263,6 +267,19 @@ abstract class Collection extends \Magento\Framework\Model\ResourceModel\Db\Coll
         $this->getSelect()->order($orderExpr);
 
         return $this;
+    }
+
+    /**
+     * Only ASC and DESC are ever allowed to reach the query
+     *
+     * @param string $direction
+     * @return string
+     */
+    private function prepareSortDirection($direction)
+    {
+        return strtoupper((string) $direction) === self::SORT_ORDER_DESC
+            ? self::SORT_ORDER_DESC
+            : self::SORT_ORDER_ASC;
     }
 
     /**
