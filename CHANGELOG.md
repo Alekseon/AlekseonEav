@@ -4,7 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [101.2.28] - 2026-11-23
+### Fixed
+- image attribute: a plain string path posted without a file upload is no longer stored, without a successful upload the value always comes from the database (only the "delete" flag is taken from the request)
+- image attribute: files are removed only when the stored path lies inside the entity's images directory (no "..", hidden or absolute paths), so a planted path like `.htaccess` in pub/media can not be deleted
 
 ## [101.2.27] - 2026-11-21
 ### Added

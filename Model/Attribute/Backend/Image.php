@@ -98,25 +98,51 @@ class Image extends AbstractBackend
     }
 
     /**
-     * Remove an image file, never touching anything outside of the media directory.
+     * Remove an image file, only when it lies inside the entity's images directory in pub/media.
      *
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @param mixed $relativePath
      * @return void
      */
-    private function deleteImageFile($relativePath)
+    private function deleteImageFile($object, $relativePath)
     {
-        if (!is_string($relativePath) || trim($relativePath) === '') {
+        if (!$this->isImagePathAllowed($object, $relativePath)) {
             return;
         }
 
         try {
-            // WriteInterface::delete() validates that the path stays inside pub/media
+            // WriteInterface::delete() additionally validates that the path stays inside pub/media
             $this->getMediaDirectory()->delete($relativePath);
         } catch (ValidatorException $e) {
             // path points outside of the media directory, it must never be removed
         } catch (\Exception $e) {
             // do nothing
         }
+    }
+
+    /**
+     * Path has to be relative, start with the entity's images directory
+     * and must not contain "..", "." or hidden (dot) segments.
+     *
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @param mixed $relativePath
+     * @return bool
+     */
+    private function isImagePathAllowed($object, $relativePath)
+    {
+        if (!is_string($relativePath)) {
+            return false;
+        }
+
+        $imagesRootDir = strtok(trim((string) $object->getResource()->getImagesDirName(), '/'), '/');
+        if (!$imagesRootDir) {
+            return false;
+        }
+
+        // "<images root dir>/<segment>[/<segment>...]", a segment can not be empty,
+        // can not start with a dot and can not contain a backslash, colon or null byte
+        $pattern = '#^' . preg_quote($imagesRootDir, '#') . '(/[^/\\\\.:\x00][^/\\\\:\x00]*)+$#D';
+        return (bool) preg_match($pattern, $relativePath);
     }
 
     /**
@@ -162,14 +188,16 @@ class Image extends AbstractBackend
                 $attrCode,
                 rtrim($imagesDirName, '/') . '/' . ltrim($result['file'], '/')
             );
+
+            return parent::beforeSave($object);
         }
+
+        // Without a successful upload the request only decides whether the image is dropped.
+        // The path itself is never taken from the posted value (neither a plain string nor
+        // the "[value]" field of Magento's hidden round trip input), it always comes from the database.
         $value = $object->getData($attrCode);
-        if (is_array($value)) {
-            // The request only decides whether the image is dropped. The path itself is never taken
-            // from the posted "[value]" field (that is just Magento's hidden round trip input),
-            // it always comes from the database.
-            $object->setData($attrCode, empty($value['delete']) ? $object->getOrigData($attrCode) : null);
-        }
+        $isDeleteRequested = is_array($value) && !empty($value['delete']);
+        $object->setData($attrCode, $isDeleteRequested ? null : $object->getOrigData($attrCode));
 
         return parent::beforeSave($object);
     }
@@ -196,7 +224,7 @@ class Image extends AbstractBackend
             }
         }
 
-        $this->deleteImageFile($oldValue);
+        $this->deleteImageFile($object, $oldValue);
 
         return parent::afterSave($object);
     }
@@ -218,7 +246,7 @@ class Image extends AbstractBackend
     public function afterDelete($object)
     {
         foreach ($this->imagesToBeDeleted as $imageValue) {
-            $this->deleteImageFile($imageValue['value'] ?? null);
+            $this->deleteImageFile($object, $imageValue['value'] ?? null);
         }
         return parent::afterDelete($object);
     }
